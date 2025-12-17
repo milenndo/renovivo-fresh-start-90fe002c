@@ -1,0 +1,30 @@
+# Renovivo.bg - Ремонтни услуги София
+# https://renovivo.bg
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: *
+Allow: /
+Crawl-delay: 2
+
+# Sitemap
+Sitemap: https://renovivo.bg/sitemap.xml
+
+# Host
+Host: https://renovivo.bg
