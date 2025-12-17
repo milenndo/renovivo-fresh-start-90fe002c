@@ -74,7 +74,7 @@ const Hero = () => {
                 className="border-primary/50 bg-transparent text-primary hover:bg-primary/10 font-bold text-base px-8 py-7 h-auto rounded-lg backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
               >
                 <Calculator className="h-5 w-5 mr-3" />
-                Вий цени и оферти
+                Вижте цени и оферти
               </Button>
             </Link>
             <Link to="/portfolio">
@@ -126,7 +126,7 @@ const Hero = () => {
       
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-        <div className="text-primary/60 text-xs font-medium mb-2">Scroll za poveche</div>
+        <div className="text-primary/60 text-xs font-medium mb-2">Скролирайте за още</div>
         <svg className="w-6 h-6 text-primary/60 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
