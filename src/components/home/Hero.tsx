@@ -40,7 +40,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 bg-primary/20 backdrop-blur-sm px-4 py-2 rounded-full mb-8 border border-primary/30">
             <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
             <span className="text-primary text-sm font-medium tracking-wide">
-              Цълостни ремонти в София и района
+              Цялостни ремонти в София и района
             </span>
           </div>
 
