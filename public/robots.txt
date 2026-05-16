@@ -1,6 +1,7 @@
 # Renovivo.bg - Ремонтни услуги София
 # https://renovivo.bg
 
+# === Search engines ===
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
@@ -19,11 +20,77 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+# === AI assistants & LLM crawlers (explicit allow) ===
+# OpenAI (ChatGPT, GPT search)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Google Gemini / AI Overviews
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+# Anthropic Claude
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# xAI Grok
+User-agent: Grok
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl (used by many AI training pipelines)
+User-agent: CCBot
+Allow: /
+
+# DuckDuckGo AI
+User-agent: DuckAssistBot
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Allow: /
+
+# === Default ===
 User-agent: *
 Allow: /
 Crawl-delay: 2
 
-# Sitemap
+# Sitemap & LLM context
 Sitemap: https://renovivo.bg/sitemap.xml
 
 # Host
