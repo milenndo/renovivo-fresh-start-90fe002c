@@ -90,6 +90,11 @@ const Auth = () => {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Вход | Renovivo</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
         <div className="bg-card rounded-lg border shadow-sm p-8">
