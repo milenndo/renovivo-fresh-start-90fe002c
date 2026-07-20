@@ -37,8 +37,14 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://renovivo.bg/services/interior-design</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://renovivo.bg/services/flooring</loc>
-    <lastmod>2024-12-08</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
