@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -90,6 +91,11 @@ const Auth = () => {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Вход | Renovivo</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
         <div className="bg-card rounded-lg border shadow-sm p-8">
@@ -165,6 +171,7 @@ const Auth = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

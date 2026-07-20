@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { bg } from "date-fns/locale";
@@ -140,6 +141,11 @@ const Admin = () => {
   }
 
   return (
+    <>
+      <Helmet>
+        <title>Админ панел | Renovivo</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
     <Layout>
       <div className="min-h-screen bg-background py-8">
         <div className="container mx-auto px-4">
@@ -341,6 +347,7 @@ const Admin = () => {
         </div>
       </div>
     </Layout>
+    </>
   );
 };
 
