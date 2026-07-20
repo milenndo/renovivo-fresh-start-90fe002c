@@ -50,12 +50,10 @@ export default defineConfig(({ mode }) => ({
           },
         },
         postProcess(rendered: { route: string; html: string }) {
-          // Ensure canonical origin is renovivo.bg not the preview URL
           rendered.html = rendered.html.replace(
-            /https?:\/\/[^/]*lovable\.app/g,
+            /https?:\/\/[^/"]*lovable\.app/g,
             "https://renovivo.bg",
           );
-          return rendered;
         },
       }),
   ].filter(Boolean),
