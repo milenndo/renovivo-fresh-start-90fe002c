@@ -25,8 +25,27 @@ const ProjectDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{project.title} | Renovivo - Портфолио</title>
+        <title>{project.title} | Renovivo - Портфолио ремонти София</title>
         <meta name="description" content={project.description} />
+        <link rel="canonical" href={`https://renovivo.bg/portfolio/${project.id}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={`${project.title} | Renovivo`} />
+        <meta property="og:description" content={project.description} />
+        <meta property="og:url" content={`https://renovivo.bg/portfolio/${project.id}`} />
+        <meta property="og:image" content={project.mainImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={project.title} />
+        <meta name="twitter:description" content={project.description} />
+        <meta name="twitter:image" content={project.mainImage} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": project.title,
+          "description": project.description,
+          "image": project.mainImage,
+          "locationCreated": project.location,
+          "url": `https://renovivo.bg/portfolio/${project.id}`
+        })}</script>
       </Helmet>
       <Layout>
         {/* Hero */}
