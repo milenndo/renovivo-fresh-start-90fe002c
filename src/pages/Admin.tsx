@@ -140,6 +140,11 @@ const Admin = () => {
   }
 
   return (
+    <>
+      <Helmet>
+        <title>Админ панел | Renovivo</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
     <Layout>
       <div className="min-h-screen bg-background py-8">
         <div className="container mx-auto px-4">
