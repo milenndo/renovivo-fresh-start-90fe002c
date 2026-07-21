@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "sdk_version": "0.24.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://dvshtyyyvjxoydoxmebr.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "renovivo-mcp",
+      "version": "0.1.0",
+      "title": "Renovivo"
+    },
+    "tools": [
+      {
+        "name": "list_service_categories",
+        "title": "List service categories",
+        "description": "List all Renovivo renovation service categories (kitchen, bathroom, painting, flooring, etc.).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_service_prices",
+        "title": "List service prices",
+        "description": "List Renovivo service prices in BGN. Optionally filter by category_id (UUID from list_service_categories).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "category_id": {
+              "description": "Category UUID to filter by.",
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_blog_posts",
+        "title": "List blog posts",
+        "description": "List published Renovivo blog posts about renovation, design, and construction tips.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "Max posts to return (default 20).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_inspection_request",
+        "title": "Request a site inspection",
+        "description": "Submit a Renovivo site-inspection / quote request. Renovivo will contact the client to arrange a visit.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "client_name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 200,
+              "description": "Full name of the client."
+            },
+            "client_phone": {
+              "type": "string",
+              "minLength": 5,
+              "maxLength": 50,
+              "description": "Contact phone number."
+            },
+            "client_email": {
+              "description": "Optional contact email.",
+              "type": "string",
+              "format": "email",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+            },
+            "address": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 500,
+              "description": "Address of the property to inspect."
+            },
+            "preferred_datetime": {
+              "description": "Preferred date/time for the visit, e.g. '2026-08-01 10:00'.",
+              "type": "string"
+            },
+            "notes": {
+              "description": "Notes about scope / rooms / condition.",
+              "type": "string",
+              "maxLength": 2000
+            }
+          },
+          "required": [
+            "client_name",
+            "client_phone",
+            "address"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_inspection_requests",
+        "title": "List inspection requests (admin)",
+        "description": "List submitted site-inspection requests. Only Renovivo admins can read them; other users get an empty list from RLS.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "status": {
+              "description": "Optional status filter (e.g. 'new').",
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
