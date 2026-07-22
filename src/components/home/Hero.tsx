@@ -32,7 +32,7 @@ const Hero = () => {
           </div>
           <div className="w-px h-32 bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
           <div className="[writing-mode:vertical-lr] text-[10px] tracking-[0.5em] text-primary uppercase font-medium">
-            RENOVIVO&nbsp;·&nbsp;LUXE
+            RENOVIVO
           </div>
         </aside>
 
