@@ -326,10 +326,10 @@ const InspectionRequestModal = () => {
                 <div>
                   <p className="font-semibold">Пишете ни</p>
                   <a
-                    href="mailto:renovivo.bg@gmail.com"
+                    href="mailto:office@renovivo.bg"
                     className="text-primary-foreground/90 hover:text-primary-foreground transition-colors"
                   >
-                    renovivo.bg@gmail.com
+                    office@renovivo.bg
                   </a>
                   <p className="text-primary-foreground/70 text-sm mt-1">
                     Отговаряме до 24 часа

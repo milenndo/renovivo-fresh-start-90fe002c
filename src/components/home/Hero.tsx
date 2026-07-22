@@ -74,7 +74,7 @@ const Hero = () => {
                 className="border-primary/50 bg-transparent text-primary hover:bg-primary/10 font-bold text-base px-8 py-7 h-auto rounded-lg backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
               >
                 <Calculator className="h-5 w-5 mr-3" />
-                Вижте цени и оферти
+                Разгледайте услугите
               </Button>
             </Link>
             <Link to="/portfolio">
