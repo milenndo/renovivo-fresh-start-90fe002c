@@ -13,7 +13,7 @@ const Header = () => {
   const navLinks = [
     { key: 'nav.home', path: "/" },
     { key: 'nav.services', path: "/services" },
-    { key: 'nav.pricing', path: "/pricing" },
+    { key: 'nav.pricing', path: "/contact" },
     { key: 'nav.portfolio', path: "/portfolio" },
     { key: 'nav.blog', path: "/blog" },
     { key: 'nav.about', path: "/about" },

@@ -173,7 +173,7 @@ const Hero = () => {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            <Link to="/pricing" className="w-full sm:w-auto group">
+            <Link to="/contact" className="w-full sm:w-auto group">
               <Button
                 size="lg"
                 className="relative w-full overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-base sm:text-lg px-8 sm:px-10 py-6 sm:py-7 h-auto rounded-2xl shadow-2xl shadow-primary/30 transition-all duration-500 hover:shadow-primary/50 hover:scale-105 hover:-translate-y-1"
