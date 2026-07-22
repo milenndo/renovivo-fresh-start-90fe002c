@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { Phone, Sparkles, Check, ArrowRight, Shield, Droplets, Clock, Palette, Layers, ThermometerSun, Paintbrush, Hammer } from "lucide-react";
-import PriceTable from "@/components/PriceTable";
+// PriceTable removed — pricing via free inspection
 import VisualBreadcrumb from "@/components/VisualBreadcrumb";
 
 const innovativeServices = services.filter(s => s.isInnovative);
