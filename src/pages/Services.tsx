@@ -219,8 +219,7 @@ const ServicesPage = () => {
             </div>
           </div>
         </section>
-
-
+        <SofiaAreasSection />
 
 
         {/* CTA */}

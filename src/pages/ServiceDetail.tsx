@@ -4,6 +4,13 @@ import { Phone, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import SofiaAreasSection from "@/components/SofiaAreasSection";
 import { getServiceById, services } from "@/data/services";
 
 

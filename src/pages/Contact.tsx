@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import SofiaAreasSection from "@/components/SofiaAreasSection";
 import { useToast } from "@/hooks/use-toast";
 
 const contactInfo = [
@@ -250,6 +251,8 @@ const ContactPage = () => {
             </div>
           </div>
         </section>
+
+        <SofiaAreasSection variant="light" />
 
         {/* Map */}
         <section className="h-96 bg-secondary">
