@@ -202,29 +202,6 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch prices from database
-    const { data: prices, error: pricesError } = await supabase
-      .from("service_prices")
-      .select("*, service_categories(name, slug)")
-      .order("service_name");
-
-    if (pricesError) {
-      console.error("Error fetching prices:", pricesError);
-    }
-
-    // Format prices for the AI context
-    const pricesContext = prices?.map((p) => {
-      const priceMin = p.price_min ? (p.price_min / BGN_TO_EUR).toFixed(2) : null;
-      const priceMax = p.price_max ? (p.price_max / BGN_TO_EUR).toFixed(2) : null;
-      const priceStr = priceMin && priceMax 
-        ? priceMin === priceMax 
-          ? `€${priceMin}` 
-          : `€${priceMin} - €${priceMax}`
-        : p.price_text || "По запитване";
-      
-      return `- ${p.service_name} (${p.service_categories?.name}): ${priceStr} за ${p.unit}${p.includes_materials ? " (с материали)" : " (без материали)"}${p.notes ? ` - ${p.notes}` : ""}`;
-    }).join("\n") || "Няма налични цени.";
-
     const systemPrompt = `Ти си ВИРТУАЛЕН АСИСТЕНТ и ЕКСПЕРТ-КОНСУЛТАНТ на строителна фирма "Renovivo".
 
 ТВОЯТА ЦЕЛ: Да помагаш на клиенти с въпроси, да даваш професионални съвети за хода на ремонта и да ги убеждаваш да запишат час за оглед.
@@ -238,13 +215,12 @@ serve(async (req) => {
    • Знаеш най-добрите практики: Кнауф системи, правилно съхнене, хидроизолация
    • Ако клиент попита "Каква е последователността при ремонт на баня?" или "Защо се слага грунд?", използвай своите ОБЩИ ПРОФЕСИОНАЛНИ ЗНАНИЯ
    • Обяснявай процесите подробно, образователно и убедително
-   • НЕ е нужно да търсиш в интернет - ти ЗНАЕШ най-добрите практики
 
 2. ЦЕНИ И ОФЕРТИ (СТРИКТНО!):
-   • Използвай ЕДИНСТВЕНО списъка с услуги на Renovivo по-долу
-   • НИКОГА не си измисляй цени и НЕ търси цени в интернет
-   • ВИНАГИ уточнявай, че цените са БЕЗ ДДС
-   • Ако услугата е "Проект и Дизайн" или "Кухня" - обясни, че цената е ИНДИВИДУАЛНА и зависи от проекта
+   • НИКОГА не давай конкретни цени, ориентировъчни цени, диапазони или примерни суми
+   • НЕ споменавай цени в лева, евро или каквато и да е валута
+   • Ако клиент попита за цена, отговори: "Ценоразписът ни се актуализира. Всяка цена се определя ИНДИВИДУАЛНО след безплатен оглед на обекта, защото зависи от квадратурата, обхвата и материалите. Желаете ли да запишем час за безплатен оглед?"
+   • Пренасочвай ВИНАГИ разговора към записване на оглед
 
 3. ТЪРГОВСКИ ПОДХОД (МНОГО ВАЖНО!):
    • След ВСЕКИ отговор (дори технически) завършвай с призив за действие
@@ -266,9 +242,6 @@ serve(async (req) => {
 • Bullet points за списъци
 • Професионален, но достъпен език
 • Максимум 150 думи на отговор
-
-НАЛИЧНИ УСЛУГИ И ЦЕНИ (EUR, без ДДС):
-${pricesContext}
 
 КОНТАКТИ НА ФИРМАТА:
 📞 0893 71 29 19 | ✉️ office@renovivo.bg | 🕐 Пон-Пет 08:00-18:00`;

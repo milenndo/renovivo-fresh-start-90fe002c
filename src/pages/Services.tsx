@@ -4,7 +4,7 @@ import { Phone, ArrowRight, Home, Bath, ChefHat, Paintbrush, Layers, Wrench, Zap
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import PriceTable from "@/components/PriceTable";
+
 
 // Service categories with their items
 const serviceCategories = [

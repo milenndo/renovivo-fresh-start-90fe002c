@@ -5,7 +5,7 @@ import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getServiceById, services } from "@/data/services";
-import PriceTable from "@/components/PriceTable";
+
 
 // Mapping service IDs to price category slugs
 const serviceToPriceCategoryMap: Record<string, string> = {
@@ -332,14 +332,6 @@ const ServiceDetail = () => {
 
               {/* Sidebar */}
               <div className="space-y-6">
-                {/* Price Table - only for services with pricing */}
-                {showPriceTable && (
-                  <PriceTable 
-                    categorySlug={serviceToPriceCategoryMap[id!]} 
-                    title="Ориентировъчни цени"
-                    limit={8}
-                  />
-                )}
 
                 {/* Custom content for individual project services */}
                 {id && servicesWithoutPrices.includes(id) && (

@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { Phone, Sparkles, Check, ArrowRight, Shield, Droplets, Clock, Palette, Layers, ThermometerSun, Paintbrush, Hammer } from "lucide-react";
-import PriceTable from "@/components/PriceTable";
+
 
 const innovativeServices = services.filter(s => s.isInnovative);
 
@@ -301,25 +301,6 @@ const InnovativeCoatings = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <Badge variant="outline" className="mb-4 px-4 py-2">
-              Ценоразпис
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Цени на иновативни покрития
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Прозрачни цени за всички видове безшевни покрития
-            </p>
-          </div>
-          <div className="max-w-3xl mx-auto">
-            <PriceTable categorySlug="inovativni-pokritia" title="Иновативни покрития" />
-          </div>
-        </div>
-      </section>
 
       {/* Comparison Table */}
       <section id="comparison" className="py-20">
