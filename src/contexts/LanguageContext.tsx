@@ -59,7 +59,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Service items
     'service.fullRenovation.title': 'Цялостен Ремонт',
-    'service.fullRenovation.desc': 'Пълна трансформация на жилища - от проект до реализация с фиксиран бюджет.',
+    'service.fullRenovation.desc': 'Цялостен ремонт на жилища - от проект до изпълнение с фиксирана цена.',
     'service.bathroom.title': 'Ремонт на Баня',
     'service.bathroom.desc': 'Комплексно изпълнение с хидроизолация и професионален монтаж.',
     'service.kitchen.title': 'Ремонт на Кухня',
@@ -67,7 +67,7 @@ const translations: Record<Language, Record<string, string>> = {
     'service.microcement.title': 'Микроцимент',
     'service.microcement.desc': 'Безфугово покритие за стени и подове с модерен индустриален вид.',
     'service.terrazzo.title': 'Terrazzo',
-    'service.terrazzo.desc': 'Класическа елегантност с мраморни фрагменти в съвременно изпълнение.',
+    'service.terrazzo.desc': 'Настилка с мраморни фрагменти в съвременно изпълнение.',
     'service.flakeFloor.title': 'Flake Floor',
     'service.flakeFloor.desc': 'Декоративни подове с флейк ефект - издръжливи и естетични.',
     'service.stoneCarpet.title': 'Каменен Килим',
@@ -133,7 +133,7 @@ const translations: Record<Language, Record<string, string>> = {
     'cta.inquiry': 'Изпратете запитване',
 
     // Footer
-    'footer.description': 'Професионални ремонтни услуги с внимание към всеки детайл. Трансформираме вашите пространства в мечтани домове.',
+    'footer.description': 'Професионални ремонтни услуги с внимание към всеки детайл. Ремонти в София и региона.',
     'footer.quickLinks': 'Бързи връзки',
     'footer.contacts': 'Контакти',
     'footer.address': 'гр. София, България',
