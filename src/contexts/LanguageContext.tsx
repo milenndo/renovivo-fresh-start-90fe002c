@@ -133,7 +133,7 @@ const translations: Record<Language, Record<string, string>> = {
     'cta.inquiry': 'Изпратете запитване',
 
     // Footer
-    'footer.description': 'Професионални ремонтни услуги с внимание към всеки детайл. Трансформираме вашите пространства в мечтани домове.',
+    'footer.description': 'Професионални ремонтни услуги с внимание към всеки детайл. Ремонти в София и региона.',
     'footer.quickLinks': 'Бързи връзки',
     'footer.contacts': 'Контакти',
     'footer.address': 'гр. София, България',
