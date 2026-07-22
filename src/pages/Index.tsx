@@ -9,6 +9,7 @@ import WhyUs from "@/components/home/WhyUs";
 import HowWeWork from "@/components/home/HowWeWork";
 import BlogPreview from "@/components/home/BlogPreview";
 import BespokeEstimator from "@/components/home/BespokeEstimator";
+import LuxuryGuide from "@/components/home/LuxuryGuide";
 import CTA from "@/components/home/CTA";
 import Testimonials from "@/components/Testimonials";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -156,6 +157,7 @@ const Index = () => {
         <WhyUs />
         <HowWeWork />
         <BespokeEstimator />
+        <LuxuryGuide />
         <BlogPreview />
               <Testimonials />
         <CTA />
