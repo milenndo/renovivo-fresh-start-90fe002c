@@ -49,17 +49,17 @@ const LuxuryGuide = () => {
               <div className="relative bg-foreground text-background p-10 aspect-[3/4] flex flex-col justify-between shadow-2xl border border-primary/30">
                 <div>
                   <p className="text-[10px] tracking-[0.3em] text-primary font-semibold uppercase mb-8">
-                    Renovivo · Atelier
+                    Renovivo
                   </p>
                   <BookOpen className="h-8 w-8 text-primary mb-6" strokeWidth={1} />
                   <h3 className="font-heading text-3xl leading-tight">
-                    {language === "en" ? "The Luxury\nRenovation\nGuide" : "Ръководство\nза луксозен\nремонт"}
+                    {language === "en" ? "The Renovation\nGuide" : "Ръководство\nза ремонт"}
                   </h3>
                 </div>
                 <div>
                   <div className="h-px bg-primary/40 mb-4" />
                   <p className="text-[10px] tracking-[0.25em] text-background/60 uppercase">
-                    {language === "en" ? "Ten quiet rules · Ed. 01" : "Десет тихи правила · Изд. 01"}
+                    {language === "en" ? "Edition 01" : "Издание 01"}
                   </p>
                 </div>
               </div>
