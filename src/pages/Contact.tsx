@@ -6,37 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import SofiaAreasSection from "@/components/SofiaAreasSection";
 import { useToast } from "@/hooks/use-toast";
-
-const contactInfo = [
-  {
-    icon: Phone,
-    title: "Телефон",
-    value: "+359 89 371 29 19",
-    href: "tel:+359893712919",
-  },
-  {
-    icon: Mail,
-    title: "Имейл",
-    value: "office@renovivo.bg",
-    href: "mailto:office@renovivo.bg",
-  },
-  {
-    icon: MapPin,
-    title: "Адрес",
-    value: "гр. София, България",
-    href: null,
-  },
-  {
-    icon: Clock,
-    title: "Работно време",
-    value: "Пон - Пет: 08:00 - 18:00",
-    href: null,
-  },
-];
+import VisualBreadcrumb from "@/components/VisualBreadcrumb";
+import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ContactPage = () => {
+  const { t, language } = useLanguage();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -46,73 +22,84 @@ const ContactPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const contactInfo = [
+    { icon: Phone, title: t('contact.info.phone'), value: "+359 89 371 29 19", href: "tel:+359893712919" },
+    { icon: Mail, title: t('contact.info.email'), value: "office@renovivo.bg", href: "mailto:office@renovivo.bg" },
+    { icon: MapPin, title: t('contact.info.address'), value: t('contact.info.addressValue'), href: null },
+    { icon: Clock, title: t('contact.info.hours'), value: t('contact.info.hoursValue'), href: null },
+  ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    setTimeout(() => {
+    try {
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || undefined,
+          message: formData.message,
+        },
+      });
+
+      if (error) throw error;
+
       toast({
-        title: "Съобщението е изпратено!",
-        description: "Ще се свържем с вас възможно най-скоро.",
+        title: t('contact.form.success'),
+        description: t('contact.form.successDesc'),
       });
       setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (error) {
+      console.error("Error sending contact email:", error);
+      toast({
+        title: t('contact.form.error'),
+        description: t('contact.form.errorDesc'),
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Начало", "item": "https://renovivo.bg" },
-      { "@type": "ListItem", "position": 2, "name": "Контакти", "item": "https://renovivo.bg/contact" }
+      { "@type": "ListItem", "position": 1, "name": t('breadcrumb.home'), "item": "https://renovivo.bg" },
+      { "@type": "ListItem", "position": 2, "name": t('contact.page.title'), "item": "https://renovivo.bg/contact" }
     ]
-  };
-
-  const contactSchema = {
-    "@context": "https://schema.org",
-    "@type": "ContactPage",
-    "name": "Контакти Renovivo",
-    "description": "Свържете се с Renovivo за безплатна консултация за ремонт в София",
-    "mainEntity": {
-      "@type": "LocalBusiness",
-      "name": "Renovivo",
-      "telephone": "+359893712919",
-      "email": "office@renovivo.bg",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "София",
-        "addressCountry": "BG"
-      }
-    }
   };
 
   return (
     <>
       <Helmet>
-        <title>Безплатен оглед и оферта за ремонт в София | Renovivo</title>
-        <meta
-          name="description"
-          content="Заявете безплатен оглед за ремонт в София. Писмена оферта, ясен срок и 24 месеца гаранция. ☎️ +359 89 371 29 19, office@renovivo.bg."
+        <title>{language === 'bg' ? 'Контакти | Renovivo - Безплатна консултация за ремонт София' : 'Contact | Renovivo - Free Renovation Consultation Sofia'}</title>
+        <meta 
+          name="description" 
+          content={language === 'bg' 
+            ? "Свържете се с Renovivo за безплатна консултация и оглед. ☎️ +359 89 371 29 19. Ремонтни услуги в София и околността."
+            : "Contact Renovivo for a free consultation and inspection. ☎️ +359 89 371 29 19. Renovation services in Sofia and surroundings."
+          } 
         />
         <link rel="canonical" href="https://renovivo.bg/contact" />
-        <meta property="og:title" content="Безплатен оглед за ремонт в София | Renovivo" />
-        <meta property="og:description" content="Заявете безплатен оглед и писмена оферта. ☎️ +359 89 371 29 19." />
-        <meta property="og:url" content="https://renovivo.bg/contact" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(contactSchema)}</script>
       </Helmet>
       <Layout>
         {/* Hero */}
         <section className="relative py-20 bg-foreground">
           <div className="container-custom relative z-10">
+            <VisualBreadcrumb 
+              items={[{ label: t('contact.page.title') }]} 
+              className="mb-6 [&_a]:text-background/70 [&_a:hover]:text-primary [&_span[role=link]]:text-background [&_svg]:text-background/50"
+            />
             <div className="max-w-2xl">
-              <span className="text-primary font-medium text-sm uppercase tracking-wider">Контакти</span>
+              <span className="text-primary font-medium text-sm uppercase tracking-wider">{t('contact.page.title')}</span>
               <h1 className="text-4xl md:text-5xl font-bold text-background mt-3 mb-6">
-                Свържете се с нас
+                {t('contact.page.subtitle')}
               </h1>
               <p className="text-background/80 text-lg">
-                Имате въпроси или искате да започнете проект? Ние сме тук, за да помогнем.
+                {t('contact.page.description')}
               </p>
             </div>
           </div>
@@ -124,7 +111,7 @@ const ContactPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Contact Info */}
               <div>
-                <h2 className="text-2xl font-bold mb-6">Контактна информация</h2>
+                <h2 className="text-2xl font-bold mb-6">{t('contact.info.title')}</h2>
                 <div className="space-y-4">
                   {contactInfo.map((info) => (
                     <Card key={info.title} className="border-0 shadow-md">
@@ -151,10 +138,10 @@ const ContactPage = () => {
                 <div className="mt-8 p-6 bg-primary rounded-xl text-center">
                   <Phone className="h-10 w-10 text-primary-foreground mx-auto mb-4" />
                   <h3 className="text-xl font-bold text-primary-foreground mb-2">
-                    Обадете се директно
+                    {t('contact.cta.title')}
                   </h3>
                   <p className="text-primary-foreground/90 text-sm mb-4">
-                    За бърза връзка и консултация
+                    {t('contact.cta.desc')}
                   </p>
                   <a href="tel:+359893712919">
                     <Button className="bg-background text-foreground hover:bg-background/90 font-semibold w-full">
@@ -166,37 +153,37 @@ const ContactPage = () => {
 
               {/* Contact Form */}
               <div className="lg:col-span-2">
-                <Card className="border-0 shadow-lg">
+                <Card id="contact-form" className="border-0 shadow-lg scroll-mt-24">
                   <CardContent className="p-8">
-                    <h2 className="text-2xl font-bold mb-2">Изпратете запитване</h2>
+                    <h2 className="text-2xl font-bold mb-2">{t('contact.form.title')}</h2>
                     <p className="text-muted-foreground mb-6">
-                      Попълнете формата и ще се свържем с вас в рамките на 24 часа.
+                      {t('contact.form.desc')}
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                           <label htmlFor="name" className="block text-sm font-medium mb-2">
-                            Вашето име *
+                            {t('contact.form.name')} {t('contact.required')}
                           </label>
                           <Input
                             id="name"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            placeholder="Иван Иванов"
+                            placeholder={t('contact.form.namePlaceholder')}
                             required
                           />
                         </div>
                         <div>
                           <label htmlFor="email" className="block text-sm font-medium mb-2">
-                            Имейл адрес *
+                            {t('contact.form.email')} {t('contact.required')}
                           </label>
                           <Input
                             id="email"
                             type="email"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            placeholder="ivan@example.com"
+                            placeholder={t('contact.form.emailPlaceholder')}
                             required
                           />
                         </div>
@@ -204,26 +191,26 @@ const ContactPage = () => {
 
                       <div>
                         <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                          Телефонен номер
+                          {t('contact.form.phone')}
                         </label>
                         <Input
                           id="phone"
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+359 89 371 29 19"
+                          placeholder={t('contact.form.phonePlaceholder')}
                         />
                       </div>
 
                       <div>
                         <label htmlFor="message" className="block text-sm font-medium mb-2">
-                          Вашето съобщение *
+                          {t('contact.form.message')} {t('contact.required')}
                         </label>
                         <Textarea
                           id="message"
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          placeholder="Опишете накратко вашия проект..."
+                          placeholder={t('contact.form.messagePlaceholder')}
                           rows={6}
                           required
                         />
@@ -236,11 +223,11 @@ const ContactPage = () => {
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? (
-                          "Изпращане..."
+                          t('contact.form.sending')
                         ) : (
                           <>
                             <Send className="h-5 w-5 mr-2" />
-                            Изпратете съобщение
+                            {t('contact.form.submit')}
                           </>
                         )}
                       </Button>
@@ -252,8 +239,6 @@ const ContactPage = () => {
           </div>
         </section>
 
-        <SofiaAreasSection variant="light" />
-
         {/* Map */}
         <section className="h-96 bg-secondary">
           <iframe
@@ -264,7 +249,7 @@ const ContactPage = () => {
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Renovivo локация"
+            title={language === 'bg' ? "Renovivo локация" : "Renovivo location"}
           />
         </section>
       </Layout>

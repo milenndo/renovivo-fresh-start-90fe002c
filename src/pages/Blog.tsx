@@ -1,12 +1,15 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Calendar, Clock, ArrowRight, BookOpen } from "lucide-react";
+import { Calendar, Clock, BookOpen } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
+import { getPlanningRenovationPost, getMicrocementPost } from "@/data/blog-posts-local";
+import VisualBreadcrumb from "@/components/VisualBreadcrumb";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Blog images
 import apartmentRenovationImg from "@/assets/images/blog/apartment-renovation.jpg";
@@ -14,18 +17,26 @@ import bathroomRenovationImg from "@/assets/images/blog/bathroom-renovation.jpg"
 import microcementImg from "@/assets/images/blog/microcement-technology.jpg";
 import renovationMistakesImg from "@/assets/images/blog/renovation-mistakes.jpg";
 import bathroomCostImg from "@/assets/images/blog/bathroom-cost.jpg";
+import interiorDesignTrends2026Img from "@/assets/images/blog/interior-design-trends-2026.png";
+import planningRenovation2026Img from "@/assets/images/blog/planning-renovation-2026.jpg";
+import microcementBathroom2026Img from "@/assets/images/blog/microcement-bathroom-2026.jpg";
 
 const blogImages: Record<string, string> = {
   "remont-na-apartament-sofia-2024": apartmentRenovationImg,
   "remont-na-banya-sofia-cena": bathroomRenovationImg,
   "microcement-moderna-tehnologiya": microcementImg,
+  "mikrociment-moderno-reshenie-steni-podove": microcementBathroom2026Img,
   "chesti-greshki-pri-remont": renovationMistakesImg,
   "kolko-struva-remont-na-banya": bathroomCostImg,
+  "tendentsii-v-interiorniya-dizain-za-2026": interiorDesignTrends2026Img,
+  "kak-da-planirate-remont-step-by-step-2026": planningRenovation2026Img,
 };
 
 const Blog = () => {
+  const { t, language } = useLanguage();
+
   const { data: posts, isLoading } = useQuery({
-    queryKey: ["blog-posts"],
+    queryKey: ["blog-posts", language],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("blog_posts")
@@ -33,7 +44,18 @@ const Blog = () => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data;
+      const allPosts = data || [];
+      const existingSlugs = new Set(allPosts.map((p: any) => p.slug));
+      const planningPost = getPlanningRenovationPost(language);
+      const microcementPostData = getMicrocementPost(language);
+
+      if (!existingSlugs.has(planningPost.slug)) {
+        allPosts.push(planningPost as any);
+      }
+      if (!existingSlugs.has(microcementPostData.slug)) {
+        allPosts.push(microcementPostData as any);
+      }
+      return allPosts.sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     },
   });
 
@@ -44,20 +66,20 @@ const Blog = () => {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Начало",
+        name: t('breadcrumb.home'),
         item: "https://renovivo.bg",
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Блог",
+        name: t('blog.page.title'),
         item: "https://renovivo.bg/blog",
       },
     ],
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("bg-BG", {
+    return new Date(dateString).toLocaleDateString(language === 'bg' ? "bg-BG" : "en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -65,12 +87,16 @@ const Blog = () => {
   };
 
   const getCategoryColor = (category: string) => {
-    switch (category) {
+    const cat = category.toLowerCase();
+    switch (cat) {
       case "съвети":
+      case "tips":
         return "bg-blue-100 text-blue-700";
       case "бани":
+      case "bathrooms":
         return "bg-cyan-100 text-cyan-700";
       case "иновации":
+      case "innovations":
         return "bg-primary/20 text-primary";
       default:
         return "bg-muted text-muted-foreground";
@@ -84,18 +110,15 @@ const Blog = () => {
   return (
     <>
       <Helmet>
-        <title>Блог за ремонти в София | Съвети и планиране – Renovivo</title>
+        <title>{language === 'bg' ? 'Полезно | Съвети и информация за ремонти | Renovivo' : 'Useful Tips | Renovation Advice | Renovivo'}</title>
         <meta
           name="description"
-          content="Практични съвети за планиране на ремонт в София – апартаменти, бани, кухни, материали и срокове. Наръчници от екипа на Renovivo."
+          content={language === 'bg'
+            ? "Полезни статии и съвети за ремонт на апартаменти, бани и кухни в София. Научете за цени, материали и как да планирате успешен ремонт през 2026 г."
+            : "Helpful articles and tips for apartment, bathroom and kitchen renovations in Sofia. Learn about prices, materials and how to plan a successful renovation."
+          }
         />
         <link rel="canonical" href="https://renovivo.bg/blog" />
-        <meta property="og:title" content="Блог за ремонти в София – Renovivo" />
-        <meta
-          property="og:description"
-          content="Практични съвети за планиране на ремонт в София – апартаменти, бани, кухни, материали и срокове."
-        />
-        <meta property="og:url" content="https://renovivo.bg/blog" />
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbSchema)}
         </script>
@@ -104,20 +127,22 @@ const Blog = () => {
         {/* Hero Section */}
         <section className="bg-gradient-to-b from-secondary/50 to-background py-16 md:py-24">
           <div className="container-custom">
+            <VisualBreadcrumb
+              items={[{ label: t('blog.page.title') }]}
+              className="mb-8"
+            />
             <div className="max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
                 <BookOpen className="h-4 w-4" />
                 <span className="font-medium text-sm uppercase tracking-wider">
-                  Блог
+                  {t('blog.page.title')}
                 </span>
               </div>
               <h1 className="text-3xl md:text-5xl font-bold mb-6">
-                Полезни съвети за вашия ремонт
+                {t('blog.page.subtitle')}
               </h1>
               <p className="text-lg text-muted-foreground">
-                Статии, наръчници и практични съвети от нашите експерти. Научете
-                как да планирате успешен ремонт и да избегнете често допусканите
-                грешки.
+                {t('blog.page.description')}
               </p>
             </div>
           </div>
@@ -145,62 +170,58 @@ const Blog = () => {
                 {posts.map((post) => {
                   const postImage = getPostImage(post.slug);
                   return (
-                    <Card
+                    <Link
                       key={post.id}
-                      className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                      to={`/blog/${post.slug}`}
+                      className="group block"
                     >
-                      {/* Image */}
-                      <div className="relative h-48 overflow-hidden">
-                        {postImage ? (
-                          <img 
-                            src={postImage} 
-                            alt={post.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                            <BookOpen className="h-16 w-16 text-primary/30" />
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
-                        <Badge
-                          className={`absolute top-4 left-4 ${getCategoryColor(
-                            post.category
-                          )}`}
-                        >
-                          {post.category}
-                        </Badge>
-                      </div>
-
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            {formatDate(post.created_at)}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            {post.reading_time} мин.
-                          </span>
+                      <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
+                        <div className="relative h-48 overflow-hidden cursor-pointer">
+                          {postImage ? (
+                            <img
+                              src={postImage}
+                              alt={post.title}
+                              width={400}
+                              height={192}
+                              loading="lazy"
+                              decoding="async"
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                              <BookOpen className="h-16 w-16 text-primary/30" />
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent" />
+                          <Badge
+                            className={`absolute top-4 left-4 ${getCategoryColor(post.category)}`}
+                          >
+                            {post.category}
+                          </Badge>
                         </div>
 
-                        <h2 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                          {post.title}
-                        </h2>
+                        <CardContent className="p-6">
+                          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                            <span className="flex items-center gap-1">
+                              <Calendar className="h-4 w-4" />
+                              {formatDate(post.created_at)}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Clock className="h-4 w-4" />
+                              {post.reading_time} {t('blog.page.min')}
+                            </span>
+                          </div>
 
-                        <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                          {post.excerpt}
-                        </p>
+                          <h2 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                            {post.title}
+                          </h2>
 
-                        <Link
-                          to={`/blog/${post.slug}`}
-                          className="inline-flex items-center text-primary font-medium text-sm hover:gap-2 transition-all"
-                        >
-                          Прочетете повече
-                          <ArrowRight className="h-4 w-4 ml-1" />
-                        </Link>
-                      </CardContent>
-                    </Card>
+                          <p className="text-muted-foreground text-sm line-clamp-3">
+                            {post.excerpt}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   );
                 })}
               </div>
@@ -208,7 +229,7 @@ const Blog = () => {
               <div className="text-center py-12">
                 <BookOpen className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
                 <p className="text-muted-foreground">
-                  Все още няма публикувани статии.
+                  {t('blog.page.empty')}
                 </p>
               </div>
             )}
@@ -219,11 +240,10 @@ const Blog = () => {
         <section className="bg-primary/5 py-16">
           <div className="container-custom text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Нуждаете се от професионална консултация?
+              {t('blog.page.cta.title')}
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Екипът на Renovivo е на разположение за безплатен оглед и оферта.
-              Обадете се днес!
+              {t('blog.page.cta.description')}
             </p>
             <a
               href="tel:+359893712919"

@@ -3,114 +3,159 @@ import Layout from "@/components/layout/Layout";
 import Hero from "@/components/home/Hero";
 import PeaceOfMind from "@/components/home/PeaceOfMind";
 import Services from "@/components/home/Services";
-import AIConsultant from "@/components/home/AIConsultant";
 import About from "@/components/home/About";
 import Projects from "@/components/home/Projects";
 import WhyUs from "@/components/home/WhyUs";
 import HowWeWork from "@/components/home/HowWeWork";
 import BlogPreview from "@/components/home/BlogPreview";
 import CTA from "@/components/home/CTA";
+import Testimonials from "@/components/Testimonials";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
+  const { language } = useLanguage();
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Начало", item: "https://renovivo.bg" },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Начало",
+        item: "https://renovivo.bg",
+      },
     ],
   };
 
-  const faqSchema = {
+  const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
+    "@type": "HomeAndConstructionBusiness",
+    "@id": "https://renovivo.bg/#business",
+    name: "Renovivo",
+    alternateName: "Реновиво",
+    description: "Цялостни ремонти на апартаменти в София и района. Тясно специализирани експерти, един екип от А до Я.",
+    url: "https://renovivo.bg",
+    telephone: "+359893712919",
+    email: "office@renovivo.bg",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "ж.к. Красно село",
+      addressLocality: "София",
+      addressRegion: "София-град",
+      postalCode: "1000",
+      addressCountry: "BG"
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "42.6977",
+      longitude: "23.3219"
+    },
+    areaServed: [
       {
-        "@type": "Question",
-        name: "Колко струва ремонт на апартамент в София?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Цената за цялостен ремонт на апартамент се определя индивидуално и зависи от квадратурата, обхвата на работа и избраните материали. Renovivo прави безплатен оглед и изготвя подробна писмена оферта, съобразена с вашия конкретен проект.",
-        },
+        "@type": "City",
+        name: "София"
       },
       {
-        "@type": "Question",
-        name: "Колко време отнема ремонт на баня?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Стандартен ремонт на баня в София отнема между 15 и 25 работни дни в зависимост от размера и обхвата на работата - демонтаж, ВиК, електро, зидария, шпакловка, плочки и монтаж на санитария.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Давате ли гаранция на извършените ремонти?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Да. Renovivo предоставя писмена гаранция от 24 месеца за всички извършени строително-монтажни работи и гаранция от производителя за вложените материали.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "В кои райони на София работите?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Renovivo извършва ремонти във всички райони на София - Център, Лозенец, Изток, Витоша, Младост, Люлин, Дружба, Овча Купел, Красно село, Студентски град, както и в градовете от София-област.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Правите ли безплатен оглед и оферта?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Да, огледът на място и изготвянето на подробна оферта са напълно безплатни и без ангажимент. Свържете се с нас на +359 89 371 29 19 или чрез формата на сайта.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "С какви услуги се занимава Renovivo?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Renovivo предлага цялостен ремонт на апартаменти, ремонт на бани и кухни, боядисване, шпакловка, полагане на подови настилки, микроцимент, теразо, ВиК и електро услуги, интериорен дизайн и иновативни покрития.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Работите ли с една бригада от началото до края?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Да. За разлика от повечето фирми, Renovivo използва един координиран екип от специалисти през целия ремонт - от демонтажа до финалното почистване. Това осигурява по-бърз срок, ясна отговорност и качество.",
-        },
-      },
+        "@type": "AdministrativeArea",
+        name: "София-област"
+      }
     ],
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "08:00",
+        closes: "18:00"
+      }
+    ],
+    priceRange: "$$",
+    currenciesAccepted: "BGN",
+    paymentAccepted: "Cash, Bank Transfer",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "5",
+      reviewCount: "47",
+      bestRating: "5",
+      worstRating: "1"
+    },
+    sameAs: [
+      "https://www.facebook.com/renovivo.bg",
+      "https://www.instagram.com/renovivo.bg"
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Ремонтни услуги",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Цялостен ремонт на апартамент"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Ремонт на баня"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Ремонт на кухня"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Иновативни покрития - микроцимент, terrazzo"
+          }
+        }
+      ]
+    }
+  };
+
+  const seoContent = language === 'en' ? {
+    title: "Renovivo | Complete Apartment Renovations in Sofia and Region",
+    description: "Renovivo - complete renovations in Sofia and the region. Highly specialized experts, one team from A to Z. Request a free inspection and quote.",
+    keywords: "renovation Sofia, complete apartment renovation, bathroom renovation Sofia, kitchen renovation Sofia, renovation company Sofia, construction services Sofia",
+  } : {
+    title: "Renovivo | Цялостен ремонт на апартаменти в София и района",
+    description: "Renovivo - цялостни ремонти в София и района. Тясно специализирани експерти, един екип от А до Я. Поискайте безплатен оглед и оферта.",
+    keywords: "ремонт София, цялостен ремонт на апартамент, ремонт на баня София, ремонт на кухня София, ремонтна фирма София, строителни услуги София",
   };
 
   return (
     <>
       <Helmet>
-        <title>Ремонти в София | Цялостен ремонт до ключ – Renovivo</title>
-        <meta
-          name="description"
-          content="Ремонти в София от един координиран екип от А до Я. Цялостен ремонт на апартаменти, бани и кухни. Безплатен оглед и писмена оферта."
-        />
-        <link rel="canonical" href="https://renovivo.bg/" />
-        <meta property="og:title" content="Ремонти в София | Цялостен ремонт до ключ – Renovivo" />
-        <meta
-          property="og:description"
-          content="Цялостни ремонти в София от един координиран екип. Безплатен оглед и писмена оферта."
-        />
-        <meta property="og:url" content="https://renovivo.bg/" />
+        <html lang={language} />
+        <title>{seoContent.title}</title>
+        <meta name="description" content={seoContent.description} />
+        <meta name="keywords" content={seoContent.keywords} />
+        <link rel="canonical" href="https://renovivo.bg" />
+        <link rel="alternate" hrefLang="bg" href="https://renovivo.bg" />
+        <link rel="alternate" hrefLang="en" href="https://renovivo.bg" />
+        <link rel="alternate" hrefLang="x-default" href="https://renovivo.bg" />
+        <meta property="og:title" content={seoContent.title} />
+        <meta property="og:description" content={seoContent.description} />
+        <meta property="og:url" content="https://renovivo.bg" />
+        <meta property="og:locale" content={language === 'en' ? 'en_US' : 'bg_BG'} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
       </Helmet>
       <Layout>
         <Hero />
         <PeaceOfMind />
         <Services />
-        <AIConsultant />
         <About />
         <Projects />
         <WhyUs />
         <HowWeWork />
         <BlogPreview />
+              <Testimonials />
         <CTA />
       </Layout>
     </>
