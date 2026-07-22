@@ -33,15 +33,14 @@ const PortfolioPage = () => {
   return (
     <>
       <Helmet>
-        <title>Портфолио | Renovivo - Завършени ремонти София, снимки преди и след</title>
-        <meta 
-          name="description" 
-          content="Разгледайте 500+ завършени ремонти в София - бани, кухни, апартаменти. Снимки преди и след ремонт. Вижте качеството на нашата работа!" 
+        <title>Портфолио ремонти в София | Снимки преди/след – Renovivo</title>
+        <meta
+          name="description"
+          content="Завършени ремонти в София от Renovivo – апартаменти, бани и кухни. Снимки преди и след, детайли на проекта и използвани решения."
         />
-        <meta name="keywords" content="портфолио ремонти, снимки ремонт, ремонт преди след, завършени проекти София, ремонт баня снимки, ремонт апартамент галерия" />
         <link rel="canonical" href="https://renovivo.bg/portfolio" />
-        <meta property="og:title" content="Портфолио | Renovivo - Завършени ремонти" />
-        <meta property="og:description" content="Галерия със завършени ремонтни проекти в София." />
+        <meta property="og:title" content="Портфолио ремонти в София – Renovivo" />
+        <meta property="og:description" content="Снимки преди и след от завършени ремонти в София – апартаменти, бани, кухни." />
         <meta property="og:url" content="https://renovivo.bg/portfolio" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(gallerySchema)}</script>

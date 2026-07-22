@@ -142,15 +142,14 @@ const ServicesPage = () => {
   return (
     <>
       <Helmet>
-        <title>Ремонтни услуги София | Renovivo - Цялостен ремонт, бани, кухни</title>
-        <meta 
-          name="description" 
-          content="Професионални ремонтни услуги в София - цялостен ремонт на апартаменти, ремонт на бани и кухни, боядисване, подови настилки, ВиК и електро. Гаранция за качество!" 
+        <title>Ремонтни услуги в София – Renovivo | Пълен списък услуги</title>
+        <meta
+          name="description"
+          content="Всички ремонтни услуги в София на едно място: цялостен ремонт, бани, кухни, боядисване, ВиК, електро, микроцимент. Един координиран екип от А до Я."
         />
-        <meta name="keywords" content="ремонтни услуги София, ремонт апартамент, ремонт баня, ремонт кухня, боядисване, подови настилки, ВиК услуги, електро услуги, микроцимент" />
         <link rel="canonical" href="https://renovivo.bg/services" />
-        <meta property="og:title" content="Ремонтни услуги София | Renovivo" />
-        <meta property="og:description" content="Пълен спектър ремонтни услуги - цялостен ремонт, бани, кухни, боядисване, подови настилки." />
+        <meta property="og:title" content="Ремонтни услуги в София – Renovivo" />
+        <meta property="og:description" content="Пълен спектър ремонтни услуги в София: цялостен ремонт, бани, кухни, боядисване, ВиК, електро, декоративни покрития." />
         <meta property="og:url" content="https://renovivo.bg/services" />
         <script type="application/ld+json">{JSON.stringify(servicesSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
