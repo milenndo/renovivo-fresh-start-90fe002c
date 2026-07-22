@@ -79,6 +79,8 @@ const Layout = ({ children }: LayoutProps) => {
         onSave={savePreferences}
       />
 
+      {/* AI Chat Assistant */}
+      <RenovivoChat />
     </div>
   );
 };
