@@ -4,6 +4,13 @@ import { Phone, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import SofiaAreasSection from "@/components/SofiaAreasSection";
 import { getServiceById, services } from "@/data/services";
 
 
@@ -396,12 +403,30 @@ const ServiceDetail = () => {
                       <img
                         key={index}
                         src={image}
-                        alt={`${service.title} ${index + 1}`}
+                        alt={`${service.title} ${index + 1} – Renovivo София`}
+                        loading="lazy"
                         className="w-full h-48 object-cover rounded-lg hover:opacity-90 transition-opacity"
                       />
                     ))}
                   </div>
                 </div>
+
+                {/* FAQ */}
+                {faqs && faqs.length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-bold mb-6">Често задавани въпроси</h2>
+                    <Accordion type="single" collapsible className="w-full">
+                      {faqs.map((f, i) => (
+                        <AccordionItem key={i} value={`faq-${i}`}>
+                          <AccordionTrigger className="text-left">{f.q}</AccordionTrigger>
+                          <AccordionContent className="text-muted-foreground leading-relaxed">
+                            {f.a}
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </div>
+                )}
               </div>
 
               {/* Sidebar */}
@@ -483,6 +508,11 @@ const ServiceDetail = () => {
             </div>
           </div>
         </section>
+
+        <SofiaAreasSection
+          title={`${service.title} в цяла София и София-област`}
+          intro={`Извършваме ${service.title.toLowerCase()} във всички райони на София и в градовете от София-област. Един координиран екип, безплатен оглед и писмена оферта.`}
+        />
 
         {/* Navigation */}
         <section className="py-8 border-t">
