@@ -93,10 +93,10 @@ const serviceCategories = [
     description: "Микроцимент, Terrazzo, Flake Floor, Каменен килим",
     icon: Sparkles,
     items: [
-      { name: "Микроцимент", path: "/services/microcement", description: "Безшевно покритие • от 67 лв./кв.м" },
-      { name: "Terrazzo", path: "/services/terrazzo", description: "Мозаечни подове • от 133 лв./кв.м" },
-      { name: "Flake Floor", path: "/services/flake-floor", description: "Декоративна настилка • от 95 лв./кв.м" },
-      { name: "Каменен килим", path: "/services/stone-carpet", description: "За тераси и балкони • от 114 лв./кв.м" },
+      { name: "Микроцимент", path: "/services/microcement", description: "Безшевно модерно покритие" },
+      { name: "Terrazzo", path: "/services/terrazzo", description: "Класически мозаечни подове" },
+      { name: "Flake Floor", path: "/services/flake-floor", description: "Декоративна настилка с флейкове" },
+      { name: "Каменен килим", path: "/services/stone-carpet", description: "За тераси и балкони" },
       { name: "Всички иновативни покрития →", path: "/innovative-coatings", description: "Детайлно сравнение и галерия" },
     ]
   },
