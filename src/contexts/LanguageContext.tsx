@@ -59,7 +59,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Service items
     'service.fullRenovation.title': 'Цялостен Ремонт',
-    'service.fullRenovation.desc': 'Пълна трансформация на жилища - от проект до реализация с фиксиран бюджет.',
+    'service.fullRenovation.desc': 'Цялостен ремонт на жилища - от проект до изпълнение с фиксирана цена.',
     'service.bathroom.title': 'Ремонт на Баня',
     'service.bathroom.desc': 'Комплексно изпълнение с хидроизолация и професионален монтаж.',
     'service.kitchen.title': 'Ремонт на Кухня',
