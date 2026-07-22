@@ -86,22 +86,18 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Renovivo | Цялостен ремонт на апартаменти в София и района</title>
+        <title>Ремонти в София | Цялостен ремонт до ключ – Renovivo</title>
         <meta
           name="description"
-          content="Renovivo - цялостни ремонти в София и района. Тясно специализирани експерти, един екип от А до Я. Поискайте безплатен оглед и оферта."
+          content="Ремонти в София от един координиран екип от А до Я. Цялостен ремонт на апартаменти, бани и кухни. Безплатен оглед и писмена оферта."
         />
-        <meta
-          name="keywords"
-          content="ремонт София, цялостен ремонт на апартамент, ремонт на баня София, ремонт на кухня София, ремонтна фирма София, строителни услуги София"
-        />
-        <link rel="canonical" href="https://renovivo.bg" />
-        <meta property="og:title" content="Renovivo | Цялостен ремонт в София и района" />
+        <link rel="canonical" href="https://renovivo.bg/" />
+        <meta property="og:title" content="Ремонти в София | Цялостен ремонт до ключ – Renovivo" />
         <meta
           property="og:description"
-          content="Цялостни ремонти в София. Тясно специализирани експерти, един екип от А до Я."
+          content="Цялостни ремонти в София от един координиран екип. Безплатен оглед и писмена оферта."
         />
-        <meta property="og:url" content="https://renovivo.bg" />
+        <meta property="og:url" content="https://renovivo.bg/" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>

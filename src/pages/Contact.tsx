@@ -89,15 +89,14 @@ const ContactPage = () => {
   return (
     <>
       <Helmet>
-        <title>Контакти | Renovivo - Безплатна консултация за ремонт София</title>
-        <meta 
-          name="description" 
-          content="Свържете се с Renovivo за безплатна консултация и оглед. ☎️ +359 89 371 29 19. Ремонтни услуги в София и околността. Работно време: Пон-Пет 08:00-18:00." 
+        <title>Безплатен оглед и оферта за ремонт в София | Renovivo</title>
+        <meta
+          name="description"
+          content="Заявете безплатен оглед за ремонт в София. Писмена оферта, ясен срок и 24 месеца гаранция. ☎️ +359 89 371 29 19, office@renovivo.bg."
         />
-        <meta name="keywords" content="контакти Renovivo, ремонт София телефон, безплатен оглед ремонт, консултация ремонт, ремонтна фирма контакт" />
         <link rel="canonical" href="https://renovivo.bg/contact" />
-        <meta property="og:title" content="Контакти | Renovivo" />
-        <meta property="og:description" content="Свържете се за безплатна консултация. ☎️ +359 89 371 29 19" />
+        <meta property="og:title" content="Безплатен оглед за ремонт в София | Renovivo" />
+        <meta property="og:description" content="Заявете безплатен оглед и писмена оферта. ☎️ +359 89 371 29 19." />
         <meta property="og:url" content="https://renovivo.bg/contact" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(contactSchema)}</script>

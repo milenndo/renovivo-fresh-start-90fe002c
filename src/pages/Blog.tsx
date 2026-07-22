@@ -84,20 +84,16 @@ const Blog = () => {
   return (
     <>
       <Helmet>
-        <title>Блог за ремонти | Съвети и полезна информация | Renovivo</title>
+        <title>Блог за ремонти в София | Съвети и планиране – Renovivo</title>
         <meta
           name="description"
-          content="Полезни статии и съвети за ремонт на апартаменти, бани и кухни в София. Научете за цени, материали и как да планирате успешен ремонт."
-        />
-        <meta
-          name="keywords"
-          content="блог ремонти, съвети ремонт, цени ремонт София, ремонт баня съвети, планиране ремонт"
+          content="Практични съвети за планиране на ремонт в София – апартаменти, бани, кухни, материали и срокове. Наръчници от екипа на Renovivo."
         />
         <link rel="canonical" href="https://renovivo.bg/blog" />
-        <meta property="og:title" content="Блог за ремонти | Renovivo" />
+        <meta property="og:title" content="Блог за ремонти в София – Renovivo" />
         <meta
           property="og:description"
-          content="Полезни статии и съвети за ремонт на апартаменти, бани и кухни в София."
+          content="Практични съвети за планиране на ремонт в София – апартаменти, бани, кухни, материали и срокове."
         />
         <meta property="og:url" content="https://renovivo.bg/blog" />
         <script type="application/ld+json">

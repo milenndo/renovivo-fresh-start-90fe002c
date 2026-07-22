@@ -56,20 +56,16 @@ const AboutPage = () => {
   return (
     <>
       <Helmet>
-        <title>За нас | Renovivo - Ремонтна фирма София изградена от екип с над 10 години опит</title>
+        <title>За Renovivo | Ремонтна фирма в София с координиран екип</title>
         <meta
           name="description"
-          content="Renovivo фирма основа през 2025 г. в София. Екип от 15+ професионалисти с над 10 години опит всеки тесен специалист в своята област , 200+ завършени проекта от екипа. Качество и гаранция на всяка услуга."
-        />
-        <meta
-          name="keywords"
-          content="ремонтна фирма София, Renovivo, строителна фирма София, професионални майстори, ремонти с гаранция"
+          content="Renovivo е ремонтна фирма в София с един координиран екип от тясно специализирани майстори. Ясна отговорност, писмена оферта и 24 месеца гаранция."
         />
         <link rel="canonical" href="https://renovivo.bg/about" />
-        <meta property="og:title" content="За нас | Renovivo - Ремонтна фирма София" />
+        <meta property="og:title" content="За Renovivo | Ремонтна фирма в София" />
         <meta
           property="og:description"
-          content="Над 10 години опит на екипа в ремонтните услуги. 200+ завършени проекта."
+          content="Един координиран екип от тясно специализирани майстори за ремонти в София. Ясна отговорност и писмена гаранция."
         />
         <meta property="og:url" content="https://renovivo.bg/about" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
