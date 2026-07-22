@@ -15,7 +15,7 @@ const MAX_REQUESTS_PER_WINDOW = 15; // 15 requests per minute
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
 // Message validation constants
-const MAX_MESSAGE_LENGTH = 2000;
+const MAX_MESSAGE_LENGTH = 8000;
 const MAX_MESSAGES_COUNT = 20;
 const VALID_ROLES = ["user", "assistant", "system"];
 
