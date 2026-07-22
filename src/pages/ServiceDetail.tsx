@@ -384,14 +384,7 @@ const ServiceDetail = () => {
 
               {/* Sidebar */}
               <div className="space-y-6">
-                {/* Price Table - only for services with pricing */}
-                {showPriceTable && (
-                  <PriceTable
-                    categorySlug={serviceToPriceCategoryMap[id!]}
-                    title={t('serviceDetail.pricing')}
-                    limit={8}
-                  />
-                )}
+                {/* Price table removed — pricing handled via free on-site inspection */}
 
                 {/* Custom content for individual project services */}
                 {id && servicesWithoutPrices.includes(id) && (
