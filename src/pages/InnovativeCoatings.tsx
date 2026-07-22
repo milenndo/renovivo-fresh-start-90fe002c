@@ -151,11 +151,11 @@ const InnovativeCoatings = () => {
               Иновативни решения
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-              Модерни покрития за
-              <span className="text-primary"> бъдещето</span>
+              Безшевни покрития за подове и стени
+              
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Открийте иновативни безшевни покрития, които трансформират пространства с минималистична елегантност и изключителна издръжливост.
+              Безшевни покрития за подове и стени — микроцимент, епоксидни системи, декоративни мазилки. Издръжливи, лесни за поддръжка и с чист, изчистен вид.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
@@ -361,7 +361,7 @@ const InnovativeCoatings = () => {
               Галерия проекти
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Вижте как иновативните покрития трансформират пространства
+              Вижте как изглеждат покритията в реални обекти
             </p>
           </div>
 

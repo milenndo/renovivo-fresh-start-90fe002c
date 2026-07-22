@@ -42,7 +42,7 @@ const Hero = () => {
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <img
               src={heroPoster}
-              alt="Renovivo — луксозни ремонти в София"
+              alt="Renovivo — ремонти в София"
               width={1920}
               height={1080}
               fetchPriority="high"
@@ -57,7 +57,7 @@ const Hero = () => {
                 autoPlay muted loop playsInline preload="metadata"
                 width={1920} height={1080} poster={heroPoster}
                 onCanPlay={() => setVideoLoaded(true)}
-                aria-label="Луксозен интериор — трансформация"
+                aria-label="Интериор след ремонт"
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
                   videoLoaded ? "opacity-25" : "opacity-0"
                 }`}
