@@ -5,7 +5,7 @@ import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getServiceByIdWithLanguage, getServices, getServiceFAQs } from "@/data/services";
-import PriceTable from "@/components/PriceTable";
+// PriceTable removed — prices are handled via free inspection requests
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import VisualBreadcrumb from "@/components/VisualBreadcrumb";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
