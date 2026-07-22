@@ -52,8 +52,8 @@ const LuxuryGuide = () => {
                     Renovivo
                   </p>
                   <BookOpen className="h-8 w-8 text-primary mb-6" strokeWidth={1} />
-                  <h3 className="font-heading text-3xl leading-tight">
-                    {language === "en" ? "The Renovation\nGuide" : "Ръководство\nза ремонт"}
+                  <h3 className="font-heading text-3xl leading-tight whitespace-pre-line">
+                    {language === "en" ? "Client\nHandbook" : "Ръководство\nза възложителя"}
                   </h3>
                 </div>
                 <div>
