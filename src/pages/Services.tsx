@@ -220,19 +220,8 @@ const ServicesPage = () => {
           </div>
         </section>
 
-        {/* Pricing Section */}
-        <section className="py-12 bg-secondary/30">
-          <div className="container-custom">
-            <div className="text-center mb-8">
-              <span className="text-primary font-medium text-sm uppercase tracking-wider">Ценоразпис</span>
-              <h2 className="text-2xl md:text-3xl font-bold mt-2">Ориентировъчни цени</h2>
-              <p className="text-muted-foreground mt-2">Прозрачно ценообразуване за всички услуги</p>
-            </div>
-            <div className="max-w-4xl mx-auto">
-              <PriceTable showAll={true} title="Всички услуги" />
-            </div>
-          </div>
-        </section>
+
+
 
         {/* CTA */}
         <section className="py-16 bg-primary">
