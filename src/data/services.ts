@@ -496,7 +496,7 @@ const servicesBG: Service[] = [
         { aspect: "Фуги", innovative: "Без фуги", tiles: "Много фуги, които се замърсяват" },
         { aspect: "Монтаж", innovative: "Върху съществуващи повърхности", tiles: "Изисква демонтаж" },
         { aspect: "Почистване", innovative: "Изключително лесно", tiles: "Фугите се чистят трудно" },
-        { aspect: "Вид", innovative: "Монолитен, елегантен", tiles: "Традиционен" }
+        { aspect: "Вид", innovative: "Монолитен, изчистен", tiles: "Традиционен" }
       ]
     }
   },
