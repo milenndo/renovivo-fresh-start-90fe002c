@@ -177,11 +177,22 @@ const ServiceDetail = () => {
     "serviceType": service.isInnovative ? "Иновативни покрития" : "Ремонтни услуги"
   };
 
-  const seoTitle = service.isInnovative 
-    ? `${service.title} София | Renovivo - Модерни покрития`
-    : `${service.title} София | Renovivo - Професионални услуги`;
-  
-  const seoDescription = `${service.shortDescription} Професионално изпълнение в София. Гаранция за качество. ☎️ Безплатна консултация!`;
+  const seoOverride = id ? serviceSeoOverrides[id] : undefined;
+  const seoTitle = seoOverride?.title ?? (service.isInnovative
+    ? `${service.title} в София | Renovivo – модерни покрития`
+    : `${service.title} в София | Renovivo`);
+  const seoDescription = seoOverride?.description ?? `${service.shortDescription} Изпълнение в София от координиран екип, писмена оферта и 24 месеца гаранция.`;
+
+  const faqs = id ? serviceFaqs[id] : undefined;
+  const faqSchema = faqs && {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
 
   const customContent = id ? customServiceContent[id] : null;
   const showPriceTable = id && serviceToPriceCategoryMap[id] && !servicesWithoutPrices.includes(id);
@@ -191,14 +202,16 @@ const ServiceDetail = () => {
       <Helmet>
         <title>{seoTitle}</title>
         <meta name="description" content={seoDescription} />
-        <meta name="keywords" content={`${service.title}, ${service.title} София, ${service.title} цена, ремонт ${service.title}`} />
         <link rel="canonical" href={`https://renovivo.bg/services/${id}`} />
         <meta property="og:title" content={seoTitle} />
-        <meta property="og:description" content={service.shortDescription} />
+        <meta property="og:description" content={seoDescription} />
         <meta property="og:url" content={`https://renovivo.bg/services/${id}`} />
         <meta property="og:image" content={service.image} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
+        {faqSchema && (
+          <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        )}
       </Helmet>
       <Layout>
         {/* Hero */}
