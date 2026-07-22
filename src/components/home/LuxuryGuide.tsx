@@ -7,28 +7,28 @@ const LuxuryGuide = () => {
 
   const copy = language === "en"
     ? {
-        eyebrow: "Free guide",
-        title: "The Renovivo Renovation Guide",
-        lead: "A practical guide with the steps we follow on every project — from the first site visit to handing over the finished home. Free, no email required.",
+        eyebrow: "Official document",
+        title: "Client Handbook",
+        lead: "Renovivo's standards for execution and project management. The official protocol for communication, financial transparency and expectations during the delivery of interior projects.",
         bullets: [
-          "How to plan a realistic budget",
-          "What a proper quote should include",
-          "What to check at handover",
+          "Construction stages and technological pauses",
+          "Bill of quantities (BoQ) and financial regulation",
+          "Change orders, payment schedule and handover",
         ],
-        cta: "Download the guide (PDF)",
-        note: "12 pages · 54 KB · No email required",
+        cta: "Download the handbook (PDF)",
+        note: "PDF · No email required",
       }
     : {
-        eyebrow: "Безплатно ръководство",
-        title: "Ръководство на Renovivo за ремонт",
-        lead: "Практично ръководство със стъпките, които следваме при всеки проект — от първия оглед до предаването на готовия обект. Безплатно, без имейл.",
+        eyebrow: "Официален документ",
+        title: "Ръководство за възложителя",
+        lead: "Стандартите на Renovivo за изпълнение и управление на строителни процеси. Официален протокол за комуникация, финансова прозрачност и очаквания при реализацията на интериорни проекти.",
         bullets: [
-          "Как да планирате реалистичен бюджет",
-          "Какво трябва да включва добрата оферта",
-          "Какво да проверите при предаването",
+          "Технологични етапи и строителна реалност",
+          "Количествено-стойностна сметка и финансов регламент",
+          "Промени, плащания и приемане на обекта",
         ],
         cta: "Изтеглете ръководството (PDF)",
-        note: "12 страници · 54 KB · Без имейл",
+        note: "PDF · Без имейл",
       };
 
   return (
@@ -52,8 +52,8 @@ const LuxuryGuide = () => {
                     Renovivo
                   </p>
                   <BookOpen className="h-8 w-8 text-primary mb-6" strokeWidth={1} />
-                  <h3 className="font-heading text-3xl leading-tight">
-                    {language === "en" ? "The Renovation\nGuide" : "Ръководство\nза ремонт"}
+                  <h3 className="font-heading text-3xl leading-tight whitespace-pre-line">
+                    {language === "en" ? "Client\nHandbook" : "Ръководство\nза възложителя"}
                   </h3>
                 </div>
                 <div>
