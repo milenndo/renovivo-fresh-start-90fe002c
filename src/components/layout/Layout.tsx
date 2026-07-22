@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import Header from "./Header";
+import RenovivoChat from "@/components/chat/RenovivoChat";
 import Footer from "./Footer";
 import CookieBanner from "@/components/CookieBanner";
 import CookieSettingsModal from "@/components/CookieSettingsModal";
@@ -78,6 +79,8 @@ const Layout = ({ children }: LayoutProps) => {
         onSave={savePreferences}
       />
 
+      {/* AI Chat Assistant */}
+      <RenovivoChat />
     </div>
   );
 };

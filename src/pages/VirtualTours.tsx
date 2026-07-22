@@ -360,62 +360,7 @@ const VirtualTours = () => {
         </div>
       </section>
 
-      {/* Demo Section - Matterport Showcase */}
-      <section className="py-24 bg-slate-950">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <Badge className="mb-4 px-6 py-2 bg-primary/10 text-primary border-primary/30">
-              <Play className="w-4 h-4 mr-2" />
-              {language === 'bg' ? 'Демонстрация' : 'Live Demo'}
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-50 mb-4">
-              {language === 'bg' ? 'Вижте на живо' : 'See It Live'}
-            </h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-              {language === 'bg' 
-                ? 'Разгледайте реален виртуален тур. Навигирайте свободно в пространството и изпитайте технологията.'
-                : 'Explore a real virtual tour. Navigate freely in the space and experience the technology.'}
-            </p>
-          </div>
 
-          <div className="max-w-6xl mx-auto">
-            <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-2 md:p-4 shadow-2xl">
-              {/* Browser mockup header */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 rounded-t-2xl border-b border-slate-700/50">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                </div>
-                <div className="flex-1 mx-4">
-                  <div className="bg-slate-700/50 rounded-lg px-4 py-1.5 text-sm text-slate-400 text-center max-w-md mx-auto">
-                    my.matterport.com/show
-                  </div>
-                </div>
-              </div>
-              
-              {/* Matterport iframe */}
-              <div className="aspect-video rounded-b-2xl overflow-hidden">
-                <iframe
-                  src="https://my.matterport.com/show/?m=v7p9gNck42P&play=1&mls=2"
-                  width="100%"
-                  height="100%"
-                  frameBorder="0"
-                  allow="fullscreen; vr"
-                  className="w-full h-full"
-                  title={language === 'bg' ? 'Виртуален тур демо' : 'Virtual tour demo'}
-                />
-              </div>
-            </div>
-            
-            <p className="text-center text-slate-500 mt-6 text-sm">
-              {language === 'bg' 
-                ? 'Използвайте мишката или докоснете екрана за навигация. Натиснете бутона за цял екран за по-добро изживяване.'
-                : 'Use mouse or touch to navigate. Click fullscreen button for better experience.'}
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Pricing Section */}
       <section className="py-24 bg-gradient-to-b from-slate-950 to-background">
