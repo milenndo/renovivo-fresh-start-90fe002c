@@ -157,6 +157,7 @@ const Index = () => {
         <WhyUs />
         <HowWeWork />
         <BespokeEstimator />
+        <LuxuryGuide />
         <BlogPreview />
               <Testimonials />
         <CTA />
