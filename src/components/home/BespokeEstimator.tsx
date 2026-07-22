@@ -13,7 +13,7 @@ const scopes: Scope[] = [
 ];
 
 const tiers: Tier[] = [
-  { id: "essential", label: "Essential", note: "Премиум завършеки, italian tiles", multiplier: 1 },
+  { id: "essential", label: "Essential", note: "Качествени завършеки, стандартни материали", multiplier: 1 },
   { id: "signature", label: "Signature", note: "Микроцимент, дизайнерски осветителни тела", multiplier: 1.35 },
   { id: "bespoke", label: "Bespoke", note: "Авторски мебели, smart home, terrazzo", multiplier: 1.75 },
 ];

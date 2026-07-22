@@ -64,7 +64,7 @@ const VirtualTours = () => {
       icon: Layers,
       title: language === 'bg' ? 'Point Cloud заснемане' : 'Point Cloud Capture',
       description: language === 'bg'
-        ? 'Милиони точки на данни за перфектно 3D моделиране.'
+        ? 'Милиони точки данни за точен 3D модел на обекта.'
         : 'Millions of data points for perfect 3D modeling.',
       gradient: 'from-green-500 to-emerald-500'
     }
@@ -332,7 +332,7 @@ const VirtualTours = () => {
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               {language === 'bg' 
-                ? '3D сканирането трансформира начина на работа в множество индустрии'
+                ? '3D сканирането се използва в различни индустрии'
                 : '3D scanning transforms the way of working across multiple industries'}
             </p>
           </div>
