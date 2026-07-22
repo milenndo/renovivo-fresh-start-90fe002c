@@ -33,11 +33,11 @@ const Header = () => {
               <span className="hidden sm:inline">+359 89 371 29 19</span>
             </a>
             <a
-              href="mailto:renovivo.bg@gmail.com"
+              href="mailto:office@renovivo.bg"
               className="flex items-center gap-2 hover:text-primary transition-colors"
             >
               <Mail className="h-4 w-4" />
-              <span className="hidden sm:inline">renovivo.bg@gmail.com</span>
+              <span className="hidden sm:inline">office@renovivo.bg</span>
             </a>
             <div className="hidden md:flex items-center gap-2">
               <Clock className="h-4 w-4" />

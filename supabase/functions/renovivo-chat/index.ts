@@ -271,7 +271,7 @@ serve(async (req) => {
 ${pricesContext}
 
 КОНТАКТИ НА ФИРМАТА:
-📞 0893 71 29 19 | ✉️ renovivo.bg@gmail.com | 🕐 Пон-Пет 08:00-18:00`;
+📞 0893 71 29 19 | ✉️ office@renovivo.bg | 🕐 Пон-Пет 08:00-18:00`;
 
     console.log("Sending request to Lovable AI Gateway...");
 
