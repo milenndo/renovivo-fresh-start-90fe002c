@@ -2,30 +2,56 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { Home, Bath, ChefHat, Sofa, ArrowRight, Sparkles } from "lucide-react";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
 
-type Scope = { id: string; label: string; icon: any; factor: number };
-type Tier = { id: string; label: string; note: string; multiplier: number };
+type Scope = { id: string; label: string; icon: any };
+type Tier = {
+  id: string;
+  label: string;
+  note: string;
+  minEur: number;
+  maxEur: number | null; // null = без горна граница
+};
 
 const scopes: Scope[] = [
-  { id: "full", label: "Цялостен ремонт", icon: Home, factor: 1.0 },
-  { id: "bath", label: "Само баня", icon: Bath, factor: 0.35 },
-  { id: "kitchen", label: "Само кухня", icon: ChefHat, factor: 0.4 },
-  { id: "living", label: "Дневна / спалня", icon: Sofa, factor: 0.3 },
+  { id: "full", label: "Цялостен ремонт", icon: Home },
+  { id: "bath", label: "Само баня", icon: Bath },
+  { id: "kitchen", label: "Само кухня", icon: ChefHat },
+  { id: "living", label: "Дневна / спалня", icon: Sofa },
 ];
 
 const tiers: Tier[] = [
-  { id: "essential", label: "Essential", note: "Качествени завършеки, стандартни материали", multiplier: 1 },
-  { id: "signature", label: "Signature", note: "Микроцимент, дизайнерски осветителни тела", multiplier: 1.35 },
-  { id: "bespoke", label: "Bespoke", note: "Авторски мебели, smart home, terrazzo", multiplier: 1.75 },
+  {
+    id: "base",
+    label: "Базово ниво",
+    note: "Довършителни работи. Материали от нисък до среден клас.",
+    minEur: 100,
+    maxEur: 300,
+  },
+  {
+    id: "turnkey",
+    label: "Завършване до ключ",
+    note: "Базово + подови настилки, врати, климатизация, ел. ключове и контакти, осветителни тела. Материали от среден до висок клас.",
+    minEur: 301,
+    maxEur: 500,
+  },
+  {
+    id: "premium",
+    label: "Премиум",
+    note: "Напълно завършен имот с мебели по поръчка. Включва предходните две нива. Премиум клас материали.",
+    minEur: 500,
+    maxEur: null,
+  },
 ];
 
-const format = (n: number) =>
+const EUR_TO_BGN = 1.95583;
+
+const fmt = (n: number) =>
   new Intl.NumberFormat("bg-BG", { maximumFractionDigits: 0 }).format(n);
 
 const BespokeEstimator = () => {
   const { openModal } = useInspectionRequest();
   const [area, setArea] = useState(75);
   const [scopeId, setScopeId] = useState<string>("full");
-  const [tierId, setTierId] = useState<string>("signature");
+  const [tierId, setTierId] = useState<string>("turnkey");
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -40,12 +66,19 @@ const BespokeEstimator = () => {
 
   const scope = scopes.find((s) => s.id === scopeId)!;
   const tier = tiers.find((t) => t.id === tierId)!;
+  const isBathroom = scopeId === "bath";
 
-  const { low, high } = useMemo(() => {
-    // Base rate 850 BGN/m² essential, applied by scope factor & tier multiplier.
-    const base = 850 * area * scope.factor * tier.multiplier;
-    return { low: base * 0.9, high: base * 1.15 };
-  }, [area, scope, tier]);
+  const estimate = useMemo(() => {
+    if (isBathroom) return null;
+    const lowEur = tier.minEur * area;
+    const highEur = tier.maxEur ? tier.maxEur * area : null;
+    return {
+      lowEur,
+      highEur,
+      lowBgn: lowEur * EUR_TO_BGN,
+      highBgn: highEur ? highEur * EUR_TO_BGN : null,
+    };
+  }, [area, tier, isBathroom]);
 
   return (
     <section
@@ -59,7 +92,6 @@ const BespokeEstimator = () => {
       </div>
 
       <div className="container-custom relative z-10">
-        {/* Editorial header */}
         <div
           className={`max-w-3xl mx-auto text-center mb-14 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -68,26 +100,25 @@ const BespokeEstimator = () => {
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-primary" />
             <span className="eyebrow flex items-center gap-2">
-              <Sparkles className="w-3 h-3" /> Bespoke estimator
+              <Sparkles className="w-3 h-3" /> Ориентировъчна оферта
             </span>
             <span className="h-px w-8 bg-primary" />
           </div>
           <h2 className="display-serif text-4xl md:text-6xl text-foreground mb-6">
-            Ориентировъчна <span className="text-primary italic">инвестиция</span>
+            Приблизителна <span className="text-primary italic">оферта</span>
           </h2>
           <p className="text-foreground/60 text-base md:text-lg font-light leading-relaxed">
-            За 30 секунди получавате диапазон, основан на 127+ реализирани проекта
-            в София. Точната оферта следва след безплатен архитектурен оглед.
+            За 30 секунди получавате ориентировъчен диапазон според обхвата,
+            квадратурата и нивото на завършване. Точната оферта следва след
+            безплатен оглед на място.
           </p>
         </div>
 
-        {/* Estimator card */}
         <div
           className={`relative border border-primary/25 bg-card/70 backdrop-blur-sm transition-all duration-1000 delay-150 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          {/* Corner marks */}
           {["top-0 left-0", "top-0 right-0", "bottom-0 left-0", "bottom-0 right-0"].map((pos) => (
             <span
               key={pos}
@@ -102,9 +133,7 @@ const BespokeEstimator = () => {
           ))}
 
           <div className="grid grid-cols-1 lg:grid-cols-5">
-            {/* Inputs */}
             <div className="lg:col-span-3 p-8 md:p-12 space-y-10 border-b lg:border-b-0 lg:border-r border-primary/20">
-              {/* Scope */}
               <div>
                 <div className="flex items-baseline justify-between mb-4">
                   <span className="eyebrow">01 · Обхват</span>
@@ -138,7 +167,6 @@ const BespokeEstimator = () => {
                 </div>
               </div>
 
-              {/* Area */}
               <div>
                 <div className="flex items-baseline justify-between mb-4">
                   <span className="eyebrow">02 · Квадратура</span>
@@ -148,7 +176,7 @@ const BespokeEstimator = () => {
                 </div>
                 <input
                   type="range"
-                  min={25}
+                  min={10}
                   max={250}
                   step={5}
                   value={area}
@@ -157,16 +185,15 @@ const BespokeEstimator = () => {
                   aria-label="Квадратура"
                 />
                 <div className="flex justify-between text-[10px] tracking-[0.3em] uppercase text-foreground/40 mt-2">
-                  <span>25 м²</span>
+                  <span>10 м²</span>
                   <span>250 м²</span>
                 </div>
               </div>
 
-              {/* Tier */}
               <div>
                 <div className="flex items-baseline justify-between mb-4">
-                  <span className="eyebrow">03 · Ниво</span>
-                  <span className="text-xs text-foreground/50">Материали и завършек</span>
+                  <span className="eyebrow">03 · Ниво на завършване</span>
+                  <span className="text-xs text-foreground/50">Материали и обхват</span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {tiers.map((t) => {
@@ -175,21 +202,29 @@ const BespokeEstimator = () => {
                       <button
                         key={t.id}
                         onClick={() => setTierId(t.id)}
+                        disabled={isBathroom}
                         className={`text-left p-4 border transition-all duration-300 ${
-                          active
+                          isBathroom
+                            ? "border-primary/10 opacity-40 cursor-not-allowed"
+                            : active
                             ? "border-primary bg-primary/10"
                             : "border-primary/20 hover:border-primary/60"
                         }`}
                       >
                         <span
-                          className={`block text-lg font-bold tracking-tight ${
-                            active ? "text-primary" : "text-foreground"
+                          className={`block text-base font-bold tracking-tight ${
+                            active && !isBathroom ? "text-primary" : "text-foreground"
                           }`}
                         >
                           {t.label}
                         </span>
-                        <span className="block text-xs text-foreground/50 mt-1 leading-relaxed">
+                        <span className="block text-[11px] text-foreground/50 mt-1 leading-relaxed">
                           {t.note}
+                        </span>
+                        <span className="block text-[11px] text-primary/80 mt-2 tabular-nums font-semibold">
+                          {t.maxEur
+                            ? `${t.minEur}–${t.maxEur} €/м²`
+                            : `от ${t.minEur} €/м²`}
                         </span>
                       </button>
                     );
@@ -198,18 +233,38 @@ const BespokeEstimator = () => {
               </div>
             </div>
 
-            {/* Result */}
             <div className="lg:col-span-2 p-8 md:p-12 bg-background/70 flex flex-col justify-between gap-8">
               <div>
                 <span className="eyebrow block mb-4">Ориентировъчна инвестиция</span>
-                <div className="space-y-2">
-                  <div className="display-serif text-4xl md:text-5xl text-primary tabular-nums leading-none">
-                    {format(low)} – {format(high)}
+
+                {isBathroom ? (
+                  <div className="space-y-3">
+                    <div className="display-serif text-2xl md:text-3xl text-primary leading-tight">
+                      По договаряне
+                    </div>
+                    <p className="text-sm text-foreground/60 font-light leading-relaxed">
+                      За ремонт на баня цената зависи от материалите, сложността
+                      на изпълнението и класа на санитарията и компонентите.
+                      Точната стойност се определя след оглед на място.
+                    </p>
                   </div>
-                  <div className="text-xs tracking-[0.3em] uppercase text-foreground/50">
-                    лв. без ДДС · труд + материали
+                ) : (
+                  <div className="space-y-2">
+                    <div className="display-serif text-3xl md:text-4xl text-primary tabular-nums leading-none">
+                      {estimate!.highEur
+                        ? `${fmt(estimate!.lowEur)} – ${fmt(estimate!.highEur)} €`
+                        : `от ${fmt(estimate!.lowEur)} €`}
+                    </div>
+                    <div className="text-base md:text-lg text-foreground/80 tabular-nums font-light">
+                      {estimate!.highBgn
+                        ? `${fmt(estimate!.lowBgn)} – ${fmt(estimate!.highBgn)} лв.`
+                        : `от ${fmt(estimate!.lowBgn)} лв.`}
+                    </div>
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-foreground/50 pt-1">
+                      без ДДС · труд + материали
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="hairline h-px my-8" />
 
@@ -222,10 +277,12 @@ const BespokeEstimator = () => {
                     <span>Квадратура</span>
                     <span className="text-foreground">{area} м²</span>
                   </li>
-                  <li className="flex justify-between">
-                    <span>Ниво</span>
-                    <span className="text-foreground">{tier.label}</span>
-                  </li>
+                  {!isBathroom && (
+                    <li className="flex justify-between">
+                      <span>Ниво</span>
+                      <span className="text-foreground">{tier.label}</span>
+                    </li>
+                  )}
                 </ul>
               </div>
 
@@ -239,7 +296,8 @@ const BespokeEstimator = () => {
                 </button>
                 <p className="text-[11px] leading-relaxed text-foreground/45">
                   Диапазонът е ориентировъчен и не представлява оферта. Финалната
-                  цена се формира след оглед на място и одобрен проектен обхват.
+                  цена се формира след оглед на място и одобрен обхват на
+                  работата. Курс: 1 € = 1.95583 лв.
                 </p>
               </div>
             </div>
