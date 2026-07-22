@@ -7,25 +7,25 @@ const LuxuryGuide = () => {
 
   const copy = language === "en"
     ? {
-        eyebrow: "Complimentary dossier",
-        title: "The Renovivo Guide to a Luxury Renovation",
-        lead: "Ten quiet rules our atelier follows on every project — from the discovery visit to the turn-key handover. A private dossier, offered without a form and without noise.",
+        eyebrow: "Free guide",
+        title: "The Renovivo Renovation Guide",
+        lead: "A practical guide with the steps we follow on every project — from the first site visit to handing over the finished home. Free, no email required.",
         bullets: [
-          "How to define a silent budget",
-          "The 3-layer light scheme every home needs",
-          "Turn-key handover — with a flashlight",
+          "How to plan a realistic budget",
+          "What a proper quote should include",
+          "What to check at handover",
         ],
         cta: "Download the guide (PDF)",
         note: "12 pages · 54 KB · No email required",
       }
     : {
-        eyebrow: "Безплатно досие",
-        title: "Ръководството на Renovivo за луксозен ремонт",
-        lead: "Десет тихи правила, които ателието ни спазва при всеки проект — от discovery огледа до предаването „до ключ“. Лично досие, предоставено без формуляр и без шум.",
+        eyebrow: "Безплатно ръководство",
+        title: "Ръководство на Renovivo за ремонт",
+        lead: "Практично ръководство със стъпките, които следваме при всеки проект — от първия оглед до предаването на готовия обект. Безплатно, без имейл.",
         bullets: [
-          "Как да дефинирате „тихия“ бюджет",
-          "Трите слоя светлина, които всеки дом изисква",
-          "Приемане „до ключ“ — с фенерче",
+          "Как да планирате реалистичен бюджет",
+          "Какво трябва да включва добрата оферта",
+          "Какво да проверите при предаването",
         ],
         cta: "Изтеглете ръководството (PDF)",
         note: "12 страници · 54 KB · Без имейл",
