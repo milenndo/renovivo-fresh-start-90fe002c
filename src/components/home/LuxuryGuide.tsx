@@ -7,25 +7,25 @@ const LuxuryGuide = () => {
 
   const copy = language === "en"
     ? {
-        eyebrow: "Complimentary dossier",
-        title: "The Renovivo Guide to a Luxury Renovation",
-        lead: "Ten quiet rules our atelier follows on every project — from the discovery visit to the turn-key handover. A private dossier, offered without a form and without noise.",
+        eyebrow: "Free guide",
+        title: "The Renovivo Renovation Guide",
+        lead: "A practical guide with the steps we follow on every project — from the first site visit to handing over the finished home. Free, no email required.",
         bullets: [
-          "How to define a silent budget",
-          "The 3-layer light scheme every home needs",
-          "Turn-key handover — with a flashlight",
+          "How to plan a realistic budget",
+          "What a proper quote should include",
+          "What to check at handover",
         ],
         cta: "Download the guide (PDF)",
         note: "12 pages · 54 KB · No email required",
       }
     : {
-        eyebrow: "Безплатно досие",
-        title: "Ръководството на Renovivo за луксозен ремонт",
-        lead: "Десет тихи правила, които ателието ни спазва при всеки проект — от discovery огледа до предаването „до ключ“. Лично досие, предоставено без формуляр и без шум.",
+        eyebrow: "Безплатно ръководство",
+        title: "Ръководство на Renovivo за ремонт",
+        lead: "Практично ръководство със стъпките, които следваме при всеки проект — от първия оглед до предаването на готовия обект. Безплатно, без имейл.",
         bullets: [
-          "Как да дефинирате „тихия“ бюджет",
-          "Трите слоя светлина, които всеки дом изисква",
-          "Приемане „до ключ“ — с фенерче",
+          "Как да планирате реалистичен бюджет",
+          "Какво трябва да включва добрата оферта",
+          "Какво да проверите при предаването",
         ],
         cta: "Изтеглете ръководството (PDF)",
         note: "12 страници · 54 KB · Без имейл",
@@ -49,17 +49,17 @@ const LuxuryGuide = () => {
               <div className="relative bg-foreground text-background p-10 aspect-[3/4] flex flex-col justify-between shadow-2xl border border-primary/30">
                 <div>
                   <p className="text-[10px] tracking-[0.3em] text-primary font-semibold uppercase mb-8">
-                    Renovivo · Atelier
+                    Renovivo
                   </p>
                   <BookOpen className="h-8 w-8 text-primary mb-6" strokeWidth={1} />
                   <h3 className="font-heading text-3xl leading-tight">
-                    {language === "en" ? "The Luxury\nRenovation\nGuide" : "Ръководство\nза луксозен\nремонт"}
+                    {language === "en" ? "The Renovation\nGuide" : "Ръководство\nза ремонт"}
                   </h3>
                 </div>
                 <div>
                   <div className="h-px bg-primary/40 mb-4" />
                   <p className="text-[10px] tracking-[0.25em] text-background/60 uppercase">
-                    {language === "en" ? "Ten quiet rules · Ed. 01" : "Десет тихи правила · Изд. 01"}
+                    {language === "en" ? "Edition 01" : "Издание 01"}
                   </p>
                 </div>
               </div>
