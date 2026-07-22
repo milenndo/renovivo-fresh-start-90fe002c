@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -10,9 +10,11 @@ import {
   Zap,
   Wrench,
   ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Service images
 import fullRenovationImg from "@/assets/images/services/full-renovation.jpg";
@@ -28,269 +30,361 @@ import flooringImg from "@/assets/images/services/flooring.jpg";
 import electricalImg from "@/assets/images/services/electrical.jpg";
 import plumbingImg from "@/assets/images/services/plumbing.jpg";
 
-const categories = [
-  {
-    id: "full-renovations",
-    title: "Цялостни ремонти",
-    bgClass: "bg-background",
-    services: [
-      {
-        id: "full-renovation",
-        path: "/services/full-renovation",
-        icon: Home,
-        title: "Цялостен Ремонт",
-        description: "Пълна трансформация на жилища - от проект до реализация с фиксиран бюджет.",
-        image: fullRenovationImg,
-      },
-      {
-        id: "bathroom",
-        path: "/services/bathroom",
-        icon: Droplets,
-        title: "Ремонт на Баня",
-        description: "Комплексно изпълнение с хидроизолация и професионален монтаж.",
-        image: bathroomImg,
-      },
-      {
-        id: "kitchen",
-        path: "/services/kitchen",
-        icon: Grid3X3,
-        title: "Ремонт на Кухня",
-        description: "Цялостна изработка на кухни по поръчка, съобразени с вашето помещение.",
-        image: kitchenImg,
-      },
-    ],
-  },
-  {
-    id: "specialized-coatings",
-    title: "Специализирани покрития",
-    bgClass: "bg-muted/30",
-    services: [
-      {
-        id: "microcement",
-        path: "/services/microcement",
-        icon: Layers,
-        title: "Микроцимент",
-        description: "Безфугово покритие за стени и подове с модерен индустриален вид.",
-        image: microcementImg,
-      },
-      {
-        id: "terrazzo",
-        path: "/services/terrazzo",
-        icon: Layers,
-        title: "Terrazzo",
-        description: "Класическа елегантност с мраморни фрагменти в съвременно изпълнение.",
-        image: terrazzoImg,
-      },
-      {
-        id: "flake-floor",
-        path: "/services/flake-floor",
-        icon: Layers,
-        title: "Flake Floor",
-        description: "Декоративни подове с флейк ефект - издръжливи и естетични.",
-        image: flakeFloorImg,
-      },
-      {
-        id: "stone-carpet",
-        path: "/services/stone-carpet",
-        icon: Layers,
-        title: "Каменен Килим",
-        description: "Естествена красота от речни камъчета за външни и вътрешни пространства.",
-        image: stoneCarpetImg,
-      },
-    ],
-  },
-  {
-    id: "preparation-finishing",
-    title: "Подготовка и довършване",
-    bgClass: "bg-secondary/20",
-    services: [
-      {
-        id: "demolition",
-        path: "/services/demolition",
-        icon: Hammer,
-        title: "Къртене",
-        description: "Професионално къртене и демонтаж с изнасяне на отпадъци.",
-        image: karteneImg,
-      },
-      {
-        id: "painting",
-        path: "/services/shpaklovka",
-        icon: Paintbrush,
-        title: "Шпакловка и боя",
-        description: "Перфектно гладки стени и безупречно боядисване.",
-        image: paintingImg,
-      },
-      {
-        id: "flooring",
-        path: "/services/flooring",
-        icon: Grid3X3,
-        title: "Настилки",
-        description: "Ламинат, винил, паркет и плочки с прецизен монтаж.",
-        image: flooringImg,
-      },
-      {
-        id: "electrical",
-        path: "/services/electrical",
-        icon: Zap,
-        title: "Електро услуги",
-        description: "Нови инсталации и ремонт от сертифицирани специалисти.",
-        image: electricalImg,
-      },
-      {
-        id: "plumbing",
-        path: "/services/plumbing",
-        icon: Wrench,
-        title: "ВиК услуги",
-        description: "Водопровод и канализация с гаранция за качество.",
-        image: plumbingImg,
-      },
-    ],
-  },
-];
-
 const Services = () => {
-  const [activeCategory, setActiveCategory] = useState(categories[0].id);
+  const { t } = useLanguage();
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const categories = [
+    {
+      id: "full-renovations",
+      titleKey: "services.category.full",
+      icon: Home,
+      gradient: "from-primary/20 via-primary/5 to-transparent",
+      accentColor: "primary",
+      services: [
+        {
+          id: "full-renovation",
+          path: "/services/full-renovation",
+          icon: Home,
+          titleKey: "service.fullRenovation.title",
+          descKey: "service.fullRenovation.desc",
+          image: fullRenovationImg,
+          featured: true,
+        },
+        {
+          id: "bathroom",
+          path: "/services/bathroom",
+          icon: Droplets,
+          titleKey: "service.bathroom.title",
+          descKey: "service.bathroom.desc",
+          image: bathroomImg,
+        },
+        {
+          id: "kitchen",
+          path: "/services/kitchen",
+          icon: Grid3X3,
+          titleKey: "service.kitchen.title",
+          descKey: "service.kitchen.desc",
+          image: kitchenImg,
+        },
+      ],
+    },
+    {
+      id: "specialized-coatings",
+      titleKey: "services.category.coatings",
+      icon: Layers,
+      gradient: "from-amber-500/20 via-amber-500/5 to-transparent",
+      accentColor: "amber",
+      services: [
+        {
+          id: "microcement",
+          path: "/services/microcement",
+          icon: Layers,
+          titleKey: "service.microcement.title",
+          descKey: "service.microcement.desc",
+          image: microcementImg,
+          featured: true,
+        },
+        {
+          id: "terrazzo",
+          path: "/services/terrazzo",
+          icon: Sparkles,
+          titleKey: "service.terrazzo.title",
+          descKey: "service.terrazzo.desc",
+          image: terrazzoImg,
+        },
+        {
+          id: "flake-floor",
+          path: "/services/flake-floor",
+          icon: Layers,
+          titleKey: "service.flakeFloor.title",
+          descKey: "service.flakeFloor.desc",
+          image: flakeFloorImg,
+        },
+        {
+          id: "stone-carpet",
+          path: "/services/stone-carpet",
+          icon: Layers,
+          titleKey: "service.stoneCarpet.title",
+          descKey: "service.stoneCarpet.desc",
+          image: stoneCarpetImg,
+        },
+      ],
+    },
+    {
+      id: "preparation-finishing",
+      titleKey: "services.category.finishing",
+      icon: Paintbrush,
+      gradient: "from-foreground/10 via-foreground/5 to-transparent",
+      accentColor: "foreground",
+      services: [
+        {
+          id: "demolition",
+          path: "/services/demolition",
+          icon: Hammer,
+          titleKey: "service.demolition.title",
+          descKey: "service.demolition.desc",
+          image: karteneImg,
+        },
+        {
+          id: "painting",
+          path: "/services/shpaklovka",
+          icon: Paintbrush,
+          titleKey: "service.painting.title",
+          descKey: "service.painting.desc",
+          image: paintingImg,
+        },
+        {
+          id: "flooring",
+          path: "/services/flooring",
+          icon: Grid3X3,
+          titleKey: "service.flooring.title",
+          descKey: "service.flooring.desc",
+          image: flooringImg,
+        },
+        {
+          id: "electrical",
+          path: "/services/electrical",
+          icon: Zap,
+          titleKey: "service.electrical.title",
+          descKey: "service.electrical.desc",
+          image: electricalImg,
+        },
+        {
+          id: "plumbing",
+          path: "/services/plumbing",
+          icon: Wrench,
+          titleKey: "service.plumbing.title",
+          descKey: "service.plumbing.desc",
+          image: plumbingImg,
+        },
+      ],
+    },
+  ];
+
+  const [activeCategory, setActiveCategory] = useState(categories[0].id);
   const currentCategory = categories.find((c) => c.id === activeCategory) || categories[0];
 
   return (
-    <section className="py-16 md:py-24">
-      <div className="container mx-auto px-4">
+    <section ref={sectionRef} className="py-20 md:py-32 bg-background relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/3 to-transparent opacity-50" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">
-            Услуги
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-4">
-            Какво можем да направим за вас
+        <div className={cn(
+          "text-center mb-16 md:mb-20 transition-all duration-1000",
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        )}>
+          <div className="inline-flex items-center gap-2 bg-primary/10 rounded-full px-4 py-2 mb-6">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+              {t('services.label')}
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="text-foreground">{t('services.title').split(' ').slice(0, -1).join(' ')} </span>
+            <span className="text-primary">{t('services.title').split(' ').slice(-1)}</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Изберете категория, за да разгледате нашите услуги
+          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            {t('services.subtitle')}
           </p>
         </div>
 
-        {/* Main Layout - Sidebar + Content */}
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
-          {/* Sidebar - Category Navigation */}
-          <div className="lg:w-72 flex-shrink-0">
-            <div className="sticky top-24 space-y-2">
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={cn(
-                    "w-full text-left px-5 py-4 rounded-xl transition-all duration-300 group",
-                    activeCategory === category.id
-                      ? "bg-foreground text-background shadow-lg"
-                      : "bg-muted/50 hover:bg-muted text-foreground"
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "block font-semibold text-base transition-colors",
-                      activeCategory === category.id
-                        ? "text-primary"
-                        : "group-hover:text-primary"
-                    )}
-                  >
-                    {category.title}
-                  </span>
-                  <span
-                    className={cn(
-                      "text-sm mt-1 block",
-                      activeCategory === category.id
-                        ? "text-background/70"
-                        : "text-muted-foreground"
-                    )}
-                  >
-                    {category.services.length} услуги
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
+        {/* Category Tabs - Pill Style */}
+        <div className={cn(
+          "flex flex-wrap justify-center gap-3 mb-12 transition-all duration-1000 delay-200",
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        )}>
+          {categories.map((category) => {
+            const Icon = category.icon;
+            return (
+              <button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                className={cn(
+                  "group flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300",
+                  activeCategory === category.id
+                    ? "bg-foreground text-background shadow-lg shadow-foreground/20 scale-105"
+                    : "bg-muted hover:bg-muted/80 text-foreground hover:shadow-md"
+                )}
+              >
+                <Icon className={cn(
+                  "h-5 w-5 transition-colors",
+                  activeCategory === category.id ? "text-primary" : "text-muted-foreground group-hover:text-primary"
+                )} />
+                <span>{t(category.titleKey)}</span>
+                <span className={cn(
+                  "ml-1 px-2 py-0.5 rounded-full text-xs font-bold transition-colors",
+                  activeCategory === category.id
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted-foreground/20 text-muted-foreground"
+                )}>
+                  {category.services.length}
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-          {/* Content Panel */}
-          <div className={cn("flex-1 rounded-2xl p-6 md:p-8", currentCategory.bgClass)}>
-            <h3 className="text-2xl font-bold mb-6 text-foreground">
-              {currentCategory.title}
-            </h3>
+        {/* Services Grid - Masonry-like Layout */}
+        <div className={cn(
+          "transition-all duration-700 delay-300",
+          isVisible ? "opacity-100" : "opacity-0"
+        )}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+            {currentCategory.services.map((service, index) => {
+              const Icon = service.icon;
+              const isFeatured = service.featured;
+              const isHovered = hoveredCard === service.id;
 
-            {/* Services Grid - Asymmetric Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {currentCategory.services.map((service, index) => (
+              return (
                 <Link
                   key={service.id}
                   to={service.path}
                   className={cn(
-                    "group relative overflow-hidden rounded-xl bg-card shadow-sm hover:shadow-xl transition-all duration-300",
-                    // Make first item larger on larger screens
-                    index === 0 && currentCategory.services.length > 2 && "md:col-span-2"
+                    "group relative overflow-hidden rounded-2xl transition-all duration-500",
+                    isFeatured && "lg:col-span-2 lg:row-span-2",
+                    isHovered ? "scale-[1.02] z-10" : "scale-100"
                   )}
+                  onMouseEnter={() => setHoveredCard(service.id)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                  }}
                 >
-                  <div
-                    className={cn(
-                      "flex",
-                      index === 0 && currentCategory.services.length > 2
-                        ? "flex-col md:flex-row"
-                        : "flex-col"
-                    )}
-                  >
-                    {/* Image */}
-                    <div
-                      className={cn(
-                        "relative overflow-hidden",
-                        index === 0 && currentCategory.services.length > 2
-                          ? "h-48 md:h-auto md:w-1/2"
-                          : "h-40"
-                      )}
-                    >
+                  {/* Card Container */}
+                  <div className={cn(
+                    "relative h-full min-h-[280px] md:min-h-[320px] bg-card rounded-2xl overflow-hidden",
+                    "shadow-lg hover:shadow-2xl transition-shadow duration-500",
+                    "border border-border/50 hover:border-primary/30"
+                  )}>
+                    {/* Background Image with Overlay */}
+                    <div className="absolute inset-0">
                       <img
                         src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        alt={t(service.titleKey)}
+                        loading="lazy"
+                        decoding="async"
+                        className={cn(
+                          "w-full h-full object-cover transition-transform duration-700",
+                          isHovered ? "scale-110" : "scale-100"
+                        )}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      {/* Gradient Overlay */}
+                      <div className={cn(
+                        "absolute inset-0 transition-opacity duration-500",
+                        "bg-gradient-to-t from-foreground via-foreground/60 to-foreground/20",
+                        isHovered ? "opacity-90" : "opacity-80"
+                      )} />
+                      
+                      {/* Animated Shine Effect */}
+                      <div className={cn(
+                        "absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent",
+                        "translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out"
+                      )} />
                     </div>
 
                     {/* Content */}
-                    <div
-                      className={cn(
-                        "p-5",
-                        index === 0 && currentCategory.services.length > 2
-                          ? "md:w-1/2 md:flex md:flex-col md:justify-center"
-                          : ""
-                      )}
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                          <service.icon className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        </div>
-                        <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                          {service.title}
-                        </h4>
+                    <div className="relative h-full p-6 md:p-8 flex flex-col justify-end">
+                      {/* Icon Badge */}
+                      <div className={cn(
+                        "absolute top-6 left-6 w-12 h-12 rounded-xl flex items-center justify-center",
+                        "bg-primary/90 backdrop-blur-sm shadow-lg",
+                        "transition-transform duration-300",
+                        isHovered ? "scale-110 rotate-3" : "scale-100"
+                      )}>
+                        <Icon className="h-6 w-6 text-primary-foreground" />
                       </div>
-                      <p className="text-muted-foreground text-sm leading-relaxed">
-                        {service.description}
-                      </p>
-                      <div className="mt-4 flex items-center text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
-                        <span>Научете повече</span>
-                        <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+
+                      {/* Featured Badge */}
+                      {isFeatured && (
+                        <div className="absolute top-6 right-6">
+                          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider">
+                            <Sparkles className="h-3 w-3" />
+                            {t('services.featured') || 'Featured'}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Title & Description */}
+                      <div className="space-y-3">
+                        <h3 className={cn(
+                          "text-2xl md:text-3xl font-bold text-background transition-transform duration-300",
+                          isHovered ? "translate-y-0" : "translate-y-1"
+                        )}>
+                          {t(service.titleKey)}
+                        </h3>
+                        <p className={cn(
+                          "text-background/80 text-sm md:text-base leading-relaxed line-clamp-2 transition-all duration-300",
+                          isHovered ? "opacity-100 translate-y-0" : "opacity-90 translate-y-1"
+                        )}>
+                          {t(service.descKey)}
+                        </p>
+                      </div>
+
+                      {/* CTA Arrow */}
+                      <div className={cn(
+                        "mt-6 flex items-center gap-2 text-primary font-semibold transition-all duration-300",
+                        isHovered ? "gap-4" : "gap-2"
+                      )}>
+                        <span className="text-sm uppercase tracking-wider">{t('services.learnMore')}</span>
+                        <div className={cn(
+                          "w-10 h-10 rounded-full bg-primary flex items-center justify-center transition-all duration-300",
+                          isHovered ? "w-12" : "w-10"
+                        )}>
+                          <ArrowRight className={cn(
+                            "h-5 w-5 text-primary-foreground transition-transform duration-300",
+                            isHovered ? "translate-x-1" : ""
+                          )} />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </Link>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </div>
 
         {/* View All Button */}
-        <div className="text-center mt-12">
+        <div className={cn(
+          "text-center mt-16 transition-all duration-1000 delay-500",
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        )}>
           <Link to="/services">
-            <Button variant="outline" size="lg" className="font-semibold">
-              Разгледайте всички услуги
-              <ArrowRight className="h-4 w-4 ml-2" />
+            <Button 
+              size="lg" 
+              className="group relative overflow-hidden bg-foreground hover:bg-foreground/90 text-background px-10 py-6 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300"
+            >
+              <span className="relative z-10 flex items-center gap-3">
+                {t('services.viewAll')}
+                <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform duration-300" />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Button>
           </Link>
         </div>

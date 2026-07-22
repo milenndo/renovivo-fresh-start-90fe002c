@@ -50,14 +50,15 @@ const InteriorDesign = () => {
   return (
     <>
       <Helmet>
-        <title>Интериорен дизайн в София | 3D проект и авторски надзор – Renovivo</title>
-        <meta
-          name="description"
-          content="Интериорен дизайн в София: концепция, 3D визуализация, техническа документация и авторски надзор. Готов проект преди старта на ремонта."
+        <title>Интериорен дизайн София | Renovivo - 3D проектиране и визуализация</title>
+        <meta 
+          name="description" 
+          content="Професионален интериорен дизайн в София - цялостна концепция, 3D визуализация, избор на материали и цветове. Превърнете мечтите си в реалност с Renovivo." 
         />
+        <meta name="keywords" content="интериорен дизайн София, 3D визуализация, проектиране на интериор, дизайн на апартамент, интериорен проект" />
         <link rel="canonical" href="https://renovivo.bg/services/interior-design" />
-        <meta property="og:title" content="Интериорен дизайн в София – Renovivo" />
-        <meta property="og:description" content="Концепция, 3D визуализация, техническа документация и авторски надзор за интериор в София." />
+        <meta property="og:title" content="Интериорен дизайн София | Renovivo" />
+        <meta property="og:description" content="Цялостна концепция за вашия интериор - от идея до реализация с 3D визуализация." />
         <meta property="og:url" content="https://renovivo.bg/services/interior-design" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>

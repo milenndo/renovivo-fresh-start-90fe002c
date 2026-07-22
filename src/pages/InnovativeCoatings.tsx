@@ -6,7 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { Phone, Sparkles, Check, ArrowRight, Shield, Droplets, Clock, Palette, Layers, ThermometerSun, Paintbrush, Hammer } from "lucide-react";
-
+// PriceTable removed — pricing via free inspection
+import VisualBreadcrumb from "@/components/VisualBreadcrumb";
 
 const innovativeServices = services.filter(s => s.isInnovative);
 
@@ -55,10 +56,10 @@ const comparisonData = [
   },
   {
     feature: "Ориентировъчна цена",
-    microcement: "По запитване",
-    terrazzo: "По запитване",
-    flakeFloor: "По запитване",
-    stoneCarpet: "По запитване"
+    microcement: "67 лв./кв.м",
+    terrazzo: "133 лв./кв.м",
+    flakeFloor: "95 лв./кв.м",
+    stoneCarpet: "114 лв./кв.м"
   }
 ];
 
@@ -125,14 +126,12 @@ const InnovativeCoatings = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Микроцимент, Terrazzo и декоративни покрития в София | Renovivo</title>
-        <meta
-          name="description"
-          content="Иновативни безшевни покрития в София: микроцимент, Terrazzo, Flake Floor и каменен килим. Модерна алтернатива на плочки за бани, кухни и подове."
-        />
+        <title>Иновативни покрития София | Микроцимент, Terrazzo, Flake Floor - Renovivo</title>
+        <meta name="description" content="Модерни безшевни покрития в София - микроцимент, Terrazzo, Flake Floor и каменен килим. Иновативни решения за под и стени. Дълготрайност до 75 години!" />
+        <meta name="keywords" content="микроцимент София, Terrazzo под, Flake Floor, каменен килим, безшевни подове, декоративни покрития, иновативни настилки" />
         <link rel="canonical" href="https://renovivo.bg/innovative-coatings" />
-        <meta property="og:title" content="Микроцимент и декоративни покрития в София – Renovivo" />
-        <meta property="og:description" content="Микроцимент, Terrazzo, Flake Floor и каменен килим – модерни безшевни покрития в София." />
+        <meta property="og:title" content="Иновативни покрития София | Renovivo" />
+        <meta property="og:description" content="Микроцимент, Terrazzo, Flake Floor и каменен килим - модерни безшевни покрития." />
         <meta property="og:url" content="https://renovivo.bg/innovative-coatings" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(coatingsSchema)}</script>
@@ -141,6 +140,11 @@ const InnovativeCoatings = () => {
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 bg-gradient-to-br from-primary/10 via-background to-accent/10">
         <div className="container mx-auto px-4">
+          {/* Breadcrumb */}
+          <VisualBreadcrumb 
+            items={[{ label: "Иновативни покрития" }]} 
+            className="mb-8"
+          />
           <div className="max-w-4xl mx-auto text-center">
             <Badge variant="secondary" className="mb-6 px-4 py-2 text-sm">
               <Sparkles className="w-4 h-4 mr-2" />
@@ -218,6 +222,10 @@ const InnovativeCoatings = () => {
                     <img
                       src={service.image}
                       alt={service.title}
+                      width={800}
+                      height={500}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     
@@ -303,6 +311,8 @@ const InnovativeCoatings = () => {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      {/* Pricing section removed — users request pricing via free on-site inspection */}
 
       {/* Comparison Table */}
       <section id="comparison" className="py-20">
@@ -365,6 +375,10 @@ const InnovativeCoatings = () => {
                   <img
                     src={img}
                     alt={`${service.title} галерия`}
+                    width={300}
+                    height={300}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-colors duration-300 flex items-center justify-center">
