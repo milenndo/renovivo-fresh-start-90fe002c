@@ -67,7 +67,7 @@ const translations: Record<Language, Record<string, string>> = {
     'service.microcement.title': 'Микроцимент',
     'service.microcement.desc': 'Безфугово покритие за стени и подове с модерен индустриален вид.',
     'service.terrazzo.title': 'Terrazzo',
-    'service.terrazzo.desc': 'Класическа елегантност с мраморни фрагменти в съвременно изпълнение.',
+    'service.terrazzo.desc': 'Настилка с мраморни фрагменти в съвременно изпълнение.',
     'service.flakeFloor.title': 'Flake Floor',
     'service.flakeFloor.desc': 'Декоративни подове с флейк ефект - издръжливи и естетични.',
     'service.stoneCarpet.title': 'Каменен Килим',
