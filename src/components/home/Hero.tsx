@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import heroPoster from "@/assets/images/hero-poster.jpg";
+import heroKitchen from "@/assets/images/hero-kitchen.jpg.asset.json";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
