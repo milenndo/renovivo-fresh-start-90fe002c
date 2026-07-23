@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Phone, Mail, Clock, Menu, X, Facebook, Instagram, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/Renovivo_logover.2.svg";
+import Wordmark from "@/components/Wordmark";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Header = () => {
@@ -90,17 +90,8 @@ const Header = () => {
         <div className="container-custom py-1">
           {/* Mobile Layout */}
           <div className="relative lg:hidden flex items-center justify-center h-16">
-            <Link to="/" className="flex items-center justify-center">
-              <img
-                src={logo}
-                alt="Renovivo - Every Detail Matters"
-                width={180}
-                height={48}
-                loading="eager"
-                decoding="sync"
-                fetchPriority="high"
-                className="h-12 w-auto"
-              />
+            <Link to="/" className="flex items-center justify-center text-foreground" aria-label="Renovivo — Every Detail Matters">
+              <Wordmark className="text-2xl" showTagline />
             </Link>
 
             <button
@@ -119,18 +110,9 @@ const Header = () => {
           {/* Desktop / Tablet Layout */}
           <div className="hidden lg:flex items-center py-2">
             {/* Logo left */}
-            <div className="flex items-center shrink-0">
-              <Link to="/" className="flex items-center">
-                <img
-                  src={logo}
-                  alt="Renovivo - Every Detail Matters"
-                  width={180}
-                  height={48}
-                  loading="eager"
-                  decoding="sync"
-                  fetchPriority="high"
-                  className="h-12 w-auto"
-                />
+            <div className="flex items-center shrink-0 text-foreground">
+              <Link to="/" className="flex items-center" aria-label="Renovivo — Every Detail Matters">
+                <Wordmark className="text-3xl" showTagline />
               </Link>
             </div>
 

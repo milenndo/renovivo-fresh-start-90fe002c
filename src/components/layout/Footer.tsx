@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Facebook, Instagram, Clock, Cookie, Globe } from "lucide-react";
-import logo from "@/assets/Renovivo_logover.2.svg";
+import Wordmark from "@/components/Wordmark";
 import { useCookieConsentContext } from "@/contexts/CookieConsentContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -29,16 +29,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Company Info */}
           <div className="space-y-6">
-            <img 
-              src={logo} 
-              alt="Renovivo" 
-              width={160}
-              height={40}
-              loading="lazy"
-              decoding="async"
-              className="h-10 w-auto brightness-0 invert"
-              style={{ aspectRatio: '160/40' }}
-            />
+            <Link to="/" className="inline-block text-background" aria-label="Renovivo — Every Detail Matters">
+              <Wordmark className="text-3xl" showTagline />
+            </Link>
             <p className="text-background/70 text-sm leading-relaxed">
               {t('footer.description')}
             </p>

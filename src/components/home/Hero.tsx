@@ -77,8 +77,11 @@ const Hero = () => {
                   <span className="eyebrow">{t('hero.badge') || 'Ремонт на жилища'}</span>
                 </div>
                 <h1 className="text-6xl sm:text-7xl md:text-[9rem] lg:text-[10rem] display-serif text-foreground uppercase">
-                  RENO<br /><span className="text-primary">VIVO</span>
+                  <span className="text-primary">R</span>ENO<br /><span className="text-primary">V</span>IVO
                 </h1>
+                <p className="text-primary text-sm md:text-base tracking-[0.5em] uppercase font-medium pt-2">
+                  Every Detail Matters
+                </p>
               </div>
 
               <div className="max-w-sm space-y-8">
