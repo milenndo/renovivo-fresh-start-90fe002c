@@ -5,20 +5,20 @@ interface WordmarkProps {
 }
 
 /**
- * Renovivo wordmark. "R" is gold (primary); remaining letters use
- * currentColor so they adapt to the surrounding background (white on dark,
- * black on light) via the parent's text color utility.
+ * Renovivo wordmark. Capital gold "R" + lowercase letters that inherit
+ * currentColor (white on dark backgrounds, black on light).
+ * Tagline "Every Detail Matters" animates with a subtle shimmer.
  */
 const Wordmark = ({ className = "", showTagline = false, taglineClassName = "" }: WordmarkProps) => {
   return (
     <span className={`inline-flex flex-col leading-none ${className}`}>
-      <span className="display-serif uppercase leading-none">
+      <span className="display-serif normal-case leading-none tracking-tight">
         <span className="text-primary">R</span>
         <span>enovivo</span>
       </span>
       {showTagline && (
         <span
-          className={`mt-1 text-[10px] tracking-[0.35em] uppercase text-primary/80 font-medium ${taglineClassName}`}
+          className={`mt-1 text-[10px] tracking-[0.35em] uppercase font-medium wordmark-tagline ${taglineClassName}`}
         >
           Every Detail Matters
         </span>
