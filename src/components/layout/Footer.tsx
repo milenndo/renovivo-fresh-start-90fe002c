@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Facebook, Instagram, Clock, Cookie, Globe } from "lucide-react";
-import logo from "@/assets/Renovivo_logover.2.svg";
+import Wordmark from "@/components/Wordmark";
 import { useCookieConsentContext } from "@/contexts/CookieConsentContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
