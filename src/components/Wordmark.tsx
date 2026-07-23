@@ -18,7 +18,7 @@ const Wordmark = ({ className = "", showTagline = false, taglineClassName = "" }
       </span>
       {showTagline && (
         <span
-          className={`mt-1 text-[8px] sm:text-[9px] tracking-[0.35em] uppercase font-medium wordmark-tagline ${taglineClassName}`}
+          className={`mt-1 text-[8px] sm:text-[9px] tracking-[0.35em] uppercase font-medium wordmark-tagline whitespace-nowrap pl-[0.35em] ${taglineClassName}`}
         >
           Every Detail Matters
         </span>
