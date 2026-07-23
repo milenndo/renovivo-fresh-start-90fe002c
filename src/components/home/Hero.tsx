@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import heroPoster from "@/assets/images/hero-poster.jpg";
+import heroKitchen from "@/assets/images/hero-kitchen.jpg.asset.json";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
@@ -41,16 +42,14 @@ const Hero = () => {
           {/* Cinematic backdrop for the top panel only */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <img
-              src={heroPoster}
-              alt="Renovivo — ремонти в София"
+              src={heroKitchen.url}
+              alt="Renovivo — луксозен интериор след ремонт"
               width={1920}
               height={1080}
               fetchPriority="high"
               decoding="sync"
               loading="eager"
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                videoLoaded && !prefersReducedMotion ? "opacity-0" : "opacity-20"
-              }`}
+              className="absolute inset-0 w-full h-full object-cover"
             />
             {!prefersReducedMotion && (
               <video
@@ -59,13 +58,13 @@ const Hero = () => {
                 onCanPlay={() => setVideoLoaded(true)}
                 aria-label="Интериор след ремонт"
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                  videoLoaded ? "opacity-25" : "opacity-0"
+                  videoLoaded ? "opacity-30" : "opacity-0"
                 }`}
               >
                 <source src="/videos/hero-background.webm?v=2" type="video/webm" />
               </video>
             )}
-            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
+            <div className="absolute inset-0 bg-black/60" />
           </div>
 
           {/* Editorial header */}

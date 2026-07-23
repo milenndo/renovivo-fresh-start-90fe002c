@@ -11,14 +11,14 @@ interface WordmarkProps {
  */
 const Wordmark = ({ className = "", showTagline = false, taglineClassName = "" }: WordmarkProps) => {
   return (
-    <span className={`inline-flex flex-col leading-none ${className}`}>
+    <span className={`inline-flex flex-col items-center leading-none ${className}`}>
       <span className="display-serif normal-case leading-none tracking-tight">
         <span className="text-primary">R</span>
         <span>enovivo</span>
       </span>
       {showTagline && (
         <span
-          className={`mt-1 text-[10px] tracking-[0.35em] uppercase font-medium wordmark-tagline ${taglineClassName}`}
+          className={`mt-1 text-[8px] sm:text-[9px] tracking-[0.35em] uppercase font-medium wordmark-tagline ${taglineClassName}`}
         >
           Every Detail Matters
         </span>
