@@ -110,18 +110,9 @@ const Header = () => {
           {/* Desktop / Tablet Layout */}
           <div className="hidden lg:flex items-center py-2">
             {/* Logo left */}
-            <div className="flex items-center shrink-0">
-              <Link to="/" className="flex items-center">
-                <img
-                  src={logo}
-                  alt="Renovivo - Every Detail Matters"
-                  width={180}
-                  height={48}
-                  loading="eager"
-                  decoding="sync"
-                  fetchPriority="high"
-                  className="h-12 w-auto"
-                />
+            <div className="flex items-center shrink-0 text-foreground">
+              <Link to="/" className="flex items-center" aria-label="Renovivo — Every Detail Matters">
+                <Wordmark className="text-3xl" showTagline />
               </Link>
             </div>
 
