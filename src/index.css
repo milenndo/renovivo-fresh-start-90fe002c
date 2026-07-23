@@ -176,3 +176,24 @@
   border: 0 !important;
   box-shadow: none !important;
 }
+
+/* Wordmark tagline: gold gradient shimmer sweep */
+.wordmark-tagline {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.55) 0%,
+    hsl(var(--primary)) 45%,
+    hsl(43 90% 78%) 50%,
+    hsl(var(--primary)) 55%,
+    hsl(var(--primary) / 0.55) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: wordmarkShimmer 4.5s ease-in-out infinite;
+}
+@keyframes wordmarkShimmer {
+  0%, 100% { background-position: 200% 0; }
+  50% { background-position: -200% 0; }
+}
