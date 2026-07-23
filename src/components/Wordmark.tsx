@@ -12,7 +12,7 @@ interface WordmarkProps {
 const Wordmark = ({ className = "", showTagline = false, taglineClassName = "" }: WordmarkProps) => {
   return (
     <span className={`inline-flex flex-col leading-none ${className}`}>
-      <span className="font-display font-bold tracking-tight uppercase leading-none">
+      <span className="display-serif uppercase leading-none">
         <span className="text-primary">R</span>
         <span>enovivo</span>
       </span>
