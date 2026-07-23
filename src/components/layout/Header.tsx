@@ -91,7 +91,7 @@ const Header = () => {
           {/* Mobile Layout */}
           <div className="relative lg:hidden flex items-center justify-center h-16">
             <Link to="/" className="flex items-center justify-center text-foreground" aria-label="Renovivo — Every Detail Matters">
-              <Wordmark className="text-2xl" showTagline />
+              <Wordmark className="text-4xl sm:text-5xl" showTagline />
             </Link>
 
             <button
