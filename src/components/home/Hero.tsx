@@ -76,10 +76,10 @@ const Hero = () => {
                   <span className="h-px w-8 bg-primary" />
                   <span className="eyebrow">{t('hero.badge') || 'Ремонт на жилища'}</span>
                 </div>
-                <h1 className="text-6xl sm:text-7xl md:text-[9rem] lg:text-[10rem] display-serif text-foreground uppercase">
-                  <span className="text-primary">R</span>ENO<br /><span className="text-primary">V</span>IVO
+                <h1 className="text-6xl sm:text-7xl md:text-[9rem] lg:text-[10rem] display-serif text-foreground tracking-tight">
+                  <span className="text-primary">R</span>eno<br /><span className="text-primary">v</span>ivo
                 </h1>
-                <p className="text-primary text-sm md:text-base tracking-[0.5em] uppercase font-medium pt-2">
+                <p className="text-sm md:text-base tracking-[0.5em] uppercase font-medium pt-2 wordmark-tagline">
                   Every Detail Matters
                 </p>
               </div>
