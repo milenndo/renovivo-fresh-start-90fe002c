@@ -90,17 +90,8 @@ const Header = () => {
         <div className="container-custom py-1">
           {/* Mobile Layout */}
           <div className="relative lg:hidden flex items-center justify-center h-16">
-            <Link to="/" className="flex items-center justify-center">
-              <img
-                src={logo}
-                alt="Renovivo - Every Detail Matters"
-                width={180}
-                height={48}
-                loading="eager"
-                decoding="sync"
-                fetchPriority="high"
-                className="h-12 w-auto"
-              />
+            <Link to="/" className="flex items-center justify-center text-foreground" aria-label="Renovivo — Every Detail Matters">
+              <Wordmark className="text-2xl" showTagline />
             </Link>
 
             <button
