@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Phone, Mail, Clock, Menu, X, Facebook, Instagram, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/Renovivo_logover.2.svg";
+import Wordmark from "@/components/Wordmark";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Header = () => {
