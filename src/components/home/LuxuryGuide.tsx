@@ -91,18 +91,15 @@ const LuxuryGuide = () => {
             </ul>
 
             <div className="flex flex-wrap items-center gap-6">
-              <a
-                href="/guides/renovivo-luxury-renovation-guide.pdf"
-                download
+              <Button
+                type="button"
+                onClick={() => setDialogOpen(true)}
+                size="lg"
+                className="group bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-none px-8 py-6 tracking-wider uppercase text-xs"
               >
-                <Button
-                  size="lg"
-                  className="group bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-none px-8 py-6 tracking-wider uppercase text-xs"
-                >
-                  <Download className="h-4 w-4 mr-3 group-hover:translate-y-0.5 transition-transform" />
-                  {copy.cta}
-                </Button>
-              </a>
+                <Download className="h-4 w-4 mr-3 group-hover:translate-y-0.5 transition-transform" />
+                {copy.cta}
+              </Button>
               <span className="text-xs text-muted-foreground tracking-wider uppercase">
                 {copy.note}
               </span>
@@ -110,6 +107,7 @@ const LuxuryGuide = () => {
           </div>
         </div>
       </div>
+      <GuideDownloadDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </section>
   );
 };
