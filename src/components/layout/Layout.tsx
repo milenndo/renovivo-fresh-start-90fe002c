@@ -79,6 +79,7 @@ const Layout = ({ children }: LayoutProps) => {
         onSave={savePreferences}
       />
 
+      <FloatingContact />
     </div>
   );
 };
