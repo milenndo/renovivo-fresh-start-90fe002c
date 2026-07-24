@@ -1,6 +1,6 @@
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')?.replace(/[^\x20-\x7E]/g, '').trim();
 const TO_EMAIL = 'office@renovivo.bg';
 const FROM_EMAIL = 'Renovivo <onboarding@resend.dev>';
 

@@ -1,7 +1,9 @@
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
+// Strip any stray whitespace/newlines/non-ASCII chars that would make the
+// Authorization header fail ByteString validation in fetch().
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')?.replace(/[^\x20-\x7E]/g, '').trim();
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
