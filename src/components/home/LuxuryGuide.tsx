@@ -19,7 +19,7 @@ const LuxuryGuide = () => {
           "Change orders, payment schedule and handover",
         ],
         cta: "Download the handbook (PDF)",
-        note: "PDF · No email required",
+        note: "PDF · Email required",
       }
     : {
         eyebrow: "Официален документ",
@@ -31,7 +31,7 @@ const LuxuryGuide = () => {
           "Промени, плащания и приемане на обекта",
         ],
         cta: "Изтеглете ръководството (PDF)",
-        note: "PDF · Без имейл",
+        note: "PDF · Изисква имейл",
       };
 
   return (
