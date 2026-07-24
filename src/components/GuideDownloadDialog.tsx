@@ -77,7 +77,7 @@ const GuideDownloadDialog = ({ open, onOpenChange }: GuideDownloadDialogProps) =
           message:
             language === "en"
               ? "Requested the Client Handbook PDF via the homepage form."
-              : "Заявка за изтегляне на „Ръководство за възложителя" от началната страница.",
+              : "Заявка за изтегляне на Ръководство за възложителя от началната страница.",
           source: "guide-download",
         },
       });
