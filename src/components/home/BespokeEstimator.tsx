@@ -84,7 +84,7 @@ const BespokeEstimator = () => {
     <section
       ref={sectionRef}
       id="estimator"
-      className="relative bg-background py-24 md:py-32 overflow-hidden"
+      className="relative bg-background py-24 md:py-32 overflow-hidden scroll-mt-24"
     >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 -left-40 w-96 h-96 bg-primary/10 rounded-full blur-[140px]" />

@@ -13,14 +13,17 @@ const Header = () => {
   const navLinks = [
     { key: 'nav.home', path: "/" },
     { key: 'nav.services', path: "/services" },
-    { key: 'nav.pricing', path: "/contact" },
+    { key: 'nav.pricing', path: "/#estimator" },
     { key: 'nav.portfolio', path: "/portfolio" },
     { key: 'nav.blog', path: "/blog" },
     { key: 'nav.about', path: "/about" },
     { key: 'nav.contact', path: "/contact" },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => {
+    const cleanPath = path.split('#')[0] || '/';
+    return location.pathname === cleanPath && !path.includes('#');
+  };
 
   const toggleLanguage = () => {
     setLanguage(language === 'bg' ? 'en' : 'bg');

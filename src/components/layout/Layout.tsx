@@ -3,6 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import CookieBanner from "@/components/CookieBanner";
 import CookieSettingsModal from "@/components/CookieSettingsModal";
+import FloatingContact from "@/components/FloatingContact";
 import { useCookieConsentContext } from "@/contexts/CookieConsentContext";
 import {
   hasAnalyticsConsent,
@@ -78,6 +79,7 @@ const Layout = ({ children }: LayoutProps) => {
         onSave={savePreferences}
       />
 
+      <FloatingContact />
     </div>
   );
 };

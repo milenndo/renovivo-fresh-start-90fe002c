@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Download, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import GuideDownloadDialog from "@/components/GuideDownloadDialog";
 
 const LuxuryGuide = () => {
   const { language } = useLanguage();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const copy = language === "en"
     ? {
@@ -16,7 +19,7 @@ const LuxuryGuide = () => {
           "Change orders, payment schedule and handover",
         ],
         cta: "Download the handbook (PDF)",
-        note: "PDF · No email required",
+        note: "PDF · Email required",
       }
     : {
         eyebrow: "Официален документ",
@@ -28,7 +31,7 @@ const LuxuryGuide = () => {
           "Промени, плащания и приемане на обекта",
         ],
         cta: "Изтеглете ръководството (PDF)",
-        note: "PDF · Без имейл",
+        note: "PDF · Изисква имейл",
       };
 
   return (
@@ -88,18 +91,15 @@ const LuxuryGuide = () => {
             </ul>
 
             <div className="flex flex-wrap items-center gap-6">
-              <a
-                href="/guides/renovivo-luxury-renovation-guide.pdf"
-                download
+              <Button
+                type="button"
+                onClick={() => setDialogOpen(true)}
+                size="lg"
+                className="group bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-none px-8 py-6 tracking-wider uppercase text-xs"
               >
-                <Button
-                  size="lg"
-                  className="group bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-none px-8 py-6 tracking-wider uppercase text-xs"
-                >
-                  <Download className="h-4 w-4 mr-3 group-hover:translate-y-0.5 transition-transform" />
-                  {copy.cta}
-                </Button>
-              </a>
+                <Download className="h-4 w-4 mr-3 group-hover:translate-y-0.5 transition-transform" />
+                {copy.cta}
+              </Button>
               <span className="text-xs text-muted-foreground tracking-wider uppercase">
                 {copy.note}
               </span>
@@ -107,6 +107,7 @@ const LuxuryGuide = () => {
           </div>
         </div>
       </div>
+      <GuideDownloadDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </section>
   );
 };
