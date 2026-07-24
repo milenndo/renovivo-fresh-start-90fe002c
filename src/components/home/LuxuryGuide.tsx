@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Download, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import GuideDownloadDialog from "@/components/GuideDownloadDialog";
 
 const LuxuryGuide = () => {
   const { language } = useLanguage();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const copy = language === "en"
     ? {
