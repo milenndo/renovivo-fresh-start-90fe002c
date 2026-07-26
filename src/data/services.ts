@@ -118,7 +118,7 @@ const serviceFAQsEN: Record<string, { question: string; answer: string }[]> = {
   ],
   "plumbing": [
     { question: "Do you work with underfloor heating?", answer: "Yes, we install water and electric underfloor heating. We offer a complete solution - from design to commissioning." },
-    { question: "How much does plumbing replacement cost?", answer: "The price depends on the length of pipes and complexity. Approximately - from 1,500 to 4,000 BGN for a standard apartment." }
+    { question: "How much does plumbing replacement cost?", answer: "The price depends on the length of pipes and complexity. Approximately - from 767 to 2,045 EUR (1,500 – 4,000 BGN) for a standard apartment." }
   ]
 };
 
