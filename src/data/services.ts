@@ -101,7 +101,7 @@ const serviceFAQsEN: Record<string, { question: string; answer: string }[]> = {
   ],
   "kitchen": [
     { question: "Do you make custom kitchens?", answer: "Yes, we work with leading manufacturers of custom kitchen furniture. We offer full service - from 3D design to installation and appliance connection." },
-    { question: "How much does a kitchen renovation cost?", answer: "The price depends on the area, selected materials and appliances. The average price for a 12-15 sq.m. kitchen is between 8,000 and 20,000 BGN with furniture." }
+    { question: "How much does a kitchen renovation cost?", answer: "The price depends on the area, selected materials and appliances. The average price for a 12-15 sq.m. kitchen is between 4,090 and 10,230 EUR (8,000 – 20,000 BGN) with furniture." }
   ],
   "microcement": [
     { question: "How long does microcement last?", answer: "With proper application and maintenance, microcement lasts over 20 years. It's resistant to wear, water and UV rays." },
