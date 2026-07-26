@@ -56,10 +56,10 @@ const comparisonData = [
   },
   {
     feature: "Ориентировъчна цена",
-    microcement: "67 лв./кв.м",
-    terrazzo: "133 лв./кв.м",
-    flakeFloor: "95 лв./кв.м",
-    stoneCarpet: "114 лв./кв.м"
+    microcement: "34 € (67 лв.)/кв.м",
+    terrazzo: "68 € (133 лв.)/кв.м",
+    flakeFloor: "49 € (95 лв.)/кв.м",
+    stoneCarpet: "58 € (114 лв.)/кв.м"
   }
 ];
 
