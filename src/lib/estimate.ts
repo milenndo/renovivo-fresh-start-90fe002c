@@ -200,4 +200,3 @@ export function estimate(
   };
 }
 
-export const EUR_TO_BGN = 1.95583;
