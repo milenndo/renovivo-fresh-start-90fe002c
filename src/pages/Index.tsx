@@ -71,7 +71,7 @@ const Index = () => {
       }
     ],
     priceRange: "$$",
-    currenciesAccepted: "BGN",
+    currenciesAccepted: "EUR",
     paymentAccepted: "Cash, Bank Transfer",
     aggregateRating: {
       "@type": "AggregateRating",

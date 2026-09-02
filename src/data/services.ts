@@ -65,7 +65,7 @@ const serviceFAQsBG: Record<string, { question: string; answer: string }[]> = {
   ],
   "kitchen": [
     { question: "Правите ли кухни по поръчка?", answer: "Да, работим с водещи производители на кухненски мебели по поръчка. Предлагаме пълен сервиз - от 3D проект до монтаж и свързване на уреди." },
-    { question: "Колко струва ремонт на кухня?", answer: "Цената зависи от площта, избраните материали и уреди. Средната цена за кухня от 12-15 кв.м. е между 4,090 и 10,230 € (8,000 – 20,000 лв.) с мебели." }
+    { question: "Колко струва ремонт на кухня?", answer: "Цената зависи от площта, избраните материали и уреди. Средната цена за кухня от 12-15 кв.м. е между 4,090 и 10,230 € с мебели." }
   ],
   "microcement": [
     { question: "Колко издържа микроциментът?", answer: "При правилно нанасяне и поддръжка, микроциментът издържа над 20 години. Устойчив е на износване, вода и UV лъчи." },
@@ -82,7 +82,7 @@ const serviceFAQsBG: Record<string, { question: string; answer: string }[]> = {
   ],
   "plumbing": [
     { question: "Работите ли с подово отопление?", answer: "Да, монтираме водно и електрическо подово отопление. Предлагаме цялостно решение - от проект до пускане в експлоатация." },
-    { question: "Колко струва подмяна на ВиК инсталацията?", answer: "Цената зависи от дължината на тръбите и сложността. Ориентировъчно - от 767 до 2,045 € (1,500 – 4,000 лв.) за стандартен апартамент." }
+    { question: "Колко струва подмяна на ВиК инсталацията?", answer: "Цената зависи от дължината на тръбите и сложността. Ориентировъчно - от 767 до 2,045 € за стандартен апартамент." }
   ]
 };
 
@@ -101,7 +101,7 @@ const serviceFAQsEN: Record<string, { question: string; answer: string }[]> = {
   ],
   "kitchen": [
     { question: "Do you make custom kitchens?", answer: "Yes, we work with leading manufacturers of custom kitchen furniture. We offer full service - from 3D design to installation and appliance connection." },
-    { question: "How much does a kitchen renovation cost?", answer: "The price depends on the area, selected materials and appliances. The average price for a 12-15 sq.m. kitchen is between 4,090 and 10,230 EUR (8,000 – 20,000 BGN) with furniture." }
+    { question: "How much does a kitchen renovation cost?", answer: "The price depends on the area, selected materials and appliances. The average price for a 12-15 sq.m. kitchen is between 4,090 and 10,230 EUR with furniture." }
   ],
   "microcement": [
     { question: "How long does microcement last?", answer: "With proper application and maintenance, microcement lasts over 20 years. It's resistant to wear, water and UV rays." },
@@ -118,7 +118,7 @@ const serviceFAQsEN: Record<string, { question: string; answer: string }[]> = {
   ],
   "plumbing": [
     { question: "Do you work with underfloor heating?", answer: "Yes, we install water and electric underfloor heating. We offer a complete solution - from design to commissioning." },
-    { question: "How much does plumbing replacement cost?", answer: "The price depends on the length of pipes and complexity. Approximately - from 767 to 2,045 EUR (1,500 – 4,000 BGN) for a standard apartment." }
+    { question: "How much does plumbing replacement cost?", answer: "The price depends on the length of pipes and complexity. Approximately - from 767 to 2,045 EUR for a standard apartment." }
   ]
 };
 

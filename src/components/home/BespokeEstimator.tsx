@@ -42,8 +42,6 @@ const tiers: Tier[] = [
   },
 ];
 
-const EUR_TO_BGN = 1.95583;
-
 const fmt = (n: number) =>
   new Intl.NumberFormat("bg-BG", { maximumFractionDigits: 0 }).format(n);
 
@@ -72,12 +70,7 @@ const BespokeEstimator = () => {
     if (isBathroom) return null;
     const lowEur = tier.minEur * area;
     const highEur = tier.maxEur ? tier.maxEur * area : null;
-    return {
-      lowEur,
-      highEur,
-      lowBgn: lowEur * EUR_TO_BGN,
-      highBgn: highEur ? highEur * EUR_TO_BGN : null,
-    };
+    return { lowEur, highEur };
   }, [area, tier, isBathroom]);
 
   return (
@@ -255,11 +248,6 @@ const BespokeEstimator = () => {
                         ? `${fmt(estimate!.lowEur)} – ${fmt(estimate!.highEur)} €`
                         : `от ${fmt(estimate!.lowEur)} €`}
                     </div>
-                    <div className="text-base md:text-lg text-foreground/80 tabular-nums font-light">
-                      {estimate!.highBgn
-                        ? `${fmt(estimate!.lowBgn)} – ${fmt(estimate!.highBgn)} лв.`
-                        : `от ${fmt(estimate!.lowBgn)} лв.`}
-                    </div>
                     <div className="text-[10px] tracking-[0.3em] uppercase text-foreground/50 pt-1">
                       без ДДС · труд + материали
                     </div>
@@ -297,7 +285,7 @@ const BespokeEstimator = () => {
                 <p className="text-[11px] leading-relaxed text-foreground/45">
                   Диапазонът е ориентировъчен и не представлява оферта. Финалната
                   цена се формира след оглед на място и одобрен обхват на
-                  работата. Курс: 1 € = 1.95583 лв.
+                  работата.
                 </p>
               </div>
             </div>
