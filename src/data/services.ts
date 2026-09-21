@@ -8,10 +8,10 @@ export const getServiceById = (id: string): Service | undefined => {
 // Import images
 import fullRenovationImg from "@/assets/images/services/full-renovation.jpg";
 import bathroomImg from "@/assets/images/services/bathroom.jpg";
-import kitchenImg from "@/assets/images/services/minimalistchna_byala_kuhniya.png";
+import kitchenImg from "@/assets/images/services/minimalistchna_byala_kuhniya.jpg";
 import paintingImg from "@/assets/images/services/painting.jpg";
 import flooringImg from "@/assets/images/services/flooring.jpg";
-import karteneImg from "@/assets/images/services/kartene.png";
+import karteneImg from "@/assets/images/services/kartene.jpg";
 import electricalImg from "@/assets/images/services/electrical.jpg";
 import plumbingImg from "@/assets/images/services/plumbing.jpg";
 import microcementImg from "@/assets/images/services/microcement-modern.jpg";
@@ -56,16 +56,15 @@ const serviceFAQsBG: Record<string, { question: string; answer: string }[]> = {
     { question: "Колко време отнема цялостен ремонт на апартамент?", answer: "Цялостният ремонт обикновено отнема от 2 до 4 месеца, в зависимост от площта и сложността на проекта. За 80 кв.м. апартамент, стандартният срок е около 2.5-3 месеца." },
     { question: "Какво включва цената за цялостен ремонт?", answer: "Цената включва всички довършителни работи: шпакловка, замазка, настилки, боядисване, ел. и ВиК инсталации, монтаж на врати и санитария. Материалите се калкулират отделно или по договореност." },
     { question: "Трябва ли да присъствам по време на ремонта?", answer: "Не е необходимо. Осигуряваме личен проектен мениджър, който координира всичко и ви информира редовно. Може да посещавате обекта по всяко време." },
-    { question: "Давате ли гаранция за работата?", answer: "Да, предлагаме гаранция за всички извършени работи. Срокът варира според вида работа - от 2 до 10 години за различните елементи." }
+    { question: "Давате ли гаранция за работата?", answer: "Да, предлагаме гаранция за всички извършени работи. Гаранцията за извършените работи е 2 години, а за вложените материали важи гаранцията на производителя." }
   ],
   "bathroom": [
     { question: "Колко време отнема ремонт на баня?", answer: "Стандартният ремонт на баня отнема 2-3 седмици. При по-сложни проекти с преместване на ВиК или разширяване - до 4 седмици." },
-    { question: "Включена ли е хидроизолацията в цената?", answer: "Да, професионалната хидроизолация е задължителен етап и винаги е включена. Използваме многослойна система с 10-годишна гаранция." },
+    { question: "Включена ли е хидроизолацията в цената?", answer: "Да, професионалната хидроизолация е задължителен етап и винаги е включена. Използваме многослойни хидроизолационни системи, с гаранция 2 години за труда и гаранция на производителя за материалите." },
     { question: "Можете ли да монтирате подово отопление в банята?", answer: "Да, монтираме електрическо подово отопление, което е идеално за бани. Добавя комфорт и е енергийно ефективно." }
   ],
-  "kitchen": [
-    { question: "Правите ли кухни по поръчка?", answer: "Да, работим с водещи производители на кухненски мебели по поръчка. Предлагаме пълен сервиз - от 3D проект до монтаж и свързване на уреди." },
-    { question: "Колко струва ремонт на кухня?", answer: "Цената зависи от площта, избраните материали и уреди. Средната цена за кухня от 12-15 кв.м. е между 4,090 и 10,230 € с мебели." }
+  "custom-furniture": [
+    { question: "Правите ли кухни по поръчка?", answer: "Да, работим с водещи производители на кухненски мебели по поръчка. Предлагаме пълен сервиз - от 3D проект до монтаж и свързване на уреди." }
   ],
   "microcement": [
     { question: "Колко издържа микроциментът?", answer: "При правилно нанасяне и поддръжка, микроциментът издържа над 20 години. Устойчив е на износване, вода и UV лъчи." },
@@ -92,16 +91,15 @@ const serviceFAQsEN: Record<string, { question: string; answer: string }[]> = {
     { question: "How long does a complete apartment renovation take?", answer: "Complete renovation usually takes 2 to 4 months, depending on the area and project complexity. For an 80 sq.m. apartment, the standard timeframe is around 2.5-3 months." },
     { question: "What does the price for complete renovation include?", answer: "The price includes all finishing works: plastering, screed, flooring, painting, electrical and plumbing installations, door and sanitary ware installation. Materials are calculated separately or by agreement." },
     { question: "Do I need to be present during the renovation?", answer: "Not necessary. We provide a personal project manager who coordinates everything and keeps you regularly informed. You can visit the site anytime." },
-    { question: "Do you provide warranty for the work?", answer: "Yes, we offer warranty for all work performed. The term varies depending on the type of work - from 2 to 10 years for different elements." }
+    { question: "Do you provide warranty for the work?", answer: "Yes, we offer warranty for all work performed. The term varies depending on the type of work - 2 years on workmanship, plus the manufacturer warranty on materials." }
   ],
   "bathroom": [
     { question: "How long does a bathroom renovation take?", answer: "Standard bathroom renovation takes 2-3 weeks. For more complex projects with plumbing relocation or expansion - up to 4 weeks." },
-    { question: "Is waterproofing included in the price?", answer: "Yes, professional waterproofing is a mandatory stage and always included. We use a multi-layer system with 10-year warranty." },
+    { question: "Is waterproofing included in the price?", answer: "Yes, professional waterproofing is a mandatory stage and always included. We use multi-layer waterproofing systems, with a 2-year workmanship warranty plus the manufacturer warranty on materials." },
     { question: "Can you install underfloor heating in the bathroom?", answer: "Yes, we install electric underfloor heating, which is ideal for bathrooms. It adds comfort and is energy efficient." }
   ],
-  "kitchen": [
-    { question: "Do you make custom kitchens?", answer: "Yes, we work with leading manufacturers of custom kitchen furniture. We offer full service - from 3D design to installation and appliance connection." },
-    { question: "How much does a kitchen renovation cost?", answer: "The price depends on the area, selected materials and appliances. The average price for a 12-15 sq.m. kitchen is between 4,090 and 10,230 EUR with furniture." }
+  "custom-furniture": [
+    { question: "Do you make custom kitchens?", answer: "Yes, we work with leading manufacturers of custom kitchen furniture. We offer full service - from 3D design to installation and appliance connection." }
   ],
   "microcement": [
     { question: "How long does microcement last?", answer: "With proper application and maintenance, microcement lasts over 20 years. It's resistant to wear, water and UV rays." },
@@ -193,13 +191,13 @@ const servicesBG: Service[] = [
   {
     id: "custom-furniture",
     icon: Sofa,
-    title: "Мебели по поръчка",
+    title: "Мебели по поръчка — кухни и корпусна мебел",
     category: "finishing-work",
-    shortDescription: "Изработка на мебели по индивидуални размери и специфики - кухни, гардероби, шкафове.",
+    shortDescription: "Изработка на кухни и корпусна мебел по индивидуален проект и размери — гардероби, дрешници, шкафове за баня и антре.",
     fullDescription: "Мебелите по поръчка са решение за максимално оползотворяване на всеки сантиметър от пространството. Работим с опитни мебелисти, които изработват функционални изделия според вашите нужди и стил - от кухненски мебели през вградени гардероби до решения за нестандартни ниши.",
     features: [
-      "Кухненски мебели по индивидуален проект",
-      "Вградени гардероби и дрешници",
+      "Кухни по индивидуален проект — от замерване до монтаж и вграждане на уредите",
+      "Корпусна мебел — вградени гардероби, дрешници, шкафове",
       "Шкафове за баня и антре",
       "Мебели за нестандартни пространства",
       "Избор от множество материали и покрития",
@@ -363,35 +361,6 @@ const servicesBG: Service[] = [
     ],
     image: bathroomImg,
     gallery: [bathroomImg],
-    isInnovative: false
-  },
-
-  // Ремонт на кухня
-  {
-    id: "kitchen",
-    icon: ChefHat,
-    title: "Ремонт на кухня",
-    category: "partial-renovation",
-    shortDescription: "Модернизиране на кухненското пространство с внимание към функционалност и стил.",
-    fullDescription: "Кухнята е ключово помещение и изисква добро планиране. Ние не предлагаме стандартни решения, а цялостна изработка на кухни, съобразени с ергономията и спецификата на вашето помещение. Поемаме целия процес: от демонтаж и корекция на ВиК и електрически инсталации до прецизния монтаж на мебелите и уредите. Създаваме пространства, които съчетават практичност с естетика.",
-    features: [
-      "Демонтаж на стара кухня",
-      "Преместване на ВиК и ел. точки",
-      "Подготовка на стени и подове",
-      "Монтаж на кухненски мебели",
-      "Вграждане на електроуреди",
-      "Облицовка с плочки или друга защита",
-      "Монтаж на осветление и аксесоари"
-    ],
-    process: [
-      { step: 1, title: "Планиране", description: "Замерване и проектиране на новата кухня." },
-      { step: 2, title: "Демонтаж", description: "Премахване на стари мебели и уреди." },
-      { step: 3, title: "Инсталации", description: "Корекция на ВиК и електричество." },
-      { step: 4, title: "Довършване", description: "Подготовка на повърхности и облицовки." },
-      { step: 5, title: "Монтаж", description: "Поставяне на мебели и уреди." }
-    ],
-    image: kitchenImg,
-    gallery: [kitchenImg],
     isInnovative: false
   },
 
@@ -677,9 +646,9 @@ const servicesEN: Service[] = [
   {
     id: "custom-furniture",
     icon: Sofa,
-    title: "Custom Furniture",
+    title: "Custom Furniture — Kitchens & Cabinetry",
     category: "finishing-work",
-    shortDescription: "Custom furniture made to individual sizes and specifications - kitchens, wardrobes, cabinets.",
+    shortDescription: "Kitchens and cabinetry made to your project and measurements — wardrobes, walk-in closets, bathroom and hallway cabinets.",
     fullDescription: "Custom furniture is the perfect solution for maximum utilization of every centimeter of your space. We work with experienced furniture makers who create functional and beautiful products tailored to your needs and style. From kitchen furniture through built-in wardrobes to special solutions for non-standard niches - everything is made with precision and attention to detail.",
     features: [
       "Kitchen furniture according to individual project",
@@ -838,34 +807,6 @@ const servicesEN: Service[] = [
     ],
     image: bathroomImg,
     gallery: [bathroomImg],
-    isInnovative: false
-  },
-
-  {
-    id: "kitchen",
-    icon: ChefHat,
-    title: "Kitchen Renovation",
-    category: "partial-renovation",
-    shortDescription: "Modernization of kitchen space with attention to functionality and style.",
-    fullDescription: "The kitchen is the heart of the home and requires uncompromising planning. We don't offer standard solutions, but complete kitchen design tailored to ergonomics and specifics of your space. We take on the entire process: from demolition and correction of plumbing and electrical installations to precise installation of furniture and appliances. We create spaces that combine practicality with aesthetics.",
-    features: [
-      "Removal of old kitchen",
-      "Relocation of plumbing and electrical points",
-      "Preparation of walls and floors",
-      "Installation of kitchen furniture",
-      "Built-in appliances",
-      "Tiling or other protection",
-      "Installation of lighting and accessories"
-    ],
-    process: [
-      { step: 1, title: "Planning", description: "Measurement and design of new kitchen." },
-      { step: 2, title: "Demolition", description: "Removal of old furniture and appliances." },
-      { step: 3, title: "Installations", description: "Correction of plumbing and electricity." },
-      { step: 4, title: "Finishing", description: "Surface preparation and tiling." },
-      { step: 5, title: "Installation", description: "Placement of furniture and appliances." }
-    ],
-    image: kitchenImg,
-    gallery: [kitchenImg],
     isInnovative: false
   },
 

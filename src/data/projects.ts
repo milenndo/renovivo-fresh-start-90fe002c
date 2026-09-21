@@ -2,21 +2,21 @@
 import type { Language } from '@/contexts/LanguageContext';
 import fullRenovationImg from "@/assets/images/services/full-renovation.jpg";
 import bathroomImg from "@/assets/images/services/bathroom.jpg";
-import kitchenImg from "@/assets/images/services/minimalistchna_byala_kuhniya.png";
+import kitchenImg from "@/assets/images/services/minimalistchna_byala_kuhniya.jpg";
 import bedroomImg from "@/assets/images/projects/bedroom.jpg";
 import livingRoomImg from "@/assets/images/projects/living-room.jpg";
 import flooringImg from "@/assets/images/services/flooring.jpg";
 import paintingImg from "@/assets/images/services/painting.jpg";
-import livingRoomBeforeImg from "@/assets/images/projects/living-room-before.png";
-import livingRoomAfterImg from "@/assets/images/projects/living-room-after.png";
-import livingRoomDetailImg from "@/assets/images/projects/living-room-detail.png";
+import livingRoomBeforeImg from "@/assets/images/projects/living-room-before.jpg";
+import livingRoomAfterImg from "@/assets/images/projects/living-room-after.jpg";
+import livingRoomDetailImg from "@/assets/images/projects/living-room-detail.jpg";
 import microcementImg from "@/assets/images/services/microcement.jpg";
 import microcementKitchenImg from "@/assets/images/services/microcement-kitchen.jpg";
 import terrazzoImg from "@/assets/images/services/terrazzo.jpg";
 import terrazzoBathroomImg from "@/assets/images/services/terrazzo-bathroom.jpg";
 import electricalImg from "@/assets/images/services/electrical.jpg";
 import plumbingImg from "@/assets/images/services/plumbing.jpg";
-import karteneImg from "@/assets/images/services/kartene.png";
+import karteneImg from "@/assets/images/services/kartene.jpg";
 import flakeFloorImg from "@/assets/images/services/flake-floor.jpg";
 import flakeFloorShowroomImg from "@/assets/images/services/flake-floor-showroom.jpg";
 import stoneCarpetImg from "@/assets/images/services/stone-carpet.jpg";
@@ -245,7 +245,7 @@ const projectsBG: Project[] = [
     features: ["Мраморни плочки", "Дъждовен душ", "Free-standing вана", "Подово отопление", "LED огледало"],
     stages: [
       { title: "Демонтаж", description: "Внимателно премахване на стара санитария и облицовки." },
-      { title: "Хидроизолация", description: "Многослойна хидроизолация с 10-годишна гаранция." },
+      { title: "Хидроизолация", description: "Многослойна хидроизолация с писмена гаранция." },
       { title: "ВиК инсталация", description: "Нови тръби и подготовка за дъждовен душ и вана." },
       { title: "Облицовка", description: "Прецизно полагане на мраморни плочки с герунг рязане." },
       { title: "Монтаж", description: "Поставяне на санитария, смесители и аксесоари." }
@@ -592,7 +592,7 @@ const projectsEN: Project[] = [
         features: ["Marble tiles", "Rain shower", "Free-standing bathtub", "Underfloor heating", "LED mirror"],
         stages: [
             { title: "Demolition", description: "Careful removal of old sanitary ware and tiles." },
-            { title: "Waterproofing", description: "Multi-layer waterproofing with 10-year warranty." },
+            { title: "Waterproofing", description: "Multi-layer waterproofing with written warranty." },
             { title: "Plumbing installation", description: "New pipes and preparation for rain shower and bathtub." },
             { title: "Tiling", description: "Precise installation of marble tiles with miter cutting." },
             { title: "Installation", description: "Placement of sanitary ware, faucets and accessories." }
