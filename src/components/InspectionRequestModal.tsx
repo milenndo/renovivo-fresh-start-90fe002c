@@ -17,7 +17,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const projectTypes = [
   { value: "full-renovation", label: "Цялостен ремонт" },
   { value: "bathroom", label: "Ремонт на баня" },
-  { value: "kitchen", label: "Ремонт на кухня" },
+  { value: "kitchen", label: "Кухня / мебели по поръчка" },
   { value: "innovative", label: "Иновативни покрития (микроцимент, terrazzo)" },
   { value: "refresh", label: "Освежителен ремонт" },
   { value: "other", label: "Друго" },
