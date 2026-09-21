@@ -8,6 +8,33 @@ import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/supabase/vite";
 
 const SITE_URL = "https://renovivo.bg";
 
+// --- 0. Почистване на <head> след prerender -------------------------------
+// index.html съдържа sitewide fallback мета тагове (за crawler-и без JS).
+// react-helmet-async добавя собствените си (с data-rh) вместо да ги замени,
+// което води до два description/og:title/og:url и т.н. в статичния HTML.
+// Тук махаме fallback-а, когато страницата има собствена версия.
+function dedupeHead(html: string): string {
+  const headMatch = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
+  if (!headMatch) return html;
+  let head = headMatch[1];
+  const keyOf = (tag: string): string | null => {
+    const m =
+      tag.match(/\b(?:name|property)="([^"]+)"/i) ||
+      (/rel="canonical"/i.test(tag) ? ["", "canonical"] : null);
+    return m ? m[1].toLowerCase() : null;
+  };
+  const tags = head.match(/<(?:meta|link)\b[^>]*>/gi) || [];
+  const helmetKeys = new Set(
+    tags.filter((t) => /data-rh=/i.test(t)).map(keyOf).filter(Boolean) as string[],
+  );
+  for (const t of tags) {
+    if (/data-rh=/i.test(t)) continue;
+    const k = keyOf(t);
+    if (k && helmetKeys.has(k)) head = head.replace(t, "");
+  }
+  return html.replace(headMatch[1], head);
+}
+
 // --- 1. Статични маршрути -----------------------------------------------
 const staticRoutes = [
   "/",
@@ -16,7 +43,6 @@ const staticRoutes = [
   "/services/apartment-renovation",
   "/services/house-renovation",
   "/services/bathroom",
-  "/services/kitchen",
   "/services/living-room",
   "/services/quick-refresh",
   "/services/finishing-works",
@@ -59,7 +85,8 @@ const portfolioRoutes = [
 const localBlogRoutes = [
   "/blog/kak-da-planirate-remont-step-by-step-2026",
   "/blog/mikrociment-moderno-reshenie-steni-podove",
-  "/blog/remont-na-apartament-sofia-2024",
+  // "/blog/remont-na-apartament-sofia-2024" — няма локален fallback; ако е
+  // публикувана в Supabase, fetchBlogRoutes() я добавя автоматично.
 ];
 
 // --- 4. Статии от Supabase (изтеглят се по време на build) --------------
@@ -146,17 +173,20 @@ export default defineConfig(async ({ mode }) => {
           routes: allRoutes,
           renderer: "@prerenderer/renderer-puppeteer",
           rendererOptions: {
-            renderAfterTime: 3000,
-            maxConcurrentRoutes: 4,
+            // Чакаме сигнал от src/main.tsx („render-event“), вместо фиксиран
+            // таймер — иначе част от страниците се снимат преди Helmet да
+            // запише title/description/canonical/schema.
+            renderAfterDocumentEvent: "render-event",
+            timeout: 30000,
+            maxConcurrentRoutes: 1,
             headless: true,
             launchOptions: {
               args: ["--no-sandbox", "--disable-setuid-sandbox"],
             },
           },
           postProcess(rendered: { route: string; html: string }) {
-            rendered.html = rendered.html.replace(
-              /https?:\/\/[^/"]*lovable\.app/g,
-              SITE_URL,
+            rendered.html = dedupeHead(
+              rendered.html.replace(/https?:\/\/[^/"]*lovable\.app/g, SITE_URL),
             );
           },
         }),

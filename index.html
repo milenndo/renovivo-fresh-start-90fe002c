@@ -9,8 +9,8 @@
     <link rel="apple-touch-icon" href="/favicon.png" />
     
     <!-- Primary Meta Tags (sitewide fallback — per-route Helmet overrides) -->
-    <title>Ремонти в София | Цялостен ремонт до ключ – Renovivo</title>
-    <meta name="description" content="Ремонти в София от един координиран екип от А до Я. Цялостен ремонт на апартаменти, бани и кухни. Безплатен оглед и писмена оферта.">
+    <title>Ремонти и довършителни работи от висок клас в София | Renovivo</title>
+    <meta name="description" content="Цялостни ремонти и довършителни работи от висок клас за апартаменти и къщи в София. Един отговорен ръководител, фиксирана цена по договор. Тел. 089 371 2919">
     <meta name="author" content="Renovivo" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
@@ -23,12 +23,10 @@
     
     <!-- Language -->
     <meta http-equiv="content-language" content="bg" />
-    <link rel="alternate" hreflang="bg" href="https://renovivo.bg" />
-    <link rel="alternate" hreflang="x-default" href="https://renovivo.bg" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://renovivo.bg" />
+    <meta property="og:url" content="https://renovivo.bg/" />
     
     
     <meta property="og:image" content="https://renovivo.bg/og-image.jpg">
@@ -42,86 +40,75 @@
     
     <meta name="twitter:image" content="https://renovivo.bg/og-image.jpg">
 
-    <!-- Structured Data - LocalBusiness -->
+    <!-- Structured Data — единствен sitewide обект за бизнеса.
+         Всички страници реферират към него чрез "@id": "https://renovivo.bg/#organization".
+         Само проверими факти, видими на сайта. Без рейтинги/отзиви, докато няма реални. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "HomeAndConstructionBusiness",
-      "@id": "https://renovivo.bg/#organization",
-      "name": "Renovivo",
-      "alternateName": "Реновиво",
-      "description": "Професионални ремонтни услуги в София - цялостен ремонт на апартаменти, бани, кухни, боядисване, подови настилки, ВиК и електро услуги.",
-      "url": "https://renovivo.bg",
-      "logo": "https://renovivo.bg/logo.png",
-      "image": "https://renovivo.bg/og-image.jpg",
-      "telephone": "+359893712919",
-      "email": "office@renovivo.bg",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "София",
-        "addressRegion": "София-град",
-        "addressCountry": "BG"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 42.6977,
-        "longitude": 23.3219
-      },
-      "areaServed": [
-        { "@type": "City", "name": "София" },
-        { "@type": "AdministrativeArea", "name": "София-област" },
-        { "@type": "Place", "name": "Център, София" },
-        { "@type": "Place", "name": "Лозенец, София" },
-        { "@type": "Place", "name": "Изток, София" },
-        { "@type": "Place", "name": "Витоша, София" },
-        { "@type": "Place", "name": "Младост, София" },
-        { "@type": "Place", "name": "Люлин, София" },
-        { "@type": "Place", "name": "Дружба, София" },
-        { "@type": "Place", "name": "Овча купел, София" },
-        { "@type": "Place", "name": "Красно село, София" },
-        { "@type": "Place", "name": "Студентски град, София" }
-      ],
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "08:00",
-        "closes": "18:00"
-      },
-      "priceRange": "$$",
-      "currenciesAccepted": "BGN, EUR",
-      "paymentAccepted": "Cash, Bank Transfer",
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Ремонтни услуги",
-        "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Цялостен ремонт на апартамент", "url": "https://renovivo.bg/services/full-renovation" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт на баня", "url": "https://renovivo.bg/services/bathroom" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт на кухня", "url": "https://renovivo.bg/services/kitchen" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Боядисване", "url": "https://renovivo.bg/services/painting" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Интериорен дизайн", "url": "https://renovivo.bg/services/interior-design" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Микроцимент и декоративни покрития", "url": "https://renovivo.bg/innovative-coatings" } }
-        ]
-      },
-      "sameAs": [
-        "https://facebook.com/renovivo.sofia",
-        "https://instagram.com/renovivo.bg"
+      "@graph": [
+        {
+          "@type": "HomeAndConstructionBusiness",
+          "@id": "https://renovivo.bg/#organization",
+          "name": "Renovivo",
+          "alternateName": "Реновиво",
+          "description": "Ремонтна фирма в София за цялостни ремонти и довършителни работи от висок клас на апартаменти и къщи — ремонт до ключ, бани, мебели по поръчка и безшевни покрития (микроцимент, terrazzo). Безплатен оглед на място, писмена оферта с количества и договор с фиксирана цена.",
+          "url": "https://renovivo.bg/",
+          "logo": "https://renovivo.bg/logo.png",
+          "image": "https://renovivo.bg/og-image.jpg",
+          "telephone": "+359893712919",
+          "email": "office@renovivo.bg",
+          "foundingDate": "2024",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "София",
+            "addressRegion": "София-град",
+            "addressCountry": "BG"
+          },
+          "areaServed": [
+            { "@type": "City", "name": "София" },
+            { "@type": "AdministrativeArea", "name": "Софийска област" }
+          ],
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "08:00",
+              "closes": "18:00"
+            }
+          ],
+          "priceRange": "от 100 €/м²",
+          "currenciesAccepted": "EUR",
+          "paymentAccepted": "Cash, Bank Transfer",
+          "knowsLanguage": ["bg", "en"],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Ремонтни услуги",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Цялостен ремонт на апартамент", "url": "https://renovivo.bg/services/apartment-renovation" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Цялостни довършителни работи", "url": "https://renovivo.bg/services/finishing-works" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт на къща", "url": "https://renovivo.bg/services/house-renovation" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт на баня", "url": "https://renovivo.bg/services/bathroom" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Изработка на мебели по поръчка — кухни и корпусна мебел", "url": "https://renovivo.bg/services/custom-furniture" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Микроцимент", "url": "https://renovivo.bg/services/microcement" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Интериорен дизайн", "url": "https://renovivo.bg/services/interior-design" } }
+            ]
+          },
+          "sameAs": [
+            "https://www.instagram.com/renovivo.bg",
+            "https://www.facebook.com/renovivo.bg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://renovivo.bg/#website",
+          "name": "Renovivo",
+          "alternateName": "Реновиво",
+          "url": "https://renovivo.bg/",
+          "inLanguage": "bg-BG",
+          "publisher": { "@id": "https://renovivo.bg/#organization" }
+        }
       ]
-    }
-    </script>
-
-    <!-- Structured Data - WebSite for Sitelinks Search -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Renovivo",
-      "alternateName": "Реновиво",
-      "url": "https://renovivo.bg",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://renovivo.bg/services?search={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
     }
     </script>
 
@@ -137,10 +124,10 @@
     <link rel="dns-prefetch" href="https://www.google-analytics.com" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     
-  <meta property="og:title" content="Ремонти в София | Цялостен ремонт до ключ – Renovivo">
-  <meta name="twitter:title" content="Ремонти в София | Цялостен ремонт до ключ – Renovivo">
-  <meta property="og:description" content="Ремонти в София от един координиран екип. Цялостен ремонт на апартаменти, бани и кухни. Безплатен оглед и писмена оферта.">
-  <meta name="twitter:description" content="Ремонти в София от един координиран екип. Цялостен ремонт на апартаменти, бани и кухни. Безплатен оглед и писмена оферта.">
+  <meta property="og:title" content="Ремонти и довършителни работи от висок клас в София | Renovivo">
+  <meta name="twitter:title" content="Ремонти и довършителни работи от висок клас в София | Renovivo">
+  <meta property="og:description" content="Цялостни ремонти и довършителни работи от висок клас за апартаменти и къщи в София. Един отговорен ръководител, фиксирана цена по договор. Тел. 089 371 2919">
+  <meta name="twitter:description" content="Цялостни ремонти и довършителни работи от висок клас за апартаменти и къщи в София. Един отговорен ръководител, фиксирана цена по договор. Тел. 089 371 2919">
 </head>
 
   <body>
