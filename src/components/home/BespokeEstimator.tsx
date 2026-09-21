@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Home, Bath, ChefHat, Sofa, ArrowRight, Sparkles } from "lucide-react";
+import { Home, Bath, Sofa, ArrowRight, Sparkles } from "lucide-react";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
 
 type Scope = { id: string; label: string; icon: any };
@@ -14,7 +14,6 @@ type Tier = {
 const scopes: Scope[] = [
   { id: "full", label: "Цялостен ремонт", icon: Home },
   { id: "bath", label: "Само баня", icon: Bath },
-  { id: "kitchen", label: "Само кухня", icon: ChefHat },
   { id: "living", label: "Дневна / спалня", icon: Sofa },
 ];
 
@@ -22,7 +21,7 @@ const tiers: Tier[] = [
   {
     id: "base",
     label: "Базово ниво",
-    note: "Довършителни работи. Материали от нисък до среден клас.",
+    note: "Довършителни работи с високо качество на изпълнението. Материали от нисък до среден клас.",
     minEur: 100,
     maxEur: 300,
   },

@@ -24,7 +24,7 @@ import microcementImg from "@/assets/images/services/microcement.jpg";
 import terrazzoImg from "@/assets/images/services/terrazzo.jpg";
 import flakeFloorImg from "@/assets/images/services/flake-floor.jpg";
 import stoneCarpetImg from "@/assets/images/services/stone-carpet.jpg";
-import karteneImg from "@/assets/images/services/kartene.png";
+import karteneImg from "@/assets/images/services/kartene.jpg";
 import paintingImg from "@/assets/images/services/painting.jpg";
 import flooringImg from "@/assets/images/services/flooring.jpg";
 import electricalImg from "@/assets/images/services/electrical.jpg";
@@ -63,7 +63,7 @@ const Services = () => {
       services: [
         {
           id: "full-renovation",
-          path: "/services/full-renovation",
+          path: "/services/apartment-renovation",
           icon: Home,
           titleKey: "service.fullRenovation.title",
           descKey: "service.fullRenovation.desc",
@@ -79,8 +79,8 @@ const Services = () => {
           image: bathroomImg,
         },
         {
-          id: "kitchen",
-          path: "/services/kitchen",
+          id: "custom-furniture",
+          path: "/services/custom-furniture",
           icon: Grid3X3,
           titleKey: "service.kitchen.title",
           descKey: "service.kitchen.desc",
@@ -139,7 +139,7 @@ const Services = () => {
       services: [
         {
           id: "demolition",
-          path: "/services/demolition",
+          path: "/services/apartment-renovation",
           icon: Hammer,
           titleKey: "service.demolition.title",
           descKey: "service.demolition.desc",
@@ -147,7 +147,7 @@ const Services = () => {
         },
         {
           id: "painting",
-          path: "/services/shpaklovka",
+          path: "/services/finishing-works",
           icon: Paintbrush,
           titleKey: "service.painting.title",
           descKey: "service.painting.desc",
@@ -155,7 +155,7 @@ const Services = () => {
         },
         {
           id: "flooring",
-          path: "/services/flooring",
+          path: "/services/finishing-works",
           icon: Grid3X3,
           titleKey: "service.flooring.title",
           descKey: "service.flooring.desc",
@@ -163,7 +163,7 @@ const Services = () => {
         },
         {
           id: "electrical",
-          path: "/services/electrical",
+          path: "/services/apartment-renovation",
           icon: Zap,
           titleKey: "service.electrical.title",
           descKey: "service.electrical.desc",
@@ -171,7 +171,7 @@ const Services = () => {
         },
         {
           id: "plumbing",
-          path: "/services/plumbing",
+          path: "/services/apartment-renovation",
           icon: Wrench,
           titleKey: "service.plumbing.title",
           descKey: "service.plumbing.desc",

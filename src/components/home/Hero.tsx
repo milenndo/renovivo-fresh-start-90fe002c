@@ -166,7 +166,7 @@ const Hero = () => {
                 </p>
                 <div className="pt-2">
                   <div className="inline-block p-4 border border-primary/20">
-                    <p className="text-[10px] tracking-[0.4em] text-primary uppercase font-bold">5 години гаранция</p>
+                    <p className="text-[10px] tracking-[0.4em] text-primary uppercase font-bold">2 години гаранция</p>
                   </div>
                 </div>
               </div>

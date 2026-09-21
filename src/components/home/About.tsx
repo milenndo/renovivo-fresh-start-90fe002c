@@ -151,7 +151,7 @@ const About = () => {
                   <Shield className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <span className="font-bold block text-lg">5 {t('about.warranty')}</span>
+                  <span className="font-bold block text-lg">2 {t('about.warranty')}</span>
                   <span className="text-sm text-muted-foreground">{t('about.warrantyAll')}</span>
                 </div>
               </div>
