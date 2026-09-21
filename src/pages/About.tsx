@@ -114,7 +114,7 @@ const AboutPage = () => {
               <div className="flex flex-col items-center">
                 <div className="flex items-center gap-2 mb-2">
                   <Shield className="h-6 w-6 text-primary" />
-                  <span className="text-3xl font-bold text-primary">{language === 'bg' ? '5 години' : '5 years'}</span>
+                  <span className="text-3xl font-bold text-primary">{language === 'bg' ? '2 години' : '2 years'}</span>
                 </div>
                 <p className="text-muted-foreground text-sm font-medium">{t('aboutPage.stats.warranty')}</p>
               </div>

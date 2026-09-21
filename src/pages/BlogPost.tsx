@@ -19,20 +19,26 @@ const BlogPost = () => {
   const { data: post, isLoading } = useQuery({
     queryKey: ["blog-post", slug, language],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("blog_posts")
-        .select("*")
-        .eq("slug", slug)
-        .maybeSingle();
+      // Локалните статии са винаги налични — показваме ги дори ако базата
+      // е недостъпна (важно и за статичния prerender по време на build).
+      const planningPost = getPlanningRenovationPost(language);
+      const microcementPostData = getMicrocementPost(language);
+      const localFallback =
+        slug === planningPost.slug ? planningPost :
+        slug === microcementPostData.slug ? microcementPostData : null;
 
-      if (error) throw error;
-      if (!data) {
-        const planningPost = getPlanningRenovationPost(language);
-        const microcementPostData = getMicrocementPost(language);
-        if (slug === planningPost.slug) return planningPost as any;
-        if (slug === microcementPostData.slug) return microcementPostData as any;
+      try {
+        const { data, error } = await supabase
+          .from("blog_posts")
+          .select("*")
+          .eq("slug", slug)
+          .maybeSingle();
+        if (error) throw error;
+        return (data ?? localFallback) as any;
+      } catch (e) {
+        if (localFallback) return localFallback as any;
+        throw e;
       }
-      return data;
     },
     enabled: !!slug,
   });
@@ -236,7 +242,7 @@ const BlogPost = () => {
   return (
     <>
       <Helmet>
-        <title>{post.meta_title || post.title} | Renovivo</title>
+        <title>{`${(post.meta_title || post.title).replace(/\s*\|\s*Renovivo\s*$/i, "")} | Renovivo`}</title>
         <meta
           name="description"
           content={post.meta_description || post.excerpt}

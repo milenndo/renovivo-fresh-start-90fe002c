@@ -35,17 +35,12 @@ const serviceToPriceCategoryMap: Record<string, string> = {
 const servicesWithoutPrices = [
   "full-renovation",
   "bathroom",
-  "kitchen",
   "interior-design",
   "gipsokarton-design",
 ];
 
 // Custom content for services without prices
 const customServiceContent: Record<string, { title: string; content: string; showRelated?: boolean }> = {
-  "kitchen": {
-    title: "Ремонт на кухня по поръчка",
-    content: "Кухнята е ключово помещение и изисква добро планиране. Ние не предлагаме стандартни решения, а цялостна изработка на кухни по поръчка, съобразени с ергономията и спецификата на Вашето помещение. Поемаме целия процес: от демонтаж и корекция на ВиК и Ел. инсталации до прецизния монтаж на мебелите и уредите. Цената се формира индивидуално след оглед и избор на материали и механизми."
-  },
   "bathroom": {
     title: "Комплексен ремонт на баня",
     content: "Цялостен ремонт на баня: къртене, подмяна на ВиК и електро инсталации, професионална хидроизолация, монтаж на вградени казанчета и линейни сифони. Работим прецизно и с плочки на 45 градуса, ниши и скрити тръби. Гарантираме водоплътност и коректно изпълнение."
@@ -67,12 +62,32 @@ const customServiceContent: Record<string, { title: string; content: string; sho
 
 // Related services for full renovation
 const relatedServicesForFullRenovation = [
-  { name: "Ел. Услуги", path: "/services/electrical" },
-  { name: "ВиК", path: "/services/plumbing" },
-  { name: "Отопление и Климатизация", path: "/services/heating-ac" },
-  { name: "Шпакловка", path: "/services/shpaklovka" },
-  { name: "Настилки", path: "/services/flooring" },
+  { name: "Цялостни довършителни работи", path: "/services/finishing-works" },
+  { name: "Ремонт на баня", path: "/services/bathroom" },
+  { name: "Кухни и корпусна мебел по поръчка", path: "/services/custom-furniture" },
+  { name: "Сухо строителство", path: "/services/drywall-construction" },
+  { name: "Интериорен дизайн", path: "/services/interior-design" },
 ];
+
+// Стари/несъществуващи slug-ове, към които има линкове отвън или от стари
+// версии на сайта. Пренасочваме към реалната страница вместо към /services
+// (иначе crawler-ите виждат „soft 404“ — дубликат на списъка с услуги).
+const LEGACY_SERVICE_ALIASES: Record<string, string> = {
+  "full-renovation": "apartment-renovation",
+  "kitchen": "custom-furniture",
+  "painting": "finishing-works",
+  "shpaklovka": "finishing-works",
+  "flooring": "finishing-works",
+  "kartene": "apartment-renovation",
+  "demolition": "apartment-renovation",
+  "electrical": "apartment-renovation",
+  "plumbing": "apartment-renovation",
+  "heating-ac": "apartment-renovation",
+  "drywall": "drywall-construction",
+  "doors": "doors-installation",
+  "windows": "windows-doors",
+  "smart-home": "smart-installations",
+};
 
 const ServiceDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -84,7 +99,8 @@ const ServiceDetail = () => {
   const serviceFAQs = getServiceFAQs(language);
 
   if (!service) {
-    return <Navigate to="/services" replace />;
+    const alias = id ? LEGACY_SERVICE_ALIASES[id] : undefined;
+    return <Navigate to={alias ? `/services/${alias}` : "/services"} replace />;
   }
 
   const currentIndex = services.findIndex((s) => s.id === id);
@@ -107,17 +123,8 @@ const ServiceDetail = () => {
     "name": service.title,
     "description": service.fullDescription,
     "url": `https://renovivo.bg/services/${id}`,
-    "image": service.image,
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Renovivo",
-      "telephone": "+359893712919",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "София",
-        "addressCountry": "BG"
-      }
-    },
+    "image": service.image?.startsWith("http") ? service.image : `https://renovivo.bg${service.image}`,
+    "provider": { "@id": "https://renovivo.bg/#organization" },
     "areaServed": {
       "@type": "City",
       "name": "София"
@@ -142,11 +149,9 @@ const ServiceDetail = () => {
     }))
   } : null;
 
-  const seoTitle = service.isInnovative
-    ? `${service.title} София | Renovivo - Модерни покрития`
-    : `${service.title} София | Renovivo - Професионални услуги`;
+  const seoTitle = `${service.title} в София | Renovivo`;
 
-  const seoDescription = `${service.shortDescription} Професионално изпълнение в София. Гаранция за качество. ☎️ Безплатна консултация!`;
+  const seoDescription = `${service.shortDescription} Безплатен оглед в София, писмена оферта, 2 години гаранция. Тел. 089 371 2919`;
 
   const customContent = id ? customServiceContent[id] : null;
   const showPriceTable = id && serviceToPriceCategoryMap[id] && !servicesWithoutPrices.includes(id);

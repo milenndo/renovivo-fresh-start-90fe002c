@@ -67,7 +67,7 @@ const benefits = [
   {
     icon: Shield,
     title: "Дълготрайност",
-    description: "Издръжливи покрития с гаранция до 75 години"
+    description: "Издръжливост до 75+ години (terrazzo)"
   },
   {
     icon: Palette,
@@ -126,8 +126,8 @@ const InnovativeCoatings = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Иновативни покрития София | Микроцимент, Terrazzo, Flake Floor - Renovivo</title>
-        <meta name="description" content="Модерни безшевни покрития в София - микроцимент, Terrazzo, Flake Floor и каменен килим. Иновативни решения за под и стени. Дълготрайност до 75 години!" />
+        <title>Микроцимент, terrazzo и Flake Floor в София | Renovivo</title>
+        <meta name="description" content="Модерни безшевни покрития в София - микроцимент, Terrazzo, Flake Floor и каменен килим. Иновативни решения за под и стени. Издръжливост до 75+ години (terrazzo)." />
         <meta name="keywords" content="микроцимент София, Terrazzo под, Flake Floor, каменен килим, безшевни подове, декоративни покрития, иновативни настилки" />
         <link rel="canonical" href="https://renovivo.bg/innovative-coatings" />
         <meta property="og:title" content="Иновативни покрития София | Renovivo" />
