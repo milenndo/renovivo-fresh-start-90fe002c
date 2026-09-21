@@ -67,7 +67,7 @@ const Header = () => {
               <span>{t('lang.switch')}</span>
             </button>
             <a
-              href="https://www.facebook.com/share/17eRc268rh/"
+              href="https://www.facebook.com/renovivo.bg"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"
