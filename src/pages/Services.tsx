@@ -43,7 +43,6 @@ const ServicesPage = () => {
       icon: Wrench,
       items: [
         { name: t('services.item.bathroom'), path: "/services/bathroom", description: t('services.item.bathroom.desc') },
-        { name: t('services.item.kitchen'), path: "/services/kitchen", description: t('services.item.kitchen.desc') },
         { name: t('services.item.livingRoom'), path: "/services/living-room", description: t('services.item.livingRoom.desc') },
         { name: t('services.item.quickRefresh'), path: "/services/quick-refresh", description: t('services.item.quickRefresh.desc') },
       ]

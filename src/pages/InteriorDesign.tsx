@@ -174,7 +174,7 @@ const InteriorDesign = () => {
           <div className="container-custom">
             <h2 className="text-2xl font-bold mb-6">Свързани услуги</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Link to="/services/full-renovation" className="group">
+              <Link to="/services/apartment-renovation" className="group">
                 <Card className="hover:border-primary hover:shadow-lg transition-all">
                   <CardContent className="p-5 flex items-center justify-between">
                     <span className="font-medium group-hover:text-primary transition-colors">Цялостен ремонт</span>
@@ -182,10 +182,10 @@ const InteriorDesign = () => {
                   </CardContent>
                 </Card>
               </Link>
-              <Link to="/services/painting" className="group">
+              <Link to="/services/finishing-works" className="group">
                 <Card className="hover:border-primary hover:shadow-lg transition-all">
                   <CardContent className="p-5 flex items-center justify-between">
-                    <span className="font-medium group-hover:text-primary transition-colors">Боядисване</span>
+                    <span className="font-medium group-hover:text-primary transition-colors">Довършителни работи</span>
                     <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                   </CardContent>
                 </Card>
