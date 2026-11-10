@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { HCAPTCHA_SITE_KEY } from "@/lib/captcha";
+import { trackLead } from "@/utils/consent";
 import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +29,7 @@ const GuideDownloadDialog = ({ open, onOpenChange }: GuideDownloadDialogProps) =
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const captchaRef = useRef<HCaptcha | null>(null);
 
   const copy =
     language === "en"
@@ -70,8 +74,13 @@ const GuideDownloadDialog = ({ open, onOpenChange }: GuideDownloadDialogProps) =
 
     setSubmitting(true);
     try {
+      // Invisible hCaptcha: resolves with a token, the edge function verifies it
+      const captcha = await captchaRef.current?.execute({ async: true });
+      if (!captcha?.response) throw new Error("Captcha not completed");
+
       const { error } = await supabase.functions.invoke("send-contact-email", {
         body: {
+          captcha_token: captcha.response,
           name: trimmedName || (language === "en" ? "Guide download" : "Заявка за ръководство"),
           email: trimmedEmail,
           message:
@@ -82,6 +91,7 @@ const GuideDownloadDialog = ({ open, onOpenChange }: GuideDownloadDialogProps) =
         },
       });
       if (error) throw error;
+      trackLead("guide-download");
 
       window.open(GUIDE_URL, "_blank", "noopener,noreferrer");
       toast({ title: copy.okTitle, description: copy.okDesc });
@@ -93,6 +103,7 @@ const GuideDownloadDialog = ({ open, onOpenChange }: GuideDownloadDialogProps) =
       toast({ title: copy.errTitle, description: copy.errDesc, variant: "destructive" });
     } finally {
       setSubmitting(false);
+      captchaRef.current?.resetCaptcha();
     }
   };
 
@@ -131,6 +142,7 @@ const GuideDownloadDialog = ({ open, onOpenChange }: GuideDownloadDialogProps) =
               required
             />
           </div>
+          <HCaptcha ref={captchaRef} sitekey={HCAPTCHA_SITE_KEY} size="invisible" />
           <Button
             type="submit"
             disabled={submitting}

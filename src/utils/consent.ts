@@ -199,18 +199,21 @@ export function removeScript(id: string): void {
 }
 
 // ============================================================
-// SCRIPT INJECTION PLACEHOLDERS
-// Replace the placeholder IDs with your actual tracking IDs
+// CONSENT-GATED TRACKING
+// IDs come from the environment (see .env.example). A script whose
+// ID is not set is simply not loaded.
 // ============================================================
 
+const GA_MEASUREMENT_ID: string | undefined = import.meta.env.VITE_GA_MEASUREMENT_ID; // G-XXXXXXXXXX
+const GTM_CONTAINER_ID: string | undefined = import.meta.env.VITE_GTM_CONTAINER_ID; // GTM-XXXXXXX
+const META_PIXEL_ID: string | undefined = import.meta.env.VITE_META_PIXEL_ID; // 1234567890
+
 /**
- * Load Google Analytics (if consent granted)
- * Replace 'GA_MEASUREMENT_ID' with your actual GA4 Measurement ID (e.g., 'G-XXXXXXXXXX')
+ * Load Google Analytics (if consent granted and VITE_GA_MEASUREMENT_ID is set)
  */
 export function loadGoogleAnalytics(): void {
-  if (!hasAnalyticsConsent()) return;
-  
-  const GA_MEASUREMENT_ID = "GA_MEASUREMENT_ID"; // TODO: Replace with actual ID
+  if (!hasAnalyticsConsent() || !GA_MEASUREMENT_ID) return;
+  if (document.getElementById("ga-script")) return;
   
   // Load gtag.js
   injectScript(
@@ -218,13 +221,27 @@ export function loadGoogleAnalytics(): void {
     "ga-script"
   );
   
-  // Initialize gtag
+  // Initialize gtag — gtag.js only understands the `arguments` object, not an array
   window.dataLayer = window.dataLayer || [];
-  function gtag(...args: unknown[]) {
-    window.dataLayer.push(args);
+  window.gtag = function gtag() {
+    // eslint-disable-next-line prefer-rest-params
+    window.dataLayer.push(arguments);
+  };
+  window.gtag("js", new Date());
+  window.gtag("config", GA_MEASUREMENT_ID);
+}
+
+/**
+ * Report a submitted form as a lead to whichever trackers are loaded.
+ * No-op until the visitor has consented and the IDs are configured.
+ */
+export function trackLead(form: string): void {
+  if (hasAnalyticsConsent() && typeof window.gtag === "function") {
+    window.gtag("event", "generate_lead", { form });
   }
-  gtag("js", new Date());
-  gtag("config", GA_MEASUREMENT_ID);
+  if (hasMarketingConsent() && typeof window.fbq === "function") {
+    window.fbq("track", "Lead", { content_name: form });
+  }
 }
 
 /**
@@ -232,9 +249,8 @@ export function loadGoogleAnalytics(): void {
  * Replace 'GTM_CONTAINER_ID' with your actual GTM Container ID (e.g., 'GTM-XXXXXXX')
  */
 export function loadGoogleTagManager(): void {
-  if (!hasMarketingConsent()) return;
+  if (!hasMarketingConsent() || !GTM_CONTAINER_ID) return;
   
-  const GTM_CONTAINER_ID = "GTM_CONTAINER_ID"; // TODO: Replace with actual ID
   
   // GTM script
   const script = document.createElement("script");
@@ -257,9 +273,8 @@ export function loadGoogleTagManager(): void {
  * Replace 'META_PIXEL_ID' with your actual Pixel ID (e.g., '1234567890')
  */
 export function loadMetaPixel(): void {
-  if (!hasMarketingConsent()) return;
+  if (!hasMarketingConsent() || !META_PIXEL_ID) return;
   
-  const META_PIXEL_ID = "META_PIXEL_ID"; // TODO: Replace with actual ID
   
   // Meta Pixel script
   const script = document.createElement("script");
@@ -286,6 +301,7 @@ export function loadMetaPixel(): void {
 declare global {
   interface Window {
     dataLayer: unknown[];
+    gtag: (...args: unknown[]) => void;
     fbq: (...args: unknown[]) => void;
   }
 }

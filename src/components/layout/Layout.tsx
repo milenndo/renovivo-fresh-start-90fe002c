@@ -33,20 +33,11 @@ const Layout = ({ children }: LayoutProps) => {
   // Consent-gated script loading
   useEffect(() => {
     if (preferences) {
-      if (hasAnalyticsConsent()) {
-        // Load analytics scripts only if consent is granted
-        // TODO: Uncomment and add your actual IDs
-        // loadGoogleAnalytics();
-        console.log("[Consent] Analytics consent granted - ready to load GA");
-      }
-
-      if (hasMarketingConsent()) {
-        // Load marketing scripts only if consent is granted
-        // TODO: Uncomment and add your actual IDs
-        // loadGoogleTagManager();
-        // loadMetaPixel();
-        console.log("[Consent] Marketing consent granted - ready to load GTM/Meta Pixel");
-      }
+      // Each loader checks consent itself and skips trackers whose ID
+      // is not set in the environment (see .env.example).
+      loadGoogleAnalytics();
+      loadGoogleTagManager();
+      loadMetaPixel();
 
       // If consent was revoked, clear cookies
       if (!hasAnalyticsConsent() && !hasMarketingConsent()) {
