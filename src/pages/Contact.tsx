@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { HCAPTCHA_SITE_KEY } from "@/lib/captcha";
+import { trackLead } from "@/utils/consent";
 import { Helmet } from "react-helmet-async";
 import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 import Layout from "@/components/layout/Layout";
@@ -21,6 +24,7 @@ const ContactPage = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const captchaRef = useRef<HCaptcha | null>(null);
 
   const contactInfo = [
     { icon: Phone, title: t('contact.info.phone'), value: "+359 89 371 29 19", href: "tel:+359893712919" },
@@ -34,8 +38,13 @@ const ContactPage = () => {
     setIsSubmitting(true);
     
     try {
+      // Invisible hCaptcha: resolves with a token, the edge function verifies it
+      const captcha = await captchaRef.current?.execute({ async: true });
+      if (!captcha?.response) throw new Error("Captcha not completed");
+
       const { error } = await supabase.functions.invoke("send-contact-email", {
         body: {
+          captcha_token: captcha.response,
           name: formData.name,
           email: formData.email,
           phone: formData.phone || undefined,
@@ -44,6 +53,7 @@ const ContactPage = () => {
       });
 
       if (error) throw error;
+      trackLead("contact-form");
 
       toast({
         title: t('contact.form.success'),
@@ -59,6 +69,7 @@ const ContactPage = () => {
       });
     } finally {
       setIsSubmitting(false);
+      captchaRef.current?.resetCaptcha();
     }
   };
 
@@ -216,6 +227,7 @@ const ContactPage = () => {
                         />
                       </div>
 
+                      <HCaptcha ref={captchaRef} sitekey={HCAPTCHA_SITE_KEY} size="invisible" />
                       <Button 
                         type="submit" 
                         size="lg"

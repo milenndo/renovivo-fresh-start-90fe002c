@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import heroPoster from "@/assets/images/hero-poster.jpg";
-import heroKitchen from "@/assets/images/hero-kitchen.jpg.asset.json";
+import heroKitchen from "@/assets/images/hero-kitchen.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
@@ -42,10 +42,10 @@ const Hero = () => {
           {/* Cinematic backdrop for the top panel only */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <img
-              src={heroKitchen.url}
+              src={heroKitchen}
               alt="Renovivo — луксозен интериор след ремонт"
-              width={1920}
-              height={1080}
+              width={586}
+              height={826}
               fetchPriority="high"
               decoding="sync"
               loading="eager"

@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { HCAPTCHA_SITE_KEY } from "@/lib/captcha";
+import { trackLead } from "@/utils/consent";
 
 // Project types for qualifying form
 const projectTypes = [
@@ -70,7 +72,6 @@ const inspectionSchema = z.object({
     .or(z.literal("")),
 });
 
-const SITE_KEY = "f0f49628-5bd2-4a88-853e-db5a9758c6f2";
 
 const InspectionRequestModal = () => {
   const { t } = useLanguage();
@@ -154,43 +155,24 @@ const InspectionRequestModal = () => {
     setIsSubmitting(true);
 
     try {
-      const qualifyingInfo = [
-        formData.project_type ? `Тип проект: ${projectTypes.find(p => p.value === formData.project_type)?.label}` : '',
-        formData.approximate_area ? `Площ: ${formData.approximate_area} кв.м.` : '',
-        formData.desired_start ? `Желан старт: ${startTimeOptions.find(s => s.value === formData.desired_start)?.label}` : '',
-        formData.notes
-      ].filter(Boolean).join('\n');
-
-      // Save to database
-      const { error } = await supabase.from("inspection_requests").insert({
-        client_name: formData.client_name.trim(),
-        client_phone: formData.client_phone.trim(),
-        client_email: formData.client_email.trim() || null,
-        address: formData.address.trim(),
-        notes: qualifyingInfo || null,
+      // The edge function verifies the captcha, saves the request and emails the office
+      const { error } = await supabase.functions.invoke("send-inspection-email", {
+        body: {
+          captcha_token: captchaToken,
+          client_name: formData.client_name.trim(),
+          client_phone: formData.client_phone.trim(),
+          client_email: formData.client_email.trim() || undefined,
+          address: formData.address.trim(),
+          project_type: projectTypes.find(p => p.value === formData.project_type)?.label,
+          approximate_area: formData.approximate_area || undefined,
+          desired_start: startTimeOptions.find(s => s.value === formData.desired_start)?.label,
+          notes: formData.notes.trim() || undefined,
+        },
       });
 
       if (error) throw error;
 
-      // Send email notification via edge function
-      try {
-        await supabase.functions.invoke("send-inspection-email", {
-          body: {
-            client_name: formData.client_name.trim(),
-            client_phone: formData.client_phone.trim(),
-            client_email: formData.client_email.trim() || undefined,
-            address: formData.address.trim(),
-            project_type: formData.project_type || undefined,
-            approximate_area: formData.approximate_area || undefined,
-            desired_start: formData.desired_start || undefined,
-            notes: formData.notes || undefined,
-          },
-        });
-        console.log("Email notification sent successfully");
-      } catch (emailError) {
-        console.error("Failed to send email notification:", emailError);
-        // Don't throw - the form submission was successful even if email fails
-      }
+      trackLead("inspection-request");
 
       toast.success("Заявката е изпратена успешно!", {
         description: "Ще се свържем с вас възможно най-скоро.",
@@ -372,7 +354,7 @@ const InspectionRequestModal = () => {
                 <div className="overflow-x-auto max-w-full">
                   <HCaptcha
                     ref={captchaRef}
-                    sitekey={SITE_KEY}
+                    sitekey={HCAPTCHA_SITE_KEY}
                     size="compact"
                     onVerify={handleCaptchaVerify}
                     onExpire={handleCaptchaExpire}

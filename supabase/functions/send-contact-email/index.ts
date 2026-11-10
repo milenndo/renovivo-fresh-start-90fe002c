@@ -1,16 +1,20 @@
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { createClient } from 'npm:@supabase/supabase-js@2';
+import { verifyCaptcha } from '../_shared/captcha.ts';
 
 // Strip any stray whitespace/newlines/non-ASCII chars that would make the
 // Authorization header fail ByteString validation in fetch().
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')?.replace(/[^\x20-\x7E]/g, '').trim();
-const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
 const TO_EMAIL = 'office@renovivo.bg';
-const FROM_EMAIL = 'Renovivo <onboarding@resend.dev>';
+// onboarding@resend.dev is Resend's test sender. Once the domain is verified in
+// Resend, set RESEND_FROM_EMAIL (e.g. "Renovivo <office@renovivo.bg>").
+const FROM_EMAIL = Deno.env.get('RESEND_FROM_EMAIL')?.trim() || 'Renovivo <onboarding@resend.dev>';
 
 interface Payload {
+  captcha_token?: string;
   name?: string;
   email: string;
   phone?: string;
@@ -19,7 +23,11 @@ interface Payload {
 }
 
 function escapeHtml(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+  return s.replace(/[&<>"']/g, (c) => {
+    const escaped = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    if (escaped === undefined) return c;
+    return escaped;
+  });
 }
 
 function isValidEmail(e: string): boolean {
@@ -31,6 +39,14 @@ Deno.serve(async (req) => {
 
   try {
     const body = (await req.json()) as Payload;
+
+    const captcha = await verifyCaptcha(body.captcha_token, req);
+    if (!captcha.ok) {
+      return new Response(JSON.stringify({ error: captcha.error }), {
+        status: captcha.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
     const name = (body.name ?? '').toString().trim().slice(0, 200);
     const email = (body.email ?? '').toString().trim().slice(0, 200);
     const phone = (body.phone ?? '').toString().trim().slice(0, 50);
@@ -45,6 +61,13 @@ Deno.serve(async (req) => {
     }
 
     // 1) Persist to DB first so nothing is lost even if email fails
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+      console.error('Database configuration missing');
+      return new Response(JSON.stringify({ error: 'Database configuration missing' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
     const { error: dbError } = await supabase.from('contact_requests').insert({
       name: name || '(без име)',

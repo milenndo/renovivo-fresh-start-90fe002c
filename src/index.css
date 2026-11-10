@@ -106,13 +106,13 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Epilogue', system-ui, sans-serif;
+    font-family: 'Epilogue', 'Manrope', system-ui, sans-serif;
     font-weight: 300;
     letter-spacing: 0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Urbanist', system-ui, sans-serif;
+    font-family: 'Urbanist', 'Montserrat', system-ui, sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
@@ -146,11 +146,11 @@
   /* Editorial helpers */
   .eyebrow {
     @apply text-[10px] md:text-[11px] font-bold tracking-[0.4em] uppercase text-primary;
-    font-family: 'Urbanist', sans-serif;
+    font-family: 'Urbanist', 'Montserrat', sans-serif;
   }
   .hairline { background: hsl(43 51% 54% / 0.25); }
   .display-serif {
-    font-family: 'Urbanist', sans-serif;
+    font-family: 'Urbanist', 'Montserrat', sans-serif;
     font-weight: 900;
     letter-spacing: -0.04em;
     line-height: 0.85;
