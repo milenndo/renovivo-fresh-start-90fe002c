@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import heroPoster from "@/assets/images/hero-poster.jpg";
-import heroKitchen from "@/assets/images/hero-kitchen.jpg";
+import heroBackground from "@/assets/images/projects/living-room-detail.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "@/components/ui/button";
+import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
 
 const Hero = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -10,6 +12,8 @@ const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const { t } = useLanguage();
+  const { openModal } = useInspectionRequest();
+  const [allowVideo, setAllowVideo] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -19,6 +23,15 @@ const Hero = () => {
     const timer = setTimeout(() => setIsVisible(true), 80);
     return () => { mq.removeEventListener("change", handler); clearTimeout(timer); };
   }, []);
+
+  // Background video: desktop only, and only after the page has had time to paint,
+  // so it never competes with the hero image for bandwidth on mobile / first load.
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    if (!window.matchMedia("(min-width: 1024px)").matches) return;
+    const timer = window.setTimeout(() => setAllowVideo(true), 2500);
+    return () => window.clearTimeout(timer);
+  }, [prefersReducedMotion]);
 
   return (
     <section
@@ -42,16 +55,16 @@ const Hero = () => {
           {/* Cinematic backdrop for the top panel only */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <img
-              src={heroKitchen}
+              src={heroBackground}
               alt="Renovivo — луксозен интериор след ремонт"
-              width={586}
-              height={826}
+              width={1920}
+              height={1071}
               fetchPriority="high"
               decoding="sync"
               loading="eager"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-[center_35%]"
             />
-            {!prefersReducedMotion && (
+            {allowVideo && (
               <video
                 autoPlay muted loop playsInline preload="metadata"
                 width={1920} height={1080} poster={heroPoster}
@@ -73,11 +86,11 @@ const Hero = () => {
               <div className="space-y-6">
                 <div className="flex items-center gap-3">
                   <span className="h-px w-8 bg-primary" />
-                  <span className="eyebrow">{t('hero.badge') || 'Ремонт на жилища'}</span>
+                  <h1 className="eyebrow">{t('hero.badge') || 'Ремонт на жилища'}</h1>
                 </div>
-                <h1 className="text-6xl sm:text-7xl md:text-[9rem] lg:text-[10rem] display-serif text-foreground tracking-tight">
+                <p aria-label="Renovivo" className="text-6xl sm:text-7xl md:text-[9rem] lg:text-[10rem] display-serif text-foreground tracking-tight">
                   <span className="text-primary">R</span>eno<br /><span className="text-primary">v</span>ivo
-                </h1>
+                </p>
                 <p className="text-sm md:text-base tracking-[0.5em] uppercase font-medium pt-2 wordmark-tagline">
                   Every Detail Matters
                 </p>
@@ -90,12 +103,9 @@ const Hero = () => {
                   процес — от огледа до предаването на готовия обект.
                 </p>
                 <div className="flex flex-col gap-4">
-                  <Link to="/contact" className="group inline-flex items-center gap-4 w-fit">
-                    <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-foreground group-hover:text-primary transition-colors">
-                      Заявете оглед
-                    </span>
-                    <span className="w-12 h-px bg-primary transition-all duration-500 group-hover:w-24" />
-                  </Link>
+                  <Button size="lg" onClick={openModal} className="w-fit px-8 font-semibold">
+                    Заявете безплатен оглед
+                  </Button>
                   <Link to="/portfolio" className="group inline-flex items-center gap-4 w-fit">
                     <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-foreground/70 group-hover:text-primary transition-colors">
                       Вижте портфолиото

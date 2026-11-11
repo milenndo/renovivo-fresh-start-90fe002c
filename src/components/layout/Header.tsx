@@ -4,11 +4,13 @@ import { Phone, Mail, Clock, Menu, X, Facebook, Instagram, Globe } from "lucide-
 import { Button } from "@/components/ui/button";
 import Wordmark from "@/components/Wordmark";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { language, setLanguage, t } = useLanguage();
+  const { openModal } = useInspectionRequest();
 
   const navLinks = [
     { key: 'nav.home', path: "/" },
@@ -30,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full">
+    <header className="w-full sticky -top-9 z-50">
       {/* Top bar */}
       <div className="bg-foreground text-background py-2">
         <div className="container-custom flex flex-wrap justify-between items-center text-sm">
@@ -89,7 +91,7 @@ const Header = () => {
       </div>
 
       {/* Main header */}
-      <div className="bg-background shadow-sm sticky top-0 z-50">
+      <div className="bg-background shadow-sm">
         <div className="container-custom py-1">
           {/* Mobile Layout */}
           <div className="relative lg:hidden flex items-center justify-center h-16">
@@ -141,7 +143,7 @@ const Header = () => {
             </nav>
 
             {/* Phone right */}
-            <div className="flex items-center shrink-0">
+            <div className="flex items-center shrink-0 gap-5">
               <a
                 href="tel:+359893712919"
                 className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-semibold whitespace-nowrap"
@@ -149,6 +151,9 @@ const Header = () => {
                 <Phone className="h-5 w-5" aria-hidden="true" />
                 <span>+359 89 371 29 19</span>
               </a>
+              <Button onClick={openModal} size="sm" className="font-semibold">
+                {t('cta.inspection')}
+              </Button>
             </div>
           </div>
         </div>
@@ -169,6 +174,12 @@ const Header = () => {
                   {t(link.key)}
                 </Link>
               ))}
+              <Button
+                onClick={() => { setIsMenuOpen(false); openModal(); }}
+                className="w-full mt-2 font-semibold"
+              >
+                {t('cta.inspection')}
+              </Button>
               <a href="tel:+359893712919" className="mt-4">
                 <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                   <Phone className="h-4 w-4 mr-2" aria-hidden="true" />
