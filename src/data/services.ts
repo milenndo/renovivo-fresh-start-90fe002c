@@ -40,7 +40,7 @@ export interface Service {
   image: string;
   gallery: string[];
   isInnovative?: boolean;
-  category?: 'full-renovation' | 'finishing-work' | 'partial-renovation' | 'special-solutions';
+  category?: 'full-renovation' | 'finishing-work' | 'special-solutions';
   colorVariants?: { name: string; description: string }[];
   vsTiles?: {
     advantages: string[];
@@ -329,94 +329,6 @@ const servicesBG: Service[] = [
     ],
     image: fullRenovationImg,
     gallery: [fullRenovationImg],
-    isInnovative: false
-  },
-
-  // ========== ЧАСТИЧНИ РЕМОНТИ ==========
-  // Целеви решения за отделни помещения и зони
-
-  // Ремонт на баня
-  {
-    id: "bathroom",
-    icon: Bath,
-    title: "Ремонт на баня",
-    category: "partial-renovation",
-    shortDescription: "Цялостен ремонт на банята - от хидроизолация до финални детайли.",
-    fullDescription: "Банята е едно от най-натоварените помещения в дома и изисква качествено изпълнение. Извършваме комплексен ремонт: къртене на стари плочки, подмяна на инсталации, професионална хидроизолация с гаранция, монтаж на структури за вградено казанче, линейни сифони и санитария. Изпълняваме и сложни детайли като герунг рязане на плочки (45 градуса), изработка на ниши и скриване на тръби.",
-    features: [
-      "Демонтаж на стари покрития и санитария",
-      "Подмяна на ВиК инсталации",
-      "Многослойна хидроизолация с гаранция",
-      "Структури за вградено казанче",
-      "Линейни сифони и подово отводняване",
-      "Герунг рязане на плочки (45°)",
-      "Монтаж на душ кабини и вани"
-    ],
-    process: [
-      { step: 1, title: "Демонтаж", description: "Внимателно премахване на стари елементи." },
-      { step: 2, title: "Инсталации", description: "Нови ВиК точки по проект." },
-      { step: 3, title: "Хидроизолация", description: "Многослойна защита срещу влага." },
-      { step: 4, title: "Облицовка", description: "Полагане на плочки с прецизност." },
-      { step: 5, title: "Монтаж", description: "Санитария, аксесоари и финални детайли." }
-    ],
-    image: bathroomImg,
-    gallery: [bathroomImg],
-    isInnovative: false
-  },
-
-  // Ремонт на всекидневна
-  {
-    id: "living-room",
-    icon: Sofa,
-    title: "Ремонт на всекидневна",
-    category: "partial-renovation",
-    shortDescription: "Обновяване на жилищното пространство в уютна и функционална зона за отдих.",
-    fullDescription: "Всекидневната е мястото, където семейството прекарва най-много време заедно. Работим по всички аспекти - подмяна на настилки (паркет, ламинат, дъски), изграждане на декоративни елементи от гипсокартон (TV стени, ниши, скрито осветление), боядисване и монтаж на многоточково осветление. Обръщаме внимание на акустиката, зонирането на пространството и ергономията.",
-    features: [
-      "Подмяна на подови настилки",
-      "Шпакловане и боядисване на стени",
-      "Декоративни елементи от гипсокартон",
-      "Окачени тавани със скрито осветление",
-      "Монтаж на електрически елементи",
-      "Изграждане на ниши за техника",
-      "Инсталиране на климатични системи"
-    ],
-    process: [
-      { step: 1, title: "Концепция", description: "Обсъждане на визия и функционални нужди." },
-      { step: 2, title: "Подготовка", description: "Премахване на стари елементи и подготовка." },
-      { step: 3, title: "Изпълнение", description: "Настилки, стени, тавани." },
-      { step: 4, title: "Детайли", description: "Осветление, аксесоари, завършек." }
-    ],
-    image: livingRoomImg,
-    gallery: [livingRoomImg],
-    isInnovative: false
-  },
-
-  // Бърз освежителен ремонт
-  {
-    id: "quick-refresh",
-    icon: Timer,
-    title: "Бърз освежителен ремонт",
-    category: "partial-renovation",
-    shortDescription: "Бързо обновяване на интериора до 1 седмица - боядисване, подмяна на настилки, малки корекции.",
-    fullDescription: "Понякога домът се нуждае от бързо освежаване без мащабен ремонт. Нашият освежителен ремонт е идеален за наематели, собственици преди продажба или просто за обновяване на интериора. В рамките на до 1 седмица можем да боядисаме стени и тавани, да подменим стари настилки, да освежим фуги и силикони в баня, да сменим електрически ключове и контакти, да монтираме нови осветителни тела.",
-    features: [
-      "Боядисване на стени и тавани",
-      "Подмяна или реновиране на настилки",
-      "Освежаване на фуги и силикони",
-      "Смяна на ключове и контакти",
-      "Монтаж на осветителни тела",
-      "Малки ремонти и корекции",
-      "Почистване след ремонт"
-    ],
-    process: [
-      { step: 1, title: "Оглед", description: "Бърза оценка и определяне на обхват." },
-      { step: 2, title: "Подготовка", description: "Защита на мебели и повърхности." },
-      { step: 3, title: "Изпълнение", description: "Бързо и ефективно обновяване." },
-      { step: 4, title: "Предаване", description: "Почистване и готов за ползване дом." }
-    ],
-    image: paintingImg,
-    gallery: [paintingImg],
     isInnovative: false
   },
 
@@ -778,89 +690,6 @@ const servicesEN: Service[] = [
     ],
     image: fullRenovationImg,
     gallery: [fullRenovationImg],
-    isInnovative: false
-  },
-
-  // ========== PARTIAL RENOVATIONS ==========
-  {
-    id: "bathroom",
-    icon: Bath,
-    title: "Bathroom Renovation",
-    category: "partial-renovation",
-    shortDescription: "Complete bathroom transformation - from waterproofing to final details.",
-    fullDescription: "The bathroom is one of the most heavily used rooms in the home and requires an uncompromising approach to quality. We perform comprehensive execution: removal of old tiles, replacement of installations, professional waterproofing with warranty, installation of structures for built-in cistern, linear drains and luxury sanitary ware. We specialize in complex executions such as miter cutting of tiles (45 degrees), creation of niches and concealment of pipes.",
-    features: [
-      "Removal of old coatings and sanitary ware",
-      "Replacement of plumbing installations",
-      "Multi-layer waterproofing with warranty",
-      "Structures for built-in cistern",
-      "Linear drains and floor drainage",
-      "Miter cutting of tiles (45°)",
-      "Installation of shower cabins and bathtubs"
-    ],
-    process: [
-      { step: 1, title: "Demolition", description: "Careful removal of old elements." },
-      { step: 2, title: "Installations", description: "New plumbing points according to project." },
-      { step: 3, title: "Waterproofing", description: "Multi-layer protection against moisture." },
-      { step: 4, title: "Tiling", description: "Precise tile installation." },
-      { step: 5, title: "Installation", description: "Sanitary ware, accessories and final details." }
-    ],
-    image: bathroomImg,
-    gallery: [bathroomImg],
-    isInnovative: false
-  },
-
-  {
-    id: "living-room",
-    icon: Sofa,
-    title: "Living Room Renovation",
-    category: "partial-renovation",
-    shortDescription: "Transformation of living space into cozy and functional relaxation area.",
-    fullDescription: "The living room is where the family spends the most time together - an average of 4-5 hours daily. That's why it's extremely important for this space to combine comfort with elegance and practicality. We work on all aspects - from flooring replacement (parquet, laminate, boards) through construction of decorative drywall elements (TV walls, niches, hidden lighting) to painting and installation of multi-point lighting. We pay special attention to acoustics (important for home cinema), proper space zoning and ergonomics for maximum comfort.",
-    features: [
-      "Replacement of floor coverings",
-      "Plastering and painting of walls",
-      "Decorative drywall elements",
-      "Suspended ceilings with hidden lighting",
-      "Installation of electrical elements",
-      "Construction of niches for equipment",
-      "Installation of climate systems"
-    ],
-    process: [
-      { step: 1, title: "Concept", description: "Discussion of vision and functional needs." },
-      { step: 2, title: "Preparation", description: "Removal of old elements and preparation." },
-      { step: 3, title: "Execution", description: "Flooring, walls, ceilings." },
-      { step: 4, title: "Details", description: "Lighting, accessories, finishing." }
-    ],
-    image: livingRoomImg,
-    gallery: [livingRoomImg],
-    isInnovative: false
-  },
-
-  {
-    id: "quick-refresh",
-    icon: Timer,
-    title: "Quick Refresh",
-    category: "partial-renovation",
-    shortDescription: "Quick interior renewal up to 1 week - painting, flooring replacement, minor corrections.",
-    fullDescription: "Sometimes the home needs a quick refresh without major renovation. Our refresh renovation is ideal for tenants, owners before sale or simply for interior renewal. Within up to 1 week we can paint walls and ceilings, replace old flooring, refresh joints and silicone in bathroom, replace electrical switches and outlets, install new lighting fixtures.",
-    features: [
-      "Painting of walls and ceilings",
-      "Replacement or renovation of flooring",
-      "Refreshing joints and silicone",
-      "Replacement of switches and outlets",
-      "Installation of lighting fixtures",
-      "Minor repairs and corrections",
-      "Cleaning after renovation"
-    ],
-    process: [
-      { step: 1, title: "Inspection", description: "Quick assessment and scope determination." },
-      { step: 2, title: "Preparation", description: "Protection of furniture and surfaces." },
-      { step: 3, title: "Execution", description: "Fast and efficient renewal." },
-      { step: 4, title: "Handover", description: "Cleaning and ready-to-use home." }
-    ],
-    image: paintingImg,
-    gallery: [paintingImg],
     isInnovative: false
   },
 
