@@ -29,9 +29,6 @@ const serviceToPriceCategoryMap: Record<string, string> = {
   "plochki": "plochki",
   "suhi-podove": "suho-stroitelstvo",
   "heating-ac": "vik",
-  "bathroom": "apartment-renovation",
-  "living-room": "apartment-renovation",
-  "quick-refresh": "apartment-renovation",
 };
 
 // Services that should NOT show price tables (individual projects)
