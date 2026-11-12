@@ -1,71 +1,54 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { Phone, ArrowLeft, ArrowRight, Check, Calendar } from "lucide-react";
+import { Phone, ArrowLeft, ArrowRight, Check, Calendar, Sparkles, Calculator } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getServiceByIdWithLanguage, getServices, getServiceFAQs } from "@/data/services";
-// PriceTable removed — prices are handled via free inspection requests
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import VisualBreadcrumb from "@/components/VisualBreadcrumb";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Mapping service IDs to price category slugs
-const serviceToPriceCategoryMap: Record<string, string> = {
-  "plumbing": "vik",
-  "electrical": "elektro",
-  "painting": "boyadisvane",
-  "flooring": "podovi-nastilki",
-  // Innovative coatings
-  "microcement": "inovativni-pokritia",
-  "terrazzo": "inovativni-pokritia",
-  "flake-floor": "inovativni-pokritia",
-  "stone-carpet": "inovativni-pokritia",
-  // New services from price list
-  "shpaklovka": "shpaklovka",
-  "suho-stroitelstvo": "suho-stroitelstvo",
-  "kartene": "kartene",
-  "plochki": "plochki",
-  "suhi-podove": "suho-stroitelstvo",
-  "heating-ac": "vik",
-};
-
-// Services that should NOT show price tables (individual projects)
-const servicesWithoutPrices = [
-  "full-renovation",
+// Основните високомаржови услуги, които показват KCC обяснение и свързани комплексни услуги
+const turnkeyCoreServices = [
+  "apartment-renovation",
+  "finishing-works",
+  "house-renovation",
   "interior-design",
-  "gipsokarton-design",
+  "custom-furniture",
 ];
 
-// Custom content for services without prices
-const customServiceContent: Record<string, { title: string; content: string; showRelated?: boolean }> = {
-  "full-renovation": {
-    title: "Цялостен ремонт - процес",
-    content: "Цялостният ремонт е сложен логистичен и технически процес, който ние управляваме вместо Вас.\n\nЕтапи на работа:\n1. Оглед и заснемане на обекта.\n2. Изготвяне на подробен бюджет и график.\n3. Демонтаж и подготовка на основата.\n4. Изграждане на нови инсталации (ВиК, Ел, ОВК).\n5. Довършителни работи (шпакловка, замазка, настилки, боя).\n6. Монтаж и почистване.\n\nНие координираме всички екипи, за да спазим сроковете и качеството.",
-    showRelated: true
+// Свързани високомаржови услуги за вътрешно линкване (Internal Linking за Google & AI)
+const relatedTurnkeyServices = [
+  {
+    nameBg: "Цялостен ремонт на апартамент до ключ",
+    nameEn: "Turnkey Apartment Renovation",
+    path: "/services/apartment-renovation",
   },
-  "interior-design": {
-    title: "Проект и Интериорен Дизайн",
-    content: "Услугата „Проект и Дизайн“ ви дава ясна визуализация на бъдещия дом преди започване на ремонта. Изготвяме функционално разпределение, 3D визуализации и техническа документация. Цената зависи от квадратурата и обема на работа и се уточнява след среща на място."
+  {
+    nameBg: "Цялостни довършителни работи (по БДС)",
+    nameEn: "Complete Finishing Works (BDS)",
+    path: "/services/finishing-works",
   },
-  "gipsokarton-design": {
-    title: "Дизайнерски решения от гипсокартон",
-    content: "Гипсокартонът позволява създаването на уникални форми, скрито осветление и декоративни тавани. Цената за тези изпълнения не може да бъде фиксирана, тъй като зависи от сложността на кривите, детайлите и височината на изпълнение. Свържете се с нас за индивидуална оферта."
-  }
-};
-
-// Related services for full renovation
-const relatedServicesForFullRenovation = [
-  { name: "Цялостни довършителни работи", path: "/services/finishing-works" },
-  { name: "Кухни и корпусна мебел по поръчка", path: "/services/custom-furniture" },
-  { name: "Сухо строителство", path: "/services/drywall-construction" },
-  { name: "Интериорен дизайн", path: "/services/interior-design" },
+  {
+    nameBg: "Кухни и мебели по поръчка",
+    nameEn: "Custom Kitchens & Furniture",
+    path: "/services/custom-furniture",
+  },
+  {
+    nameBg: "Интериорен дизайн и проектиране",
+    nameEn: "Interior Design & 3D Planning",
+    path: "/services/interior-design",
+  },
+  {
+    nameBg: "3D Лазерно сканиране и заснемане",
+    nameEn: "3D Laser Scanning & Digital Twin",
+    path: "/3d-scanning",
+  },
 ];
 
-// Стари/несъществуващи slug-ове, към които има линкове отвън или от стари
-// версии на сайта. Пренасочваме към реалната страница вместо към /services
-// (иначе crawler-ите виждат „soft 404“ — дубликат на списъка с услуги).
+// Пренасочване на стари URL адреси към реалните канонични страници
 const LEGACY_SERVICE_ALIASES: Record<string, string> = {
   "full-renovation": "apartment-renovation",
   "kitchen": "custom-furniture",
@@ -87,6 +70,7 @@ const ServiceDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { openModal } = useInspectionRequest();
   const { language, t } = useLanguage();
+  const isEn = language === "en";
 
   const service = id ? getServiceByIdWithLanguage(id, language) : undefined;
   const services = getServices(language);
@@ -99,81 +83,122 @@ const ServiceDetail = () => {
 
   const currentIndex = services.findIndex((s) => s.id === id);
   const prevService = currentIndex > 0 ? services[currentIndex - 1] : null;
-  const nextService = currentIndex < services.length - 1 ? services[currentIndex + 1] : null;
+  const nextService =
+    currentIndex < services.length - 1 ? services[currentIndex + 1] : null;
+
+  const fullImageUrl = service.image?.startsWith("http")
+    ? service.image
+    : `https://renovivo.bg${service.image}`;
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Начало", "item": "https://renovivo.bg" },
-      { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://renovivo.bg/services" },
-      { "@type": "ListItem", "position": 3, "name": service.title, "item": `https://renovivo.bg/services/${id}` }
-    ]
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": isEn ? "Home" : "Начало",
+        "item": "https://renovivo.bg/",
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": isEn ? "Services" : "Услуги",
+        "item": "https://renovivo.bg/services",
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": service.title,
+        "item": `https://renovivo.bg/services/${id}`,
+      },
+    ],
   };
 
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": service.title,
+    "@id": `https://renovivo.bg/services/${id}#service`,
+    "name": `${service.title} — ${isEn ? "Sofia" : "гр. София"}`,
     "description": service.fullDescription,
     "url": `https://renovivo.bg/services/${id}`,
-    "image": service.image?.startsWith("http") ? service.image : `https://renovivo.bg${service.image}`,
+    "image": fullImageUrl,
     "provider": { "@id": "https://renovivo.bg/#organization" },
-    "areaServed": {
-      "@type": "City",
-      "name": "София"
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "София",
+        "sameAs": "https://www.wikidata.org/wiki/Q472",
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Софийска област",
+      },
+    ],
+    "serviceType": service.isInnovative
+      ? "Иновативни безшевни покрития и настилки"
+      : "Цялостни ремонти до ключ и довършителни работи",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": `https://renovivo.bg/services/${id}`,
     },
-    "serviceType": service.isInnovative ? "Иновативни покрития" : "Ремонтни услуги"
   };
 
-  // Get FAQ for this service
   const faq = id ? serviceFAQs[id] : null;
 
-  // FAQ Schema
-  const faqSchema = faq && faq.length > 0 ? {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faq.map(item => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer
-      }
-    }))
-  } : null;
+  const faqSchema =
+    faq && faq.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": faq.map((item) => ({
+            "@type": "Question",
+            "name": item.question,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": item.answer,
+            },
+          })),
+        }
+      : null;
 
-  const seoTitle = `${service.title} в София | Renovivo`;
+  const seoTitle = isEn
+    ? `${service.title} in Sofia | Fixed Price & Warranty | Renovivo`
+    : `${service.title} в София | Фиксирана цена по договор | Renovivo`;
 
-  const seoDescription = `${service.shortDescription} Безплатен оглед в София, писмена оферта, 2 години гаранция. Тел. 089 371 2919`;
+  const seoDescription = isEn
+    ? `${service.shortDescription} Free site inspection in Sofia, detailed BOQ quote, fixed contract price, and 2-year warranty. Call +359 89 371 2919`
+    : `${service.shortDescription} Безплатен оглед в София, детайлна КСС оферта, фиксирана цена по договор и 2 години гаранция. Тел. 089 371 2919`;
 
-  const customContent = id ? customServiceContent[id] : null;
-  const showPriceTable = id && serviceToPriceCategoryMap[id] && !servicesWithoutPrices.includes(id);
+  const isCoreTurnkey = id ? turnkeyCoreServices.includes(id) : false;
 
   return (
     <>
       <Helmet>
+        <html lang={language} />
         <title>{seoTitle}</title>
         <meta name="description" content={seoDescription} />
-        <meta name="keywords" content={`${service.title}, ${service.title} София, ${service.title} цена, ремонт ${service.title}`} />
         <link rel="canonical" href={`https://renovivo.bg/services/${id}`} />
         <meta property="og:title" content={seoTitle} />
-        <meta property="og:description" content={service.shortDescription} />
+        <meta property="og:description" content={seoDescription} />
         <meta property="og:url" content={`https://renovivo.bg/services/${id}`} />
-        <meta property="og:image" content={service.image} />
+        <meta property="og:image" content={fullImageUrl} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
-        {faqSchema && <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>}
+        {faqSchema && (
+          <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        )}
       </Helmet>
       <Layout>
         {/* Hero */}
         <section className="relative py-20 bg-foreground">
           <div className="container-custom relative z-10">
-            {/* Breadcrumb */}
             <VisualBreadcrumb
               items={[
-                { label: t('serviceDetail.breadcrumb'), href: "/services" },
-                { label: service.title }
+                { label: t("serviceDetail.breadcrumb"), href: "/services" },
+                { label: service.title },
               ]}
               className="mb-6 [&_a]:text-background/70 [&_a:hover]:text-primary [&_span[role=link]]:text-background [&_svg]:text-background/50"
             />
@@ -182,8 +207,11 @@ const ServiceDetail = () => {
                 <service.icon className="h-8 w-8 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-background mb-4">
-                  {service.title}
+                <h1 className="text-3xl md:text-5xl font-bold text-background mb-4">
+                  {service.title}{" "}
+                  <span className="sr-only">
+                    {isEn ? "in Sofia — Renovivo" : "в гр. София — Renovivo"}
+                  </span>
                 </h1>
                 <p className="text-background/80 text-lg max-w-2xl">
                   {service.shortDescription}
@@ -197,12 +225,13 @@ const ServiceDetail = () => {
         <section className="section-padding">
           <div className="container-custom">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              {/* Content */}
+              {/* Left Column: Service Details */}
               <div className="lg:col-span-2 space-y-12">
-                {/* Main Image */}
                 <img
                   src={service.image}
-                  alt={service.title}
+                  alt={`${service.title} — ${
+                    isEn ? "execution by Renovivo in Sofia" : "изпълнение от Renovivo в София"
+                  }`}
                   width={800}
                   height={400}
                   loading="eager"
@@ -211,23 +240,24 @@ const ServiceDetail = () => {
                   className="w-full h-80 md:h-96 object-cover rounded-xl"
                 />
 
-                {/* Description - use custom content if available */}
+                {/* Description */}
                 <div>
                   <h2 className="text-2xl font-bold mb-4">
-                    {customContent?.title || t('serviceDetail.description')}
+                    {t("serviceDetail.description")}
                   </h2>
                   <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                    {customContent?.content || service.fullDescription}
+                    {service.fullDescription}
                   </div>
                 </div>
 
-                {/* Color Variants - only for services with color options */}
+                {/* Color Variants */}
                 {service.colorVariants && (
                   <div>
-                    <h2 className="text-2xl font-bold mb-6">{t('serviceDetail.colorVariants')}</h2>
+                    <h2 className="text-2xl font-bold mb-6">
+                      {t("serviceDetail.colorVariants")}
+                    </h2>
                     <p className="text-muted-foreground mb-4 text-sm">
-                      Съчетаването на пигменти и естествени камъни дава безкрайни възможности за цвят и дизайн,
-                      като същевременно добавят визуален ефект и характер на проекта.
+                      {t("serviceDetail.colorNote")}
                     </p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {service.colorVariants.map((variant) => (
@@ -235,24 +265,30 @@ const ServiceDetail = () => {
                           key={variant.name}
                           className="p-4 bg-secondary/50 rounded-lg border border-border/50 hover:border-primary/30 transition-colors"
                         >
-                          <h4 className="font-semibold text-sm mb-1">{variant.name}</h4>
-                          <p className="text-xs text-muted-foreground">{variant.description}</p>
+                          <h3 className="font-semibold text-sm mb-1">{variant.name}</h3>
+                          <p className="text-xs text-muted-foreground">
+                            {variant.description}
+                          </p>
                         </div>
                       ))}
                     </div>
                     <p className="text-xs text-muted-foreground mt-4 italic">
-                      * Действителните цветове може да се различават от представените.
-                      Съветваме ви да видите физическа цветна мостра, за да потвърдите избора си.
+                      {t("serviceDetail.colorDisclaimer")}
                     </p>
                   </div>
                 )}
 
                 {/* Features */}
                 <div>
-                  <h2 className="text-2xl font-bold mb-6">{t('serviceDetail.includes')}</h2>
+                  <h2 className="text-2xl font-bold mb-6">
+                    {t("serviceDetail.includes")}
+                  </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {service.features.map((feature) => (
-                      <div key={feature} className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
+                      <div
+                        key={feature}
+                        className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg"
+                      >
                         <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <Check className="h-4 w-4 text-primary" />
                         </div>
@@ -264,7 +300,9 @@ const ServiceDetail = () => {
 
                 {/* Process */}
                 <div>
-                  <h2 className="text-2xl font-bold mb-6">{t('serviceDetail.process')}</h2>
+                  <h2 className="text-2xl font-bold mb-6">
+                    {t("serviceDetail.process")}
+                  </h2>
                   <div className="space-y-6">
                     {service.process.map((step, index) => (
                       <div key={step.step} className="flex gap-4">
@@ -278,23 +316,27 @@ const ServiceDetail = () => {
                         </div>
                         <div className="pb-6">
                           <h3 className="font-semibold mb-1">{step.title}</h3>
-                          <p className="text-muted-foreground text-sm">{step.description}</p>
+                          <p className="text-muted-foreground text-sm">
+                            {step.description}
+                          </p>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* VS Tiles Comparison - only for innovative services */}
+                {/* VS Tiles Comparison */}
                 {service.vsTiles && (
                   <div className="space-y-8">
-                    <h2 className="text-2xl font-bold">{t('serviceDetail.vsTiles.title')} {service.title} {t('serviceDetail.vsTiles.instead')}</h2>
+                    <h2 className="text-2xl font-bold">
+                      {t("serviceDetail.vsTiles.title")} {service.title}{" "}
+                      {t("serviceDetail.vsTiles.instead")}
+                    </h2>
 
-                    {/* Advantages */}
                     <div className="bg-green-50 dark:bg-green-950/20 rounded-xl p-6">
                       <h3 className="font-bold text-green-700 dark:text-green-400 mb-4 flex items-center gap-2">
                         <Check className="h-5 w-5" />
-                        {t('serviceDetail.vsTiles.advantages')}
+                        {t("serviceDetail.vsTiles.advantages")}
                       </h3>
                       <ul className="space-y-2">
                         {service.vsTiles.advantages.map((adv, i) => (
@@ -306,9 +348,10 @@ const ServiceDetail = () => {
                       </ul>
                     </div>
 
-                    {/* Disadvantages */}
                     <div className="bg-amber-50 dark:bg-amber-950/20 rounded-xl p-6">
-                      <h3 className="font-bold text-amber-700 dark:text-amber-400 mb-4">{t('serviceDetail.vsTiles.considerations')}</h3>
+                      <h3 className="font-bold text-amber-700 dark:text-amber-400 mb-4">
+                        {t("serviceDetail.vsTiles.considerations")}
+                      </h3>
                       <ul className="space-y-2">
                         {service.vsTiles.disadvantages.map((dis, i) => (
                           <li key={i} className="flex items-start gap-2 text-sm">
@@ -319,24 +362,40 @@ const ServiceDetail = () => {
                       </ul>
                     </div>
 
-                    {/* Comparison Table */}
                     <div>
-                      <h3 className="font-bold mb-4">Детайлно сравнение</h3>
+                      <h3 className="font-bold mb-4">
+                        {t("serviceDetail.vsTiles.comparison")}
+                      </h3>
                       <div className="overflow-x-auto rounded-xl border">
                         <table className="w-full text-sm">
                           <thead className="bg-muted">
                             <tr>
-                              <th className="px-4 py-3 text-left font-semibold">Аспект</th>
-                              <th className="px-4 py-3 text-left font-semibold text-primary">{service.title}</th>
-                              <th className="px-4 py-3 text-left font-semibold">Плочки</th>
+                              <th className="px-4 py-3 text-left font-semibold">
+                                {t("serviceDetail.vsTiles.aspect")}
+                              </th>
+                              <th className="px-4 py-3 text-left font-semibold text-primary">
+                                {service.title}
+                              </th>
+                              <th className="px-4 py-3 text-left font-semibold">
+                                {t("serviceDetail.vsTiles.tiles")}
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
                             {service.vsTiles.comparison.map((row, i) => (
-                              <tr key={i} className={i % 2 === 0 ? "bg-background" : "bg-muted/30"}>
+                              <tr
+                                key={i}
+                                className={
+                                  i % 2 === 0 ? "bg-background" : "bg-muted/30"
+                                }
+                              >
                                 <td className="px-4 py-3 font-medium">{row.aspect}</td>
-                                <td className="px-4 py-3 text-primary">{row.innovative}</td>
-                                <td className="px-4 py-3 text-muted-foreground">{row.tiles}</td>
+                                <td className="px-4 py-3 text-primary">
+                                  {row.innovative}
+                                </td>
+                                <td className="px-4 py-3 text-muted-foreground">
+                                  {row.tiles}
+                                </td>
                               </tr>
                             ))}
                           </tbody>
@@ -349,7 +408,9 @@ const ServiceDetail = () => {
                 {/* FAQ Section */}
                 {faq && faq.length > 0 && (
                   <div>
-                    <h2 className="text-2xl font-bold mb-6">{t('serviceDetail.faq')}</h2>
+                    <h2 className="text-2xl font-bold mb-6">
+                      {t("serviceDetail.faq")}
+                    </h2>
                     <Accordion type="single" collapsible className="w-full">
                       {faq.map((item, index) => (
                         <AccordionItem key={index} value={`faq-${index}`}>
@@ -366,108 +427,169 @@ const ServiceDetail = () => {
                 )}
 
                 {/* Gallery */}
-                <div>
-                  <h2 className="text-2xl font-bold mb-6">{t('projectDetail.gallery')}</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {service.gallery.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image}
-                        alt={`${service.title} ${index + 1}`}
-                        className="w-full h-48 object-cover rounded-lg hover:opacity-90 transition-opacity"
-                      />
-                    ))}
+                {service.gallery && service.gallery.length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-bold mb-6">
+                      {t("projectDetail.gallery")}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {service.gallery.map((image, index) => (
+                        <img
+                          key={index}
+                          src={image}
+                          alt={`${service.title} — ${
+                            isEn ? "project photo" : "реализиран обект в София"
+                          } ${index + 1}`}
+                          loading="lazy"
+                          className="w-full h-48 object-cover rounded-lg hover:opacity-90 transition-opacity"
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
-              {/* Sidebar */}
+              {/* Right Sidebar — Оптимизиран за конвертиране в Цялостен Ремонт */}
               <div className="space-y-6">
-                {/* Price table removed — pricing handled via free on-site inspection */}
+                {/* Карта 1: KCC Ценообразуване и Калкулатор */}
+                <Card className="border border-primary/20 shadow-lg bg-card">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-wider mb-2">
+                      <Sparkles className="h-4 w-4" />
+                      <span>
+                        {isEn ? "Transparent BOQ Pricing" : "Фиксиран бюджет по КСС"}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold mb-3">
+                      {isEn
+                        ? "How do we calculate the exact price?"
+                        : "Как формираме точната цена?"}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-4">
+                      {isEn
+                        ? "Every property in Sofia has specific requirements. Instead of rough guesswork, we prepare a detailed Bill of Quantities (BOQ) after an on-site inspection:"
+                        : "Всеки имот в София е различен. Вместо ориентировъчни обещания, изготвяме точна количествено-стойностна сметка (КСС) след оглед на място:"}
+                    </p>
+                    <ul className="text-sm text-muted-foreground space-y-2 mb-5">
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                        <span>
+                          {isEn
+                            ? "Exact laser measurement of areas and volumes"
+                            : "Прецизно заснемане на квадратури и линейни метри"}
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                        <span>
+                          {isEn
+                            ? "Clear breakdown of labor and certified materials"
+                            : "Ясна разбивка за труд и сертифицирани материали"}
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                        <span>
+                          {isEn
+                            ? "Fixed final price and deadline in a written contract"
+                            : "Фиксирана крайна цена и срок в писмен договор"}
+                        </span>
+                      </li>
+                    </ul>
+                    <Link
+                      to="/#estimator"
+                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary hover:underline"
+                    >
+                      <Calculator className="h-4 w-4" />
+                      <span>
+                        {isEn
+                          ? "Calculate indicative budget (100–500+ €/m²)"
+                          : "Сметнете ориентировъчен бюджет (100–500+ €/м²)"}
+                      </span>
+                    </Link>
+                  </CardContent>
+                </Card>
 
-                {/* Custom content for individual project services */}
-                {id && servicesWithoutPrices.includes(id) && (
-                  <Card className="border-0 shadow-lg">
+                {/* Карта 2: Троянски кон — Пренасочване от частични услуги към Цялостен ремонт */}
+                {!isCoreTurnkey && (
+                  <Card className="border border-primary/30 bg-primary/5 shadow-md">
                     <CardContent className="p-6">
-                      <h3 className="text-lg font-bold mb-4">Защо не посочваме цена?</h3>
-                      <p className="text-muted-foreground text-sm mb-4">
-                        Всеки проект е уникален и изисква индивидуален подход. Цената зависи от множество фактори:
+                      <h3 className="font-bold text-base mb-2">
+                        {isEn
+                          ? "Planning a Complete Property Renovation?"
+                          : "Предстои ви цялостен ремонт на имота?"}
+                      </h3>
+                      <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                        {isEn
+                          ? "We execute this service seamlessly as part of a complete turnkey renovation in Sofia — with one accountable project manager, synchronized trades, and custom furniture."
+                          : "Изпълняваме тази услуга в пълен синхрон като част от цялостен ремонт до ключ или довършване по БДС в София — с един отговорен технически ръководител за всички етапи."}
                       </p>
-                      <ul className="text-sm text-muted-foreground space-y-2 mb-4">
-                        <li className="flex items-start gap-2">
-                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                          <span>Квадратура и сложност на обекта</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                          <span>Избрани материали и оборудване</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                          <span>Текущо състояние на помещението</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                          <span>Специфични изисквания и желания</span>
-                        </li>
-                      </ul>
-                      <p className="text-sm font-medium text-primary">
-                        Заявете безплатен оглед за точна оферта!
-                      </p>
+                      <Link
+                        to="/services/apartment-renovation"
+                        className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:underline"
+                      >
+                        <span>
+                          {isEn
+                            ? "See Turnkey Apartment Renovation"
+                            : "Вижте Цялостен ремонт до ключ"}
+                        </span>
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </Link>
                     </CardContent>
                   </Card>
                 )}
 
-                {/* Related services for full renovation */}
-                {(id === "full-renovation" || customContent?.showRelated) && (
-                  <Card className="border-0 shadow-lg">
-                    <CardContent className="p-6">
-                      <h3 className="font-bold mb-4">{t('serviceDetail.related')}</h3>
-                      <div className="space-y-3">
-                        {relatedServicesForFullRenovation.map((service) => (
+                {/* Карта 3: Вътрешни линкове към високомаржовите услуги */}
+                <Card className="border-0 shadow-lg">
+                  <CardContent className="p-6">
+                    <h3 className="font-bold mb-4">{t("serviceDetail.related")}</h3>
+                    <div className="space-y-2.5">
+                      {relatedTurnkeyServices
+                        .filter((s) => s.path !== `/services/${id}`)
+                        .map((rel) => (
                           <Link
-                            key={service.path}
-                            to={service.path}
+                            key={rel.path}
+                            to={rel.path}
                             className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary transition-colors"
                           >
-                            <ArrowRight className="h-4 w-4 text-primary" />
-                            <span className="text-sm">{service.name}</span>
+                            <ArrowRight className="h-4 w-4 text-primary shrink-0" />
+                            <span className="text-sm font-medium">
+                              {isEn ? rel.nameEn : rel.nameBg}
+                            </span>
                           </Link>
                         ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
+                    </div>
+                  </CardContent>
+                </Card>
 
-                {/* CTA Card */}
+                {/* Карта 4: Sticky CTA за Оглед */}
                 <Card className="border-0 shadow-lg sticky top-24">
                   <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-4">{t('serviceDetail.cta.title')}</h3>
+                    <h3 className="text-xl font-bold mb-4">
+                      {t("serviceDetail.cta.title")}
+                    </h3>
                     <p className="text-muted-foreground text-sm mb-6">
-                      {t('serviceDetail.cta.desc')}
+                      {t("serviceDetail.cta.desc")}
                     </p>
 
-                    {/* Phone Button */}
-                    <a href="tel:+359893712919" className="block mb-3">
-                      <Button className="w-full" size="lg">
-                        <Phone className="h-5 w-5 mr-2" />
-                        {t('serviceDetail.cta.contact')}
-                      </Button>
-                    </a>
-
-                    {/* Inspection Request Button */}
                     <Button
-                      variant="outline"
-                      className="w-full mb-3"
+                      className="w-full mb-3 font-semibold"
                       size="lg"
                       onClick={openModal}
                     >
                       <Calendar className="h-5 w-5 mr-2" />
-                      {t('serviceDetail.cta.inspection')}
+                      {t("serviceDetail.cta.inspection")}
                     </Button>
 
+                    <a href="tel:+359893712919" className="block mb-3">
+                      <Button variant="outline" className="w-full" size="lg">
+                        <Phone className="h-5 w-5 mr-2" />
+                        +359 89 371 29 19
+                      </Button>
+                    </a>
+
                     <p className="text-center text-muted-foreground text-xs mt-4">
-                      {t('contact.info.hoursValue')}
+                      {t("contact.info.hoursValue")}
                     </p>
                   </CardContent>
                 </Card>
@@ -476,7 +598,7 @@ const ServiceDetail = () => {
           </div>
         </section>
 
-        {/* Navigation */}
+        {/* Bottom Navigation */}
         <section className="py-8 border-t">
           <div className="container-custom">
             <div className="flex justify-between items-center">
