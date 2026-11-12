@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Phone, Mail, Clock, Menu, X, Facebook, Instagram, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Wordmark from "@/components/Wordmark";
@@ -9,26 +9,51 @@ import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { language, setLanguage, t } = useLanguage();
   const { openModal } = useInspectionRequest();
 
   const navLinks = [
-    { key: 'nav.home', path: "/" },
-    { key: 'nav.services', path: "/services" },
-    { key: 'nav.pricing', path: "/#estimator" },
-    { key: 'nav.portfolio', path: "/portfolio" },
-    { key: 'nav.blog', path: "/blog" },
-    { key: 'nav.about', path: "/about" },
-    { key: 'nav.contact', path: "/contact" },
+    { key: "nav.home", path: "/" },
+    { key: "nav.services", path: "/services" },
+    { key: "nav.pricing", path: "/#estimator" },
+    { key: "nav.portfolio", path: "/portfolio" },
+    { key: "nav.blog", path: "/blog" },
+    { key: "nav.about", path: "/about" },
+    { key: "nav.contact", path: "/contact" },
   ];
 
   const isActive = (path: string) => {
-    const cleanPath = path.split('#')[0] || '/';
-    return location.pathname === cleanPath && !path.includes('#');
+    if (path.includes("#")) {
+      return location.pathname === "/" && location.hash === `#${path.split("#")[1]}`;
+    }
+    return location.pathname === path && !location.hash;
+  };
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    setIsMenuOpen(false);
+    if (path.startsWith("/#")) {
+      e.preventDefault();
+      const targetId = path.replace("/#", "");
+      const scrollToTarget = () => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          window.history.pushState(null, "", path);
+        }
+      };
+
+      if (location.pathname === "/") {
+        scrollToTarget();
+      } else {
+        navigate("/");
+        setTimeout(scrollToTarget, 200);
+      }
+    }
   };
 
   const toggleLanguage = () => {
-    setLanguage(language === 'bg' ? 'en' : 'bg');
+    setLanguage(language === "bg" ? "en" : "bg");
   };
 
   return (
@@ -40,7 +65,7 @@ const Header = () => {
             <a
               href="tel:+359893712919"
               className="flex items-center gap-2 hover:text-primary transition-colors"
-              aria-label="Call +359 89 371 29 19"
+              aria-label="Обадете се на +359 89 371 29 19"
             >
               <Phone className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline">+359 89 371 29 19</span>
@@ -48,14 +73,14 @@ const Header = () => {
             <a
               href="mailto:office@renovivo.bg"
               className="flex items-center gap-2 hover:text-primary transition-colors"
-              aria-label="Email office@renovivo.bg"
+              aria-label="Изпратете имейл до office@renovivo.bg"
             >
               <Mail className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline">office@renovivo.bg</span>
             </a>
             <div className="hidden md:flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              <span>{t('nav.workingHours')}</span>
+              <Clock className="h-4 w-4" aria-hidden="true" />
+              <span>{t("nav.workingHours")}</span>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -63,17 +88,17 @@ const Header = () => {
             <button
               onClick={toggleLanguage}
               className="flex items-center gap-1.5 hover:text-primary transition-colors font-medium"
-              aria-label={`Switch to ${language === 'bg' ? 'English' : 'Bulgarian'}`}
+              aria-label={`Switch to ${language === "bg" ? "English" : "Bulgarian"}`}
             >
               <Globe className="h-4 w-4" aria-hidden="true" />
-              <span>{t('lang.switch')}</span>
+              <span>{t("lang.switch")}</span>
             </button>
             <a
               href="https://www.facebook.com/renovivo.bg"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"
-              aria-label="Follow us on Facebook"
+              aria-label="Follow Renovivo on Facebook"
             >
               <Facebook className="h-4 w-4" aria-hidden="true" />
             </a>
@@ -82,7 +107,7 @@ const Header = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"
-              aria-label="Follow us on Instagram"
+              aria-label="Follow Renovivo on Instagram"
             >
               <Instagram className="h-4 w-4" aria-hidden="true" />
             </a>
@@ -95,7 +120,11 @@ const Header = () => {
         <div className="container-custom py-1">
           {/* Mobile Layout */}
           <div className="relative lg:hidden flex items-center justify-center h-16">
-            <Link to="/" className="flex items-center justify-center text-foreground" aria-label="Renovivo — Every Detail Matters">
+            <Link
+              to="/"
+              className="flex items-center justify-center text-foreground"
+              aria-label="Renovivo — Цялостни ремонти до ключ в София"
+            >
               <Wordmark className="text-4xl sm:text-5xl" showTagline />
             </Link>
 
@@ -103,12 +132,9 @@ const Header = () => {
               className="absolute right-4 top-1/2 -translate-y-1/2 p-1"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
+              aria-expanded={isMenuOpen}
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
 
@@ -116,18 +142,26 @@ const Header = () => {
           <div className="hidden lg:flex items-center py-2">
             {/* Logo left */}
             <div className="flex items-center shrink-0 text-foreground">
-              <Link to="/" className="flex items-center" aria-label="Renovivo — Every Detail Matters">
+              <Link
+                to="/"
+                className="flex items-center"
+                aria-label="Renovivo — Цялостни ремонти до ключ в София"
+              >
                 <Wordmark className="text-3xl" showTagline />
               </Link>
             </div>
 
             {/* Navigation - centered */}
-            <nav className="flex-1 flex justify-center items-center">
+            <nav
+              aria-label={language === "en" ? "Main Navigation" : "Главна навигация"}
+              className="flex-1 flex justify-center items-center"
+            >
               <div className="flex items-center gap-6">
                 {navLinks.map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
+                    onClick={(e) => handleNavClick(e, link.path)}
                     className={`text-base whitespace-nowrap font-medium transition-colors relative py-1 ${
                       isActive(link.path)
                         ? "text-primary"
@@ -152,7 +186,7 @@ const Header = () => {
                 <span>+359 89 371 29 19</span>
               </a>
               <Button onClick={openModal} size="sm" className="font-semibold">
-                {t('cta.inspection')}
+                {t("cta.inspection")}
               </Button>
             </div>
           </div>
@@ -161,12 +195,15 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="lg:hidden bg-background border-t animate-fade-in">
-            <nav className="container-custom py-4 flex flex-col gap-4">
+            <nav
+              aria-label={language === "en" ? "Mobile Navigation" : "Мобилна навигация"}
+              className="container-custom py-4 flex flex-col gap-4"
+            >
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.path)}
                   className={`text-xl font-medium py-2 ${
                     isActive(link.path) ? "text-primary" : "text-foreground"
                   }`}
@@ -175,15 +212,18 @@ const Header = () => {
                 </Link>
               ))}
               <Button
-                onClick={() => { setIsMenuOpen(false); openModal(); }}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  openModal();
+                }}
                 className="w-full mt-2 font-semibold"
               >
-                {t('cta.inspection')}
+                {t("cta.inspection")}
               </Button>
               <a href="tel:+359893712919" className="mt-4">
                 <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                   <Phone className="h-4 w-4 mr-2" aria-hidden="true" />
-                  {t('nav.callUs')}
+                  {t("nav.callUs")}
                 </Button>
               </a>
             </nav>
