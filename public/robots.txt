@@ -1,5 +1,5 @@
-# renovivo.bg — ремонти в София
-# Всички търсачки и AI асистенти имат достъп до публичните страници.
+# renovivo.bg — Цялостни ремонти до ключ и довършителни работи в гр. София
+# Всички търсачки и AI асистенти имат пълен достъп до публичните страници и /llms.txt.
 # Затворени са само служебните маршрути (вход и администрация).
 
 User-agent: *
@@ -28,8 +28,13 @@ User-agent: CCBot
 User-agent: DuckAssistBot
 User-agent: MistralAI-User
 Allow: /
+Allow: /llms.txt
+Allow: /sitemap.xml
 Disallow: /admin
+Disallow: /admin/
 Disallow: /auth
+Disallow: /auth/
 Disallow: /.lovable/
 
+# Структуриран индекс за AI езикови модели (GEO): https://renovivo.bg/llms.txt
 Sitemap: https://renovivo.bg/sitemap.xml
