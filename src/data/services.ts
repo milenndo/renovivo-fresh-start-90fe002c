@@ -1,9 +1,17 @@
-import { Home, Bath, ChefHat, Paintbrush, Layers, Wrench, Zap, Droplets, Square, Sparkles, Hexagon, Mountain, Lightbulb, DoorOpen, Sofa, Hammer, Timer, Frame } from "lucide-react";
-import type { Language } from '@/contexts/LanguageContext';
-
-export const getServiceById = (id: string): Service | undefined => {
-  return services.find(service => service.id === id);
-};
+import {
+  Home,
+  Paintbrush,
+  Layers,
+  Square,
+  Sparkles,
+  Hexagon,
+  Mountain,
+  Lightbulb,
+  DoorOpen,
+  Sofa,
+  Frame,
+} from "lucide-react";
+import type { Language } from "@/contexts/LanguageContext";
 
 // Import images
 import fullRenovationImg from "@/assets/images/services/full-renovation.jpg";
@@ -11,9 +19,6 @@ import bathroomImg from "@/assets/images/services/bathroom.jpg";
 import kitchenImg from "@/assets/images/services/minimalistchna_byala_kuhniya.jpg";
 import paintingImg from "@/assets/images/services/painting.jpg";
 import flooringImg from "@/assets/images/services/flooring.jpg";
-import karteneImg from "@/assets/images/services/kartene.jpg";
-import electricalImg from "@/assets/images/services/electrical.jpg";
-import plumbingImg from "@/assets/images/services/plumbing.jpg";
 import microcementImg from "@/assets/images/services/microcement-modern.jpg";
 import microcementKitchenImg from "@/assets/images/services/microcement-kitchen.jpg";
 import terrazzoImg from "@/assets/images/services/terrazzo-modern.jpg";
@@ -27,7 +32,6 @@ import drywallImg from "@/assets/images/services/drywall.jpg";
 import doorsImg from "@/assets/images/services/doors.jpg";
 import windowsImg from "@/assets/images/services/windows.jpg";
 import apartmentRenovationImg from "@/assets/images/services/apartment-renovation.jpg";
-import livingRoomImg from "@/assets/images/services/living-room.jpg";
 
 export interface Service {
   id: string;
@@ -40,7 +44,7 @@ export interface Service {
   image: string;
   gallery: string[];
   isInnovative?: boolean;
-  category?: 'full-renovation' | 'finishing-work' | 'special-solutions';
+  category?: "full-renovation" | "finishing-work" | "special-solutions";
   colorVariants?: { name: string; description: string }[];
   vsTiles?: {
     advantages: string[];
@@ -50,141 +54,431 @@ export interface Service {
   faq?: { question: string; answer: string }[];
 }
 
-// FAQ данни за различните услуги - Bulgarian
+// FAQ данни за всички активни маршрути на услуги - Bulgarian (Захранват FAQPage JSON-LD Schema)
 const serviceFAQsBG: Record<string, { question: string; answer: string }[]> = {
-  "full-renovation": [
-    { question: "Колко време отнема цялостен ремонт на апартамент?", answer: "Цялостният ремонт обикновено отнема от 2 до 4 месеца, в зависимост от площта и сложността на проекта. За 80 кв.м. апартамент, стандартният срок е около 2.5-3 месеца." },
-    { question: "Какво включва цената за цялостен ремонт?", answer: "Цената включва всички довършителни работи: шпакловка, замазка, настилки, боядисване, ел. и ВиК инсталации, монтаж на врати и санитария. Материалите се калкулират отделно или по договореност." },
-    { question: "Трябва ли да присъствам по време на ремонта?", answer: "Не е необходимо. Осигуряваме личен проектен мениджър, който координира всичко и ви информира редовно. Може да посещавате обекта по всяко време." },
-    { question: "Давате ли гаранция за работата?", answer: "Да, предлагаме гаранция за всички извършени работи. Гаранцията за извършените работи е 2 години, а за вложените материали важи гаранцията на производителя." }
+  "apartment-renovation": [
+    {
+      question: "Колко време отнема цялостен ремонт на апартамент в София?",
+      answer:
+        "Цялостният ремонт на апартамент в София обикновено отнема между 8 и 14 седмици (2 до 3.5 месеца) в зависимост от квадратурата и дали имотът е старо строителство за къртене или ново строителство. За двустаен или тристаен апартамент (70–95 кв.м) точният срок се фиксира в писмен договор с неустойки при забавяне.",
+    },
+    {
+      question: "Колко струва цялостен ремонт до ключ в София през 2026 г.?",
+      answer:
+        "Ориентировъчната инвестиция за цялостен ремонт (труд и материали) в София започва от 100–300 €/м² за базово/инвестиционно ниво, 301–500 €/м² за пълно завършване до ключ (Renovivo Comfort) и от 500 €/м² за премиум изпълнение с включени мебели по поръчка. Точната фиксирана цена се определя с детайлна КСС оферта след безплатен оглед.",
+    },
+    {
+      question: "Трябва ли да присъствам на обекта и да координирам майсторите?",
+      answer:
+        "Не. Всеки наш обект в София се управлява от един личен технически ръководител, който координира всички профилирани екипи (ВиК, Ел., гипсокартон, шпакловки, плочки, мебели), доставките и контрола на качеството. Получавате регулярни фото и видео отчети.",
+    },
+    {
+      question: "Каква гаранция получавам след края на ремонта?",
+      answer:
+        "Предоставяме 2 години пълна писмена гаранция по договор за всички изпълнени строително-монтажни работи и инсталации, плюс пълната заводска гаранция (до 10–25 години) за вложените материали и системи.",
+    },
   ],
-  "bathroom": [
-    { question: "Колко време отнема ремонт на баня?", answer: "Стандартният ремонт на баня отнема 2-3 седмици. При по-сложни проекти с преместване на ВиК или разширяване - до 4 седмици." },
-    { question: "Включена ли е хидроизолацията в цената?", answer: "Да, професионалната хидроизолация е задължителен етап и винаги е включена. Използваме многослойни хидроизолационни системи, с гаранция 2 години за труда и гаранция на производителя за материалите." },
-    { question: "Можете ли да монтирате подово отопление в банята?", answer: "Да, монтираме електрическо подово отопление, което е идеално за бани. Добавя комфорт и е енергийно ефективно." }
+  "finishing-works": [
+    {
+      question: "Какво включват цялостните довършителни работи на апартамент по БДС (на шпакловка и замазка)?",
+      answer:
+        "Довършителните работи по БДС включват всички етапи след Акт 14/15/16 до готов за нанасяне дом: преработка и добавяне на Ел. и ВиК точки, окачени тавани и скрито осветление от гипсокартон, фини шпакловки (ниво Q3/Q4), безвъздушно боядисване, изравнителни замазки, монтаж на паркет/гранитогрес, цялостно изграждане на бани, монтаж на интериорни врати и кухни по поръчка.",
+    },
+    {
+      question: "Колко време отнема довършването на нов апартамент в София?",
+      answer:
+        "При ново строителство на шпакловка и замазка (без нужда от тежко къртене) цялостните довършителни работи за апартамент от 65 до 100 кв.м в София отнемат средно между 6 и 10 седмици по фиксиран в договора график.",
+    },
+    {
+      question: "Поемате ли довършване на инвестиционни имоти за отдаване под наем или продажба?",
+      answer:
+        "Да. Разполагаме със специализирани пакети за инвеститори в София, оптимизирани за висока износоустойчивост, бърз срок на издаване и максимална възвръщаемост на инвестицията (ROI), включително корпусна мебел и кухни по поръчка.",
+    },
+  ],
+  "house-renovation": [
+    {
+      question: "Какви етапи обхваща основният ремонт на къща в София и околността?",
+      answer:
+        "Поемаме цялостната реновация на еднофамилни къщи — от конструктивно обследване, хидро- и топлоизолация, подмяна на дограма, ВиК, Ел. и ОВиК инсталации (подово отопление, термопомпи) до пълно вътрешно довършване до ключ и мебели по поръчка.",
+    },
+    {
+      question: "Работите ли в населените места около София (Бистрица, Драгалевци, Бояна, Симеоново, Панчарево, Банкя)?",
+      answer:
+        "Да, изпълняваме цялостни ремонти на къщи в цяла София, вилните зони на Витоша и всички населени места в Софийска област.",
+    },
   ],
   "custom-furniture": [
-    { question: "Правите ли кухни по поръчка?", answer: "Да, работим с водещи производители на кухненски мебели по поръчка. Предлагаме пълен сервиз - от 3D проект до монтаж и свързване на уреди." }
+    {
+      question: "Какво е предимството да поръчам кухнята и мебелите заедно с цялостния ремонт от Renovivo?",
+      answer:
+        "Спестявате между 4 и 8 седмици чакане след края на ремонта и избягвате разминавания между изводите за ток/вода и мебелите. Нашият екип прави 3D заснемане още по време на шпакловките, произвежда мебелите паралелно и ги монтира веднага след полагането на настилките.",
+    },
+    {
+      question: "Какви мебели по поръчка изработвате?",
+      answer:
+        "Проектираме, произвеждаме и монтираме кухни по индивидуален проект с вграждане на всички електроуреди, вградени гардероби, дрешници, антрета, ТВ секции и водоустойчиви шкафове за баня от MDF, ПДЧ, фурнир и технически камък.",
+    },
+  ],
+  "drywall-construction": [
+    {
+      question: "Какви системи за гипсокартон и звукоизолация използвате?",
+      answer:
+        "Работим със сертифицирани профили и плоскости Knauf (стандартни, влагоустойчиви, огнеустойчиви и акустични Диамант плоскости) в комбинация с каменна вата за максимална шумоизолация на спални и детски стаи в София.",
+    },
+    {
+      question: "Включва ли услугата шпакловане до готовност за боя?",
+      answer:
+        "Да, изпълняваме цялостно фугиране с армиращи ленти и фина цялостна шпакловка ниво Q3/Q4, напълно готова за безвъздушно боядисване или декоративни мазилки.",
+    },
+  ],
+  "windows-doors": [
+    {
+      question: "С кои марки PVC и алуминиева дограма работите?",
+      answer:
+        "Доставяме и монтираме високоенергийни профилни системи от Rehau, Salamander, Veka и Schüco с троен стъклопакет (К-стъкло и четирисезонно стъкло), включително демонтаж на старата дограма и пълно обръщане на прозорците.",
+    },
+  ],
+  "doors-installation": [
+    {
+      question: "Кога по време на ремонта се монтират интериорните врати?",
+      answer:
+        "Интериорните врати се монтират във финалния етап — след приключване на всички мокри процеси, боядисване на стените и полагане на подовите настилки. При тапетните (скрити) врати касата се монтира още на етап груба шпакловка и гипсокартон.",
+    },
   ],
   "microcement": [
-    { question: "Колко издържа микроциментът?", answer: "При правилно нанасяне и поддръжка, микроциментът издържа над 20 години. Устойчив е на износване, вода и UV лъчи." },
-    { question: "Може ли да се нанесе върху стари плочки?", answer: "Да, микроциментът може да се нанася директно върху стари плочки, ламинат или бетон, без нужда от демонтаж." },
-    { question: "Подходящ ли е за баня и кухня?", answer: "Абсолютно. С правилното запечатване микроциментът е напълно водоустойчив и идеален за мокри помещения." }
+    {
+      question: "Колко издържа микроциментът в баня и мокри помещения?",
+      answer:
+        "При правилно многослойно полагане и запечатване с двукомпонентен полиуретанов лак микроциментът издържа над 20 години. Той е 100% водоустойчив, без фуги, не задържа мухъл и е съвместим с подово отопление.",
+    },
+    {
+      question: "Може ли микроцимент да се нанесе директно върху стари плочки без къртене?",
+      answer:
+        "Да! Поради дебелината си от едва 2–3 мм и екстремната адхезия микроциментът се полага директно върху здрави стари плочки в бани и кухни, спестявайки разходите и шума от къртене.",
+    },
   ],
   "terrazzo": [
-    { question: "Каква е разликата между terrazzo и микроцимент?", answer: "Terrazzo съдържа естествени камъни и мрамор, които се шлифоват до гладка повърхност. Издържа над 75 години и е по-скъп от микроцимента." },
-    { question: "Може ли да изберем дизайна на камъните?", answer: "Да, предлагаме широка гама от камъни, цветове и размери. Можете да създадете уникален дизайн, съобразен с вашия интериор." }
+    {
+      question: "Каква е разликата между Terrazzo (терацо) и микроцимент?",
+      answer:
+        "Terrazzo е монолитна венецианска настилка с реални мраморни и гранитни фрагменти, която се шлифова диамантено до огледална гладкост и издържа над 75 години. Микроциментът е по-тънко (2–3 мм) безшевно покритие с фина минерална текстура за подове и стени.",
+    },
   ],
-  "electrical": [
-    { question: "Работите ли с проекти за умен дом?", answer: "Да, монтираме системи за умен дом - smart осветление, термостати, щори и централизирано управление." },
-    { question: "Издавате ли сертификат за ел. инсталацията?", answer: "Да, след завършване издаваме протокол за електрически измервания, който е необходим за актуване на обекта." }
+  "flake-floor": [
+    {
+      question: "За какви помещения е подходяща настилката Flake Floor?",
+      answer:
+        "Flake Floor е изключително здрава, хидроизолираща и морозоустойчива безшевна система, идеална за тераси, балкони, гаражи, коридори и натоварени търговски площи.",
+    },
   ],
-  "plumbing": [
-    { question: "Работите ли с подово отопление?", answer: "Да, монтираме водно и електрическо подово отопление. Предлагаме цялостно решение - от проект до пускане в експлоатация." },
-    { question: "Колко струва подмяна на ВиК инсталацията?", answer: "Цената зависи от дължината на тръбите и сложността. Ориентировъчно - от 767 до 2,045 € за стандартен апартамент." }
-  ]
+  "stone-carpet": [
+    {
+      question: "Защо каменният килим е по-добър от гранитогреса за открити тераси в София?",
+      answer:
+        "В климата на София плочките на открити тераси често се разлепват и пукат през зимата заради замръзнала под тях влага. Каменният килим е 100% дренажен и монолитен — водата преминава свободно през порите му към сифона, без да образува локви, лед или напрежение при замръзване.",
+    },
+  ],
+  "smart-installations": [
+    {
+      question: "Какво представлява Matter протоколът за умен дом през 2026 г.?",
+      answer:
+        "Matter е универсалният стандарт за домашна автоматизация, поддържан от Apple Home, Google Home, Amazon Alexa и Samsung SmartThings. Всички ваши умни ключове, осветление, климатизация, подово отопление и датчици за теч работят локално и безопасно в едно общо приложение без забавяне.",
+    },
+  ],
 };
 
-// FAQ data for different services - English
+// FAQ data for all active routes - English
 const serviceFAQsEN: Record<string, { question: string; answer: string }[]> = {
-  "full-renovation": [
-    { question: "How long does a complete apartment renovation take?", answer: "Complete renovation usually takes 2 to 4 months, depending on the area and project complexity. For an 80 sq.m. apartment, the standard timeframe is around 2.5-3 months." },
-    { question: "What does the price for complete renovation include?", answer: "The price includes all finishing works: plastering, screed, flooring, painting, electrical and plumbing installations, door and sanitary ware installation. Materials are calculated separately or by agreement." },
-    { question: "Do I need to be present during the renovation?", answer: "Not necessary. We provide a personal project manager who coordinates everything and keeps you regularly informed. You can visit the site anytime." },
-    { question: "Do you provide warranty for the work?", answer: "Yes, we offer warranty for all work performed. The term varies depending on the type of work - 2 years on workmanship, plus the manufacturer warranty on materials." }
+  "apartment-renovation": [
+    {
+      question: "How long does a complete turnkey apartment renovation in Sofia take?",
+      answer:
+        "A complete apartment renovation in Sofia typically takes 8 to 14 weeks (2 to 3.5 months), depending on property size and condition. For a 70–95 sq.m apartment, the exact completion date is fixed in a binding contract with penalty clauses for delays.",
+    },
+    {
+      question: "How much does a turnkey apartment renovation in Sofia cost in 2026?",
+      answer:
+        "Indicative turnkey budgets (labor + materials) in Sofia range from 100–300 €/m² for our Essential/Investment tier, 301–500 €/m² for Turnkey Comfort, and 500+ €/m² for Bespoke Premium including custom furniture. Exact fixed pricing is provided via an itemized Bill of Quantities (BOQ) after a free site inspection.",
+    },
+    {
+      question: "Can I manage my Sofia property renovation remotely?",
+      answer:
+        "Yes. Every project is led by a single dedicated project manager who coordinates all trades, deliveries, and quality checks. You receive regular photo and video updates, making our service ideal for busy executives, expats, and overseas property investors.",
+    },
+    {
+      question: "What warranty do you provide?",
+      answer:
+        "We provide a 2-year written contractual warranty on all workmanship and installations, plus full manufacturer warranties on all installed materials and equipment.",
+    },
   ],
-  "bathroom": [
-    { question: "How long does a bathroom renovation take?", answer: "Standard bathroom renovation takes 2-3 weeks. For more complex projects with plumbing relocation or expansion - up to 4 weeks." },
-    { question: "Is waterproofing included in the price?", answer: "Yes, professional waterproofing is a mandatory stage and always included. We use multi-layer waterproofing systems, with a 2-year workmanship warranty plus the manufacturer warranty on materials." },
-    { question: "Can you install underfloor heating in the bathroom?", answer: "Yes, we install electric underfloor heating, which is ideal for bathrooms. It adds comfort and is energy efficient." }
+  "finishing-works": [
+    {
+      question: "What is included in BDS (shell & core) finishing works in Sofia?",
+      answer:
+        "BDS finishing works cover the entire cycle after Act 14/15/16 to make a newly built apartment move-in ready: MEP adjustments, Knauf drywall and concealed lighting, Q3/Q4 fine plastering, airless painting, self-leveling screeds, parquet/tile flooring, complete bathrooms, interior doors, and custom kitchen cabinetry.",
+    },
+    {
+      question: "How long does it take to finish a new-build BDS apartment?",
+      answer:
+        "Without heavy demolition, complete finishing works for a 65–100 sq.m new-build apartment in Sofia take between 6 and 10 weeks under a fixed contract schedule.",
+    },
+  ],
+  "house-renovation": [
+    {
+      question: "What does a complete house renovation in Sofia include?",
+      answer:
+        "We handle single-family house renovations from A to Z: structural reinforcement, facade and roof insulation, window replacement, complete plumbing, electrical, and underfloor heating systems, interior finishing, and custom furniture.",
+    },
   ],
   "custom-furniture": [
-    { question: "Do you make custom kitchens?", answer: "Yes, we work with leading manufacturers of custom kitchen furniture. We offer full service - from 3D design to installation and appliance connection." }
+    {
+      question: "Why order custom kitchens and furniture together with my renovation?",
+      answer:
+        "Ordering custom furniture through Renovivo saves 4 to 8 weeks of waiting after construction ends. We take 3D laser measurements during the plastering phase, manufacture your kitchen and wardrobes in parallel, and install them immediately after the flooring.",
+    },
+  ],
+  "drywall-construction": [
+    {
+      question: "What drywall and soundproofing systems do you use?",
+      answer:
+        "We use certified Knauf metal profiles, acoustic rockwool insulation, and moisture/fire/sound-resistant boards finished to Q3/Q4 smoothness.",
+    },
+  ],
+  "windows-doors": [
+    {
+      question: "Which window profile brands do you install?",
+      answer:
+        "We supply and install high-efficiency PVC and aluminum systems from Rehau, Salamander, Veka, and Schüco with triple glazing and full perimeter insulation.",
+    },
+  ],
+  "doors-installation": [
+    {
+      question: "Do you install concealed (flush-to-wall) and sliding doors?",
+      answer:
+        "Yes, we install standard interior doors, concealed-frame flush doors, pocket sliding doors, and armored entrance doors with 1mm laser leveling precision.",
+    },
   ],
   "microcement": [
-    { question: "How long does microcement last?", answer: "With proper application and maintenance, microcement lasts over 20 years. It's resistant to wear, water and UV rays." },
-    { question: "Can it be applied over old tiles?", answer: "Yes, microcement can be applied directly over old tiles, laminate or concrete, without the need for demolition." },
-    { question: "Is it suitable for bathroom and kitchen?", answer: "Absolutely. With proper sealing, microcement is completely waterproof and ideal for wet rooms." }
+    {
+      question: "How long does microcement last in bathrooms?",
+      answer:
+        "With proper multi-layer application and polyurethane sealing, microcement lasts 20+ years. It is 100% waterproof, joint-free, mold-resistant, and compatible with underfloor heating.",
+    },
+    {
+      question: "Can microcement be applied directly over existing tiles?",
+      answer:
+        "Yes, microcement is only 2–3 mm thick and bonds directly over sound existing tiles without messy demolition.",
+    },
   ],
   "terrazzo": [
-    { question: "What's the difference between terrazzo and microcement?", answer: "Terrazzo contains natural stones and marble, which are ground to a mirror shine. It lasts 75+ years and is more luxurious, but also more expensive than microcement." },
-    { question: "Can we choose the stone design?", answer: "Yes, we offer a wide range of stones, colors and sizes. You can create a unique design tailored to your interior." }
+    {
+      question: "What is the difference between Terrazzo and microcement?",
+      answer:
+        "Terrazzo contains real marble and granite aggregates cast in a monolithic matrix and diamond-polished to last 75+ years. Microcement is a thin (2–3 mm) seamless mineral coating suitable for both floors and walls.",
+    },
   ],
-  "electrical": [
-    { question: "Do you work with smart home projects?", answer: "Yes, we install smart home systems - smart lighting, thermostats, blinds and centralized control." },
-    { question: "Do you issue a certificate for electrical installation?", answer: "Yes, after completion we issue an electrical measurement protocol, which is required for property registration." }
+  "flake-floor": [
+    {
+      question: "Where is Flake Floor best used?",
+      answer:
+        "Flake Floor combines waterproofing and extreme wear resistance, making it ideal for terraces, balconies, garages, and high-traffic commercial zones.",
+    },
   ],
-  "plumbing": [
-    { question: "Do you work with underfloor heating?", answer: "Yes, we install water and electric underfloor heating. We offer a complete solution - from design to commissioning." },
-    { question: "How much does plumbing replacement cost?", answer: "The price depends on the length of pipes and complexity. Approximately - from 767 to 2,045 EUR for a standard apartment." }
-  ]
+  "stone-carpet": [
+    {
+      question: "Why is Stone Carpet better than outdoor tiles for Sofia terraces?",
+      answer:
+        "Outdoor tiles in Sofia frequently crack and detach due to freeze-thaw cycles. Stone Carpet is 100% porous and frost-proof — rainwater drains freely through the natural quartz pebbles without puddling or ice damage.",
+    },
+  ],
+  "smart-installations": [
+    {
+      question: "What is the Matter Smart Home standard in 2026?",
+      answer:
+        "Matter is the universal smart home protocol supported by Apple, Google, Amazon, and Samsung, allowing lighting, HVAC, underfloor heating, shades, and leak sensors to operate locally in one unified app.",
+    },
+  ],
 };
 
-export const getServiceFAQs = (language: Language): Record<string, { question: string; answer: string }[]> => {
-  return language === 'bg' ? serviceFAQsBG : serviceFAQsEN;
+// Алиас за обратна съвместимост със стар ключ "full-renovation"
+serviceFAQsBG["full-renovation"] = serviceFAQsBG["apartment-renovation"];
+serviceFAQsEN["full-renovation"] = serviceFAQsEN["apartment-renovation"];
+
+export const getServiceFAQs = (
+  language: Language,
+): Record<string, { question: string; answer: string }[]> => {
+  return language === "bg" ? serviceFAQsBG : serviceFAQsEN;
 };
 
-// Legacy export for backward compatibility
 export const serviceFAQs = serviceFAQsBG;
 
 const servicesBG: Service[] = [
-  // ========== ЦЯЛОСТНИ ДОВЪРШИТЕЛНИ РАБОТИ ==========
-  // Ново строителство - готови към обитаване
+  // ========== ОСНОВЕН И ЦЯЛОСТЕН РЕМОНТ ДО КЛЮЧ ==========
+  {
+    id: "apartment-renovation",
+    icon: Home,
+    title: "Цялостен ремонт на апартамент до ключ",
+    category: "full-renovation",
+    shortDescription:
+      "Пълно управление и изпълнение на ремонта от А до Я в София — с един отговорен технически ръководител, детайлна КСС оферта и фиксирана цена по договор.",
+    fullDescription:
+      "Цялостният ремонт на апартамент до ключ в София от Renovivo представлява комплексно инженерно и интериорно решение от А до Я, при което вие работите с един отговорен технически ръководител, фиксиран бюджет по КСС и гарантиран краен срок по договор.\n\nПоемаме както основен ремонт на старо строителство (тухла, ЕПК, панел), така и пълно преустройство на инвестиционни имоти в София. При старото строителство извършваме контролирано къртене и извозване, пълна подмяна на амортизираните ВиК щрангове и разводки с полипропиленови (PPR) и обезшумени тръби, както и изграждане на нова електроинсталация с дефектнотокови защити и слаботоково окабеляване.\n\nСлед обновяването на инженерните системи изравняваме подовете и стените до перфектна геометрия, изпълняваме гипсокартон и скрито осветление, полагаме сертифицирани хидроизолации в баните, монтираме подови настилки, врати, санитария и собствено производство кухни и мебели по поръчка. Получавате ежедневен фото и видео отчет, финално професионално почистване и 2 години писмена гаранция.",
+    features: [
+      "3D лазерно заснемане и изготвяне на точна КСС оферта без скрити разходи",
+      "Един личен технически ръководител и постоянни профилирани екипи",
+      "Демонтаж, къртене и организирано извозване на строителни отпадъци",
+      "Изцяло нови ВиК, Ел. и ОВиК инсталации с протоколи и гаранция",
+      "Машинни мазилки, фини шпакловки (Q3/Q4) и безвъздушно боядисване",
+      "Цялостно изграждане на бани с плочки, широкоформатен гранитогрес или микроцимент",
+      "Монтаж на настилки, интериорни врати, осветление и мебели по поръчка до ключ",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Безплатен оглед и 3D заснемане в София",
+        description:
+          "Посещаваме имота, оценяваме конструкцията и инсталациите и снемаме точни лазерни размери.",
+      },
+      {
+        step: 2,
+        title: "Детайлна КСС оферта и Договор",
+        description:
+          "Получавате пълна количествено-стойностна сметка с фиксирана крайна цена и календарен график.",
+      },
+      {
+        step: 3,
+        title: "Демонтаж и нови Ел. / ВиК инсталации",
+        description:
+          "Разчистване на обекта и полагане на нови сертифицирани електро, водопроводни и отоплителни трасета.",
+      },
+      {
+        step: 4,
+        title: "Сухо строителство, шпакловки и бани",
+        description:
+          "Изграждане на гипсокартон, замазки, хидроизолации, облицовки в мокри помещения и фино боядисване.",
+      },
+      {
+        step: 5,
+        title: "Настилки, мебели и предаване до ключ",
+        description:
+          "Монтаж на паркет, врати, ключове/контакти, кухня по поръчка, финално почистване и гаранционен протокол.",
+      },
+    ],
+    image: apartmentRenovationImg,
+    gallery: [apartmentRenovationImg, bathroomImg],
+    isInnovative: false,
+  },
 
+  // ========== ЦЯЛОСТНИ ДОВЪРШИТЕЛНИ РАБОТИ (БДС) ==========
   {
     id: "finishing-works",
     icon: Paintbrush,
-    title: "Цялостни довършителни работи",
+    title: "Цялостни довършителни работи (по БДС)",
     category: "finishing-work",
-    shortDescription: "Превръщаме новопостроени жилища в готови за обитаване домове с внимание към всеки детайл.",
-    fullDescription: "Довършителните работи са финалният етап, който превръща сурова конструкция в завършен дом. Нашият екип поема целия процес - от първоначалната подготовка на повърхностите до финалния монтаж на врати и аксесоари. Работим с изпитани материали и съвременни технологии, за да гарантираме дълготрайност и безупречна естетика. Всеки проект се изпълнява по индивидуален план, съобразен с вашите изисквания и бюджет.",
+    shortDescription:
+      "Превръщаме новопостроени апартаменти на шпакловка и замазка (Акт 14/15/16) в София в напълно завършени, готови за нанасяне или отдаване под наем домове.",
+    fullDescription:
+      "Цялостните довършителни работи от Renovivo са създадени специално за собственици на ново строителство в София (на етап БДС — шпакловка и замазка след Акт 14, Акт 15 или Акт 16) и купувачи на инвестиционни имоти, които искат безупречно качество без да координират сами десетки отделни майстори.\n\nПоемаме процеса от самото начало: преработка и добавяне на нови Ел. точки, ключове, контакти и ВиК изводи според разпределението на мебелите, изграждане на окачени тавани от гипсокартон със скрито LED осветление и корнизи за пердета, полагане на саморазливни замазки и шпакловка до огледална гладкост (ниво Q3/Q4).\n\nИзпълняваме цялостно баните и мокрите помещения (хидроизолация, вградени структури, плочки или безшевен микроцимент), боядисваме с висок клас миещи се бои и монтираме подови настилки, интериорни врати и корпусни мебели по поръчка. Всичко се управлява от един технически ръководител с фиксирана цена по договор.",
     features: [
-      "Шпакловане и грундиране на стени и тавани",
-      "Полагане на подови настилки - ламинат, паркет, теракота",
-      "Боядисване с висококачествени бои",
-      "Монтаж на окачени тавани и осветление",
-      "Изграждане на сухи конструкции",
-      "Монтаж на врати и первази",
-      "Монтаж на санитарно оборудване"
+      "Адаптация на Ел. и ВиК точки спрямо интериорния проект и кухнята",
+      "Фина шпакловка (Q3/Q4), грундиране и безвъздушно боядисване",
+      "Саморазливни замазки и монтаж на трислоен паркет, SPC винил, ламинат и гранитогрес",
+      "Окачени тавани от гипсокартон, скрито осветление и акустични обшивки",
+      "Цялостно изграждане на бани от А до Я с 2 г. писмена гаранция",
+      "Доставка и монтаж на интериорни врати, первази и осветителни тела",
+      "Паралелна изработка и монтаж на кухня и гардероби по поръчка",
     ],
     process: [
-      { step: 1, title: "Оглед и планиране", description: "Посещение на обекта и изготвяне на детайлен план за работа." },
-      { step: 2, title: "Подготовка на повърхности", description: "Шпакловане, грундиране и подготовка на стени и тавани." },
-      { step: 3, title: "Настилки и облицовки", description: "Полагане на подови настилки и стенни покрития." },
-      { step: 4, title: "Монтаж", description: "Поставяне на врати, санитария и електрически аксесоари." },
-      { step: 5, title: "Финализиране", description: "Боядисване, почистване и предаване на обекта." }
+      {
+        step: 1,
+        title: "Оглед на обекта и КСС бюджет",
+        description:
+          "Проверяваме равнинността на замазките и стените от строителя и изготвяме точна КСС оферта.",
+      },
+      {
+        step: 2,
+        title: "Корекции по инсталации и гипсокартон",
+        description:
+          "Извеждане на точни изводи за кухня/осветление и монтаж на окачени тавани и предстенни обшивки.",
+      },
+      {
+        step: 3,
+        title: "Бани, фини шпакловки и замазки",
+        description:
+          "Хидроизолация и облицовка на баните, фина шпакловка на стени/тавани и подготовка на подовете.",
+      },
+      {
+        step: 4,
+        title: "Боядисване, настилки и врати",
+        description:
+          "Боядисване с висок клас бои, полагане на паркет/гранитогрес и монтаж на интериорни врати.",
+      },
+      {
+        step: 5,
+        title: "Монтаж на мебели и почистване до ключ",
+        description:
+          "Монтаж на кухнята, санитарията, ключовете и осветителните тела, последван от основно почистване.",
+      },
     ],
     image: paintingImg,
     gallery: [paintingImg, flooringImg],
-    isInnovative: false
+    isInnovative: false,
   },
 
-  // Сухо строителство
+  // Къща
   {
-    id: "drywall-construction",
-    icon: Layers,
-    title: "Сухо строителство",
-    category: "finishing-work",
-    shortDescription: "Гипсокартон, окачени тавани и преградни стени - бързо и чисто изграждане на интериорни елементи.",
-    fullDescription: "Сухото строителство е технология за бързо и чисто изграждане на вътрешни стени, тавани и декоративни елементи без мокри процеси. Гипсокартонените конструкции позволяват скриване на инсталации, подобряване на звукоизолацията и различни архитектурни форми. Предимства: до 3 пъти по-бързо от зидария, чист процес, лесни последващи промени и равна геометрия на повърхностите. Работим с профили Knauf и плоскости с различни характеристики - стандартни, влагоустойчиви, огнеустойчиви и звукоизолационни.",
+    id: "house-renovation",
+    icon: Home,
+    title: "Цялостен ремонт на къща",
+    category: "full-renovation",
+    shortDescription:
+      "Комплексна реновация и довършителни работи на еднофамилни къщи в София и околността — от инсталации и изолации до интериор до ключ.",
+    fullDescription:
+      "Цялостният ремонт на къща в София и вилните зони изисква сериозна инженерна координация, която надхвърля стандартния апартаментен ремонт. Нашият екип поема пълното обновяване на нови и стари еднофамилни къщи с един отговорен технически ръководител и ясен календарен план.\n\nИзпълняваме цялостна подмяна на ВиК, електроинсталации и съвременни ОВиК системи (водно подово отопление, термопомпени инсталации, конвектори), вътрешна и външна топло- и хидроизолация, смяна на дограма, сухо строителство, стълбища, бани и пълно интериорно завършване до ключ.",
     features: [
-      "Преградни стени от гипсокартон",
-      "Окачени тавани - гладки и многонивелни",
-      "Предстенни обшивки за скриване на инсталации",
-      "Декоративни ниши и рафтове",
-      "Скрито осветление и LED ленти",
-      "Звуко- и топлоизолация",
-      "Влагоустойчиви решения за бани"
+      "Техническо обследване и цялостно планиране на етапите по КСС",
+      "Изграждане на водно подово отопление, ОВиК, ВиК и нови ел. табла",
+      "Вътрешна топлоизолация, звукоизолация и конструкции от гипсокартон",
+      "Смяна на PVC и алуминиева дограма и входни врати",
+      "Цялостно изпълнение на бани, мокри помещения и спа зони",
+      "Външни настилки за тераси и веранди (каменен килим, Flake Floor, гранитогрес)",
+      "Интериорни довършителни работи и мебели по поръчка до ключ",
     ],
     process: [
-      { step: 1, title: "Консултация", description: "Обсъждане на идеите и технически възможности." },
-      { step: 2, title: "Конструкция", description: "Монтаж на метална конструкция и обшивка." },
-      { step: 3, title: "Изолация", description: "Полагане на изолационен материал при нужда." },
-      { step: 4, title: "Довършване", description: "Шпакловане на фуги и подготовка за боядисване." }
+      {
+        step: 1,
+        title: "Инженерен оглед и заснемане",
+        description:
+          "Пълна оценка на състоянието на сградата, инсталациите и архитектурното разпределение.",
+      },
+      {
+        step: 2,
+        title: "КСС оферта и календарен план",
+        description:
+          "Изготвяне на детайлен бюджет по етапи и подписване на договор с фиксирани параметри.",
+      },
+      {
+        step: 3,
+        title: "Инженерни системи и изолации",
+        description:
+          "Изпълнение на ВиК, Ел., подово отопление, дограма и изолационни системи.",
+      },
+      {
+        step: 4,
+        title: "Вътрешни довършителни работи",
+        description:
+          "Замазки, мазилки, шпакловки, бани, настилки, боядисване и декоративни покрития.",
+      },
+      {
+        step: 5,
+        title: "Обзавеждане и гаранционно предаване",
+        description:
+          "Монтаж на кухни, врати и осветление, почистване и предаване с 2 г. писмена гаранция.",
+      },
     ],
-    image: drywallImg,
-    gallery: [drywallImg],
-    isInnovative: false
+    image: fullRenovationImg,
+    gallery: [fullRenovationImg],
+    isInnovative: false,
   },
 
   // Изработка на мебели по поръчка
@@ -193,26 +487,98 @@ const servicesBG: Service[] = [
     icon: Sofa,
     title: "Мебели по поръчка — кухни и корпусна мебел",
     category: "finishing-work",
-    shortDescription: "Изработка на кухни и корпусна мебел по индивидуален проект и размери — гардероби, дрешници, шкафове за баня и антре.",
-    fullDescription: "Мебелите по поръчка са решение за максимално оползотворяване на всеки сантиметър от пространството. Работим с опитни мебелисти, които изработват функционални изделия според вашите нужди и стил - от кухненски мебели през вградени гардероби до решения за нестандартни ниши.",
+    shortDescription:
+      "Проектиране, производство и монтаж на кухни, вградени гардероби и корпусна мебел по поръчка, напълно синхронизирани с вашия ремонт в София.",
+    fullDescription:
+      "Изработката на кухни и корпусна мебел по поръчка от Renovivo решава един от най-големите проблеми при всеки ремонт в София — месеците чакане след приключване на строителните работи и разминаванията между контактите, тръбите и шкафовете.\n\nКогато поемаме вашия ремонт, ние снемаме милиметрово точни 3D размери още на етап шпакловки, изготвяме технически проект за точните ВиК и Ел. изводи и стартираме производството на мебелите паралелно с довършителните работи. Така вашата кухня, гардероби, дрешник, антре и шкафове за баня се монтират веднага след полагането на настилките.",
     features: [
-      "Кухни по индивидуален проект — от замерване до монтаж и вграждане на уредите",
-      "Корпусна мебел — вградени гардероби, дрешници, шкафове",
-      "Шкафове за баня и антре",
-      "Мебели за нестандартни пространства",
-      "Избор от множество материали и покрития",
-      "3D визуализация преди изработка",
-      "Доставка и монтаж от нашия екип"
+      "Кухни по индивидуален проект с пълно вграждане на електроуреди и осветление",
+      "Вградени гардероби до тавана, дрешници и системи с плавно затваряне (Blum / Hettich)",
+      "Водоустойчиви шкафове за баня от MDF и компакт ламинат",
+      "Мебели за антре, дневна, домашни офиси и нестандартни скосени ниши",
+      "Богат избор от MDF (мат/гланц/фреза), естествен фурнир, ПДЧ Egger/Kronospan и технически камък",
+      "3D визуализация и технически проект преди пускане в производство",
+      "Доставка и чист професионален монтаж от нашия екип в София",
     ],
     process: [
-      { step: 1, title: "Замерване", description: "Прецизно замерване на пространството." },
-      { step: 2, title: "Проектиране", description: "Изготвяне на проект и 3D визуализация." },
-      { step: 3, title: "Производство", description: "Изработка в мебелен цех по одобрен проект." },
-      { step: 4, title: "Монтаж", description: "Доставка и професионален монтаж на място." }
+      {
+        step: 1,
+        title: "Лазерно замерване и задание",
+        description:
+          "Прецизно заснемане на помещението и уточняване на механизми, материали и електроуреди.",
+      },
+      {
+        step: 2,
+        title: "3D проект и схема за инсталации",
+        description:
+          "Изготвяне на 3D визуализация и точни схеми за ВиК и Ел. изводите.",
+      },
+      {
+        step: 3,
+        title: "Прецизно производство",
+        description:
+          "Изработка на корпусите и фасадите с висок клас обков по одобрения проект.",
+      },
+      {
+        step: 4,
+        title: "Доставка и монтаж до ключ",
+        description:
+          "Транспорт, сглобяване, нивелиране и монтаж на плотове и уреди на обекта.",
+      },
     ],
     image: kitchenImg,
     gallery: [kitchenImg],
-    isInnovative: false
+    isInnovative: false,
+  },
+
+  // Сухо строителство
+  {
+    id: "drywall-construction",
+    icon: Layers,
+    title: "Сухо строителство и гипсокартон",
+    category: "finishing-work",
+    shortDescription:
+      "Окачени тавани със скрито осветление, преградни стени и акустични предстенни обшивки по система Knauf.",
+    fullDescription:
+      "Сухото строителство е гръбнакът на модерния интериор при довършване на ново строителство и реновация на стари апартаменти в София. Конструкциите от гипсокартон осигуряват идеална геометрия на стените и таваните, позволяват вграждане на архитектурно скрито LED осветление, магнитни релси и корнизи за завеси, и значително подобряват звукоизолацията между съседните имоти.\n\nРаботим със сертифицирани профили, антивибрационни окачвачи и плоскости Knauf (влагоустойчиви, огнеустойчиви и високоплътни акустични плоскости) в комбинация с каменна вата.",
+    features: [
+      "Окачени тавани — гладки, многонивелни, със светлинни ниши и скрити корнизи",
+      "Преградни стени от гипсокартон с двойна обшивка и каменна вата",
+      "Звукоизолационни предстенни обшивки към съседи и щрангове",
+      "Куфари за скриване на тръби, въздуховоди и вградени казанчета в бани",
+      "Декоративни ТВ стени, ниши и вградени линейни осветителни профили",
+      "Фугиране с армиращи ленти и фина шпакловка до ниво Q3/Q4",
+      "Влагоустойчиви и циментови плоскости (Aquapanel) за мокри помещения",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Лазерно трасиране",
+        description:
+          "Прецизно разчертаване на нивата, нишите за осветление и преградните стени.",
+      },
+      {
+        step: 2,
+        title: "Метална конструкция и изолация",
+        description:
+          "Монтаж на профили с уплътнителни ленти и полагане на минерална/каменна вата.",
+      },
+      {
+        step: 3,
+        title: "Зашиване с плоскости",
+        description:
+          "Еднослойна или двуслойна обшивка с разминаване на фугите за защита от пукнатини.",
+      },
+      {
+        step: 4,
+        title: "Армиране и шпакловане Q3/Q4",
+        description:
+          "Фугиране и цялостно шпакловане до идеално гладка повърхност за боядисване.",
+      },
+    ],
+    image: drywallImg,
+    gallery: [drywallImg],
+    isInnovative: false,
   },
 
   // Смяна на дограма
@@ -221,26 +587,48 @@ const servicesBG: Service[] = [
     icon: Frame,
     title: "Смяна на дограма",
     category: "finishing-work",
-    shortDescription: "Демонтаж на стара дограма и монтаж на нови прозорци и врати с професионална обработка.",
-    fullDescription: "Смяната на дограма е инвестиция в комфорт и енергийна ефективност. Новите прозорци могат да намалят топлинните загуби с до 40%, което директно се отразява на сметките за отопление. Демонтираме старата дограма и монтираме нови PVC или алуминиеви прозорци и врати с прецизна обработка на отворите. Осигуряваме правилна хидро- и топлоизолация, запълване на фугите и довършване на вътрешни и външни первази. Работим с водещи марки като Rehau, Salamander, Veka и Schüco, гарантиращи дълготрайност и естетика.",
+    shortDescription:
+      "Демонтаж на стара дограма и монтаж на високоенергийни PVC и алуминиеви прозорци с пълно обръщане и изолация.",
+    fullDescription:
+      "Смяната на дограмата е първата задължителна стъпка при основен ремонт на апартамент или къща в София, която намалява топлинните загуби с до 40% и изолира уличния шум. Извършваме внимателен демонтаж на старата дограма, монтаж на нови PVC или алуминиеви профилни системи (Rehau, Salamander, Veka, Schüco) с троен стъклопакет и цялостно вътрешно и външно обръщане на прозорците с гипсокартон/XPS и шпакловка.",
     features: [
-      "Демонтаж на стара дограма",
-      "Подготовка и корекция на отвори",
-      "Монтаж на PVC или алуминиева дограма",
-      "Хидро- и топлоизолация по контура",
-      "Монтаж на вътрешни первази",
-      "Изработка на външни первази",
-      "Регулиране и настройка на механизми"
+      "Демонтаж и извозване на стара дървена, метална или амортизирана дограма",
+      "Монтаж на 5-, 6- и 7-камерна PVC или алуминиева дограма с прекъснат термомост",
+      "Тройни стъклопакети с четирисезонно и нискоемисионно К-стъкло",
+      "Пълно вътрешно и външно обръщане (измазване и шпакловане) на отворите",
+      "Монтаж на външни алуминиеви козирки и вътрешни первази",
+      "Комарници, ролетни щори и противовзломен обков",
+      "Реглаж и гаранционна поддръжка на механизмите",
     ],
     process: [
-      { step: 1, title: "Замерване", description: "Прецизно измерване на отворите." },
-      { step: 2, title: "Демонтаж", description: "Внимателно премахване на старата дограма." },
-      { step: 3, title: "Монтаж", description: "Професионално поставяне и нивелиране." },
-      { step: 4, title: "Довършване", description: "Изолация, первази и финална настройка." }
+      {
+        step: 1,
+        title: "Прецизно замерване",
+        description:
+          "Снемане на размери и избор на профилна система и стъклопакет.",
+      },
+      {
+        step: 2,
+        title: "Демонтаж на стара дограма",
+        description:
+          "Чисто премахване на старите рамки и подготовка на зида.",
+      },
+      {
+        step: 3,
+        title: "Нивелиран монтаж и уплътняване",
+        description:
+          "Закрепване, нивелиране и термоизолационно уплътняване на контура.",
+      },
+      {
+        step: 4,
+        title: "Обръщане на прозорци и первази",
+        description:
+          "Довършване на страниците с гипсокартон/шпакловка и монтаж на первази.",
+      },
     ],
     image: windowsImg,
     gallery: [windowsImg],
-    isInnovative: false
+    isInnovative: false,
   },
 
   // Монтаж на врати
@@ -249,166 +637,182 @@ const servicesBG: Service[] = [
     icon: DoorOpen,
     title: "Монтаж на интериорни и входни врати",
     category: "finishing-work",
-    shortDescription: "Професионален монтаж на интериорни, плъзгащи и входни врати с прецизна обработка.",
-    fullDescription: "Вратите са важен елемент от интериора. Правилният монтаж е критичен за безшумно отваряне, плътно затваряне и дълготрайност. Монтираме всички видове врати - стандартни интериорни, скрити системи със скрити панти, плъзгащи врати в стената и входни врати с биометрично заключване. Осигуряваме прецизно нивелиране (до 1мм толеранс), правилна обработка на каси и завършек с первази.",
+    shortDescription:
+      "Прецизен монтаж на интериорни, тапетни (скрити), плъзгащи и блиндирани входни врати като част от вашия ремонт.",
+    fullDescription:
+      "Правилният монтаж на вратите определя финалния облик на всеки ремонтиран дом. Нашият екип монтира стандартни интериорни врати с регулируеми каси, модерни тапетни врати със скрити каси (които се сливат със стената и се боядисват или покриват с микроцимент), плъзгащи системи и блиндирани входни врати с лазерно нивелиране до 1 мм толеранс.",
     features: [
-      "Монтаж на интериорни врати",
-      "Плъзгащи и скрити системи",
-      "Входни врати - стоманени и алуминиеви",
-      "Стъклени врати и преградни системи",
-      "Прецизна обработка на каси",
-      "Монтаж на первази и лайсни",
-      "Регулиране и настройка"
+      "Монтаж на интериорни врати с обхватни регулируеми каси",
+      "Вграждане на тапетни (скрити) врати на етап гипсокартон и шпакловка",
+      "Монтаж на плъзгащи врати покрай стена или в касета в стената",
+      "Демонтаж и монтаж на блиндирани входни врати с обръщане на касата",
+      "Прецизно подрязване и сглобяване на первази под 45 или 90 градуса",
+      "Монтаж на магнитни брави, скрити панти и падащи прагове",
+      "Синхронизация с нивата на подовите настилки и первазите",
     ],
     process: [
-      { step: 1, title: "Замерване", description: "Точни размери за правилен избор на врати." },
-      { step: 2, title: "Подготовка", description: "Корекция на отвори при необходимост." },
-      { step: 3, title: "Монтаж", description: "Поставяне на каси и криле." },
-      { step: 4, title: "Довършване", description: "Первази, силикон и финална настройка." }
+      {
+        step: 1,
+        title: "Оразмеряване на строителните отвори",
+        description:
+          "Проверка и корекция на височините и ширините преди поръчка на вратите.",
+      },
+      {
+        step: 2,
+        title: "Подготовка на нивата",
+        description:
+          "Съгласуване с точната дебелина на паркета и плочките в баните.",
+      },
+      {
+        step: 3,
+        title: "Лазерно нивелиран монтаж",
+        description:
+          "Сглобяване и укрепване на касите, окачване на крилата и монтаж на обкова.",
+      },
+      {
+        step: 4,
+        title: "Первази и финална настройка",
+        description:
+          "Поставяне на первази, уплътнения и тестване за плавно и безшумно затваряне.",
+      },
     ],
     image: doorsImg,
     gallery: [doorsImg],
-    isInnovative: false
-  },
-
-  // ========== ОСНОВЕН РЕМОНТ ==========
-  // Пълна реновация на жилища "Старо строителство"
-
-  // Апартамент
-  {
-    id: "apartment-renovation",
-    icon: Home,
-    title: "Основен ремонт на апартамент",
-    category: "full-renovation",
-    shortDescription: "Пълна реновация на апартаменти в панелни, тухлени и ЕПК сгради - старо строителство.",
-    fullDescription: "Основният ремонт на апартамент в старо строителство е комплексен процес, изискващ специализиран подход според типа конструкция. Панелните сгради имат свои особености - тънки стени (12-16 см), специфично разпределение на инсталации в канали, ограничени възможности за преместване на ВиК точки. Тухлените сгради предлагат повече възможности за преустройство, но често имат неравни стени и подове. ЕПК конструкциите изискват внимание при работа с носещи елементи и топлоизолация. При всички типове старо строителство препоръчваме пълна подмяна на инсталациите (средна възраст 40+ години), модерни решения за електричество (минимум 10kW входяща мощност), съвременна ВиК система с PPR тръби и професионална хидроизолация.",
-    features: [
-      "Къртене и демонтаж на стари настилки и облицовки",
-      "Подмяна на ВиК инсталации",
-      "Подмяна на електроинсталация",
-      "Изравняване на стени и подове",
-      "Хидроизолация на мокри помещения",
-      "Полагане на нови настилки",
-      "Боядисване и довършителни работи"
-    ],
-    process: [
-      { step: 1, title: "Оглед и оценка", description: "Анализ на състоянието и тип на конструкцията." },
-      { step: 2, title: "Планиране", description: "Изготвяне на бюджет и график." },
-      { step: 3, title: "Демонтаж", description: "Къртене и подготовка за нови инсталации." },
-      { step: 4, title: "Инсталации", description: "Подмяна на ВиК, ел. и отоплителни системи." },
-      { step: 5, title: "Довършване", description: "Настилки, шпакловка, боя и монтаж." }
-    ],
-    image: apartmentRenovationImg,
-    gallery: [apartmentRenovationImg, bathroomImg],
-    isInnovative: false
-  },
-
-  // Къща
-  {
-    id: "house-renovation",
-    icon: Home,
-    title: "Основен ремонт на къща",
-    category: "full-renovation",
-    shortDescription: "Цялостна реновация на еднофамилни къщи - от основи до покрив.",
-    fullDescription: "Ремонтът на къща е мащабен проект, който изисква координация на множество дейности - от укрепване на конструкцията до подмяна на покривна конструкция. Работим със стари къщи, при които често се налага саниране на фасади, подмяна на дървени конструкции и модернизиране на отоплителни системи. Нашият екип има опит с различни архитектурни стилове и материали, характерни за българското строителство.",
-    features: [
-      "Оценка на състоянието на конструкцията",
-      "Укрепване при необходимост",
-      "Подмяна на покривна конструкция",
-      "Саниране и топлоизолация",
-      "Подмяна на всички инсталации",
-      "Вътрешни довършителни работи",
-      "Подобряване на енергийна ефективност"
-    ],
-    process: [
-      { step: 1, title: "Експертиза", description: "Оценка на носещата конструкция и състояние." },
-      { step: 2, title: "Проектиране", description: "План за реновация и необходими разрешителни." },
-      { step: 3, title: "Конструктивни работи", description: "Укрепване, покрив, фасада." },
-      { step: 4, title: "Инсталации", description: "Нови ВиК, ел. и отоплителни системи." },
-      { step: 5, title: "Довършване", description: "Интериорни работи и завършек." }
-    ],
-    image: fullRenovationImg,
-    gallery: [fullRenovationImg],
-    isInnovative: false
+    isInnovative: false,
   },
 
   // ========== СПЕЦИАЛНИ ИНОВАТИВНИ РЕШЕНИЯ ==========
-  // Премиум безшевни покрития и смарт инсталации
-
-  // Микроцимент
   {
     id: "microcement",
     icon: Square,
     title: "Микроцимент",
     category: "special-solutions",
-    shortDescription: "Монолитна повърхност без фуги - модерно решение за подове и стени.",
-    fullDescription: "Микроциментът е декоративно покритие, което се полага директно върху съществуващи повърхности с дебелина само 2-3 мм. Създава гладка, безфугова повърхност - подходящо решение за бани, кухни и дневни, където традиционните плочки изискват постоянна поддръжка на фугите. Без видими съединения, без места за задържане на бактерии, лесно за почистване.",
+    shortDescription:
+      "Луксозно безшевно и 100% водоустойчиво покритие за модерни бани, подове, стени и мебели по поръчка.",
+    fullDescription:
+      "Микроциментът е високотехнологично полимер-минерално покритие с дебелина едва 2–3 мм, което създава монолитна, напълно безфугова повърхност с изтънчена архитектурна естетика. То е едно от най-търсените решения за висок клас ремонти в София — за цели бани без нито една фуга, душ зони, кухненски гърбове, подове с подово отопление, стълбища и плотове.\n\nПоради изключителната си здравина и адхезия микроциментът може да се полага както върху нова замазка и гипсокартон, така и директно върху съществуващи стари плочки без нужда от къртене.",
     features: [
-      "Напълно безшевна монолитна повърхност",
-      "Полага се върху съществуващи повърхности без демонтаж",
-      "Водоустойчива - идеална за бани и кухни",
-      "50+ цветови нюанса - от минималистичен бял до дълбок графит",
-      "Съвместима с подово отопление",
-      "Сертифицирана екологично",
-      "Лесна за почистване - хигиенична повърхност"
+      "100% безшевна монолитна повърхност — без фуги, мухъл и задържане на мръсотия",
+      "Пълна водоустойчивост — перфектен за бани, душ кабини и мокри зони",
+      "Полага се директно върху стари плочки, бетон, замазка или MDF без къртене",
+      "Над 50 дизайнерски нюанса и текстури — от топъл пясък и травертин до графит",
+      "Отлична топлопроводимост — идеален за водно и електрическо подово отопление",
+      "Висока устойчивост на надраскване, удар и битова химия",
+      "Изключително лесна поддръжка и почистване",
     ],
     process: [
-      { step: 1, title: "Консултация", description: "Посещение на място, анализ и избор на нюанс." },
-      { step: 2, title: "Подготовка", description: "Грундиране и подготовка без необходимост от демонтаж." },
-      { step: 3, title: "Нанасяне", description: "Експертно нанасяне на базов слой с прецизност." },
-      { step: 4, title: "Финализиране", description: "Декоративен слой и защитен полиуретанов лак." },
-      { step: 5, title: "Гаранция", description: "Пълна гаранция за надеждност на материала." }
+      {
+        step: 1,
+        title: "Оглед и избор на мостра",
+        description:
+          "Оценка на основата в София и избор на точен цвят, текстура и финиш (мат/сатен).",
+      },
+      {
+        step: 2,
+        title: "Армиране и грундиране",
+        description:
+          "Подготовка на основата с епоксиден/кварцов грунд и стъклофибърна мрежа.",
+      },
+      {
+        step: 3,
+        title: "Базови и финишни слоеве",
+        description:
+          "Ръчно нанасяне с маламашка на базовите и декоративните слоеве микроцимент.",
+      },
+      {
+        step: 4,
+        title: "Запечатване с полиуретанов лак",
+        description:
+          "Многослойно импрегниране и запечатване за 100% водоустойчивост и износоустойчивост.",
+      },
     ],
     image: microcementImg,
     gallery: [microcementImg, microcementKitchenImg],
     isInnovative: true,
     vsTiles: {
       advantages: [
-        "Без фуги - без почерняване и мухъл",
-        "Полага се върху съществуващи плочки",
-        "По-леко от плочки - без натоварване на конструкцията",
-        "Модерен минималистичен вид"
+        "Напълно без фуги — край на почерняването, мухъла и трудното търкане",
+        "Може да се положи директно върху стари плочки без шум и прах от къртене",
+        "Дебелина само 2–3 мм — не повдига нивото на пода и не натоварва плочата",
+        "Създава визуално по-просторно, луксозно и монолитно помещение",
       ],
       disadvantages: [
-        "Изисква професионално нанасяне",
-        "По-висока начална инвестиция"
+        "Изисква сертифицирани майстори и стриктно спазване на технологичните паузи",
+        "По-висока инвестиция спрямо нисък клас стандартни плочки",
       ],
       comparison: [
-        { aspect: "Фуги", innovative: "Без фуги", tiles: "Много фуги, които се замърсяват" },
-        { aspect: "Монтаж", innovative: "Върху съществуващи повърхности", tiles: "Изисква демонтаж" },
-        { aspect: "Почистване", innovative: "Изключително лесно", tiles: "Фугите се чистят трудно" },
-        { aspect: "Вид", innovative: "Монолитен, изчистен", tiles: "Традиционен" }
-      ]
-    }
+        {
+          aspect: "Фуги и хигиена",
+          innovative: "100% без фуги, антибактериална повърхност",
+          tiles: "Множество фуги, задържащи влага и варовик",
+        },
+        {
+          aspect: "Полагане при ремонт",
+          innovative: "Директно върху здрава основа или стари плочки",
+          tiles: "Задължително къртене и извозване",
+        },
+        {
+          aspect: "Дебелина на системата",
+          innovative: "2 – 3 мм",
+          tiles: "12 – 20 мм (с лепилото)",
+        },
+        {
+          aspect: "Дизайн и визия",
+          innovative: "Монолитен бутиков дизайн по поръчка",
+          tiles: "Стандартна модулна решетка",
+        },
+      ],
+    },
   },
 
   // Terrazzo
   {
     id: "terrazzo",
     icon: Sparkles,
-    title: "Terrazzo",
+    title: "Terrazzo (Терацо)",
     category: "special-solutions",
-    shortDescription: "Венецианска мозайка в модерно изпълнение - дълготрайна настилка с естествени камъни.",
-    fullDescription: "Terrazzo е декоративна настилка от естествени цветни камъни (мрамор, гранит) и свързващо вещество, шлифована до гладка монолитна повърхност. Издържа над 75 години, може да се шлифова и възстановява многократно. Всяка настилка е уникална според избора на камъни и пигменти.",
+    shortDescription:
+      "Венецианска монолитна мозайка с естествени мраморни и каменни фрагменти — вечна класика в модерно изпълнение.",
+    fullDescription:
+      "Terrazzo (терацо) е премиум монолитна настилка, съчетаваща естествени фракции от мрамор, гранит, кварц или оникс със високоякостно свързващо вещество, която се шлифова диамантено на място до идеално гладка, безшевна повърхност. С живот от над 75 години и индивидуален подбор на цветовете и едрината на камъните, Terrazzo придава неповторим архитектурен почерк на дневни, фоайета, бани и търговски пространства.",
     features: [
-      "Уникален дизайн - всеки под е неповторим",
-      "Издръжливост над 75 години",
-      "Естествени камъни (мрамор, гранит)",
-      "Напълно безфугов - хигиеничен",
-      "Може да се шлифова и възстановява многократно",
-      "UV устойчив - цветовете се запазват",
-      "Подходящ за жилища и обществени обекти"
+      "Индивидуален дизайн — избирате точния цвят на основата и мраморните фракции",
+      "Екстремна дълготрайност от над 75 години",
+      "Естествен мрамор, гранит и минерални пигменти",
+      "Напълно монолитен и безфугов под",
+      "Възможност за многократно реполиране и обновяване след десетилетия",
+      "Съвместим с подово отопление и устойчив на UV лъчи",
+      "Луксозен избор за резиденции, просторни дневни и шоуруми в София",
     ],
     process: [
-      { step: 1, title: "Дизайн консултация", description: "Избор на естествени камъни и пигменти от международна палитра." },
-      { step: 2, title: "Подготовка", description: "Изравняване на основата до равна повърхност." },
-      { step: 3, title: "Смесване", description: "Прецизна комбинация от материали в контролирани условия." },
-      { step: 4, title: "Полагане", description: "Ръчно разстилане на сместа." },
-      { step: 5, title: "Шлифоване", description: "Многоетапно диамантено шлифоване за гладка повърхност." }
+      {
+        step: 1,
+        title: "Дизайн и мостри",
+        description:
+          "Избор на каменни фракции, пигменти и степен на блясък (мат, сатен, полиран).",
+      },
+      {
+        step: 2,
+        title: "Подготовка и армиране",
+        description:
+          "Изравняване и грундиране на основата против пукнатини.",
+      },
+      {
+        step: 3,
+        title: "Изливане на сместа",
+        description:
+          "Прецизно забъркване и ръчно полагане на Terrazzo матрицата.",
+      },
+      {
+        step: 4,
+        title: "Диамантено шлифоване и полиране",
+        description:
+          "Многоетапно машинно шлифоване за разкриване на мрамора и финална импрегнация.",
+      },
     ],
     image: terrazzoImg,
     gallery: [terrazzoImg, terrazzoBathroomImg],
-    isInnovative: true
+    isInnovative: true,
   },
 
   // Flake Floor
@@ -417,26 +821,47 @@ const servicesBG: Service[] = [
     icon: Hexagon,
     title: "Flake Floor",
     category: "special-solutions",
-    shortDescription: "Декоративно покритие с цветни частици - модерна алтернатива за тераси и балкони.",
-    fullDescription: "Flake покритието съчетава хидроизолация и декорация в едно решение. Монолитна безшевна повърхност, която отвежда водата встрани и предотвратява застояване. Устойчиво на замръзване и напукване - подходящо за тераси, балкони и външни площи.",
+    shortDescription:
+      "Високоустойчива безшевна подова система с декоративни флейк частици и вградена хидроизолация за тераси и гаражи.",
+    fullDescription:
+      "Flake Floor е монолитна полимерна подова система, която обединява 100% безшевна хидроизолация и декоративно износоустойчиво покритие в едно. Благодарение на своята еластичност, UV стабилност и устойчивост на екстремни температурни амплитуди в София, Flake Floor е перфектното дългосрочно решение за открити тераси, балкони, гаражи и стълбища.",
     features: [
-      "Хидроизолация и декорация в едно решение",
-      "Морозоустойчива - без напукване",
-      "UV стабилна - цветовете се запазват",
-      "Устойчива на автомобилни течности и масла",
-      "Бърз монтаж без продължително изчакване",
-      "Минимална поддръжка - гладка повърхност"
+      "Хидроизолация и финишна настилка в една монолитна система",
+      "100% морозоустойчива и еластична — не се пука и не се отлепва през зимата",
+      "UV стабилна — цветовете не пожълтяват и не избледняват на слънце",
+      "Устойчива на автомобилни гуми, масла, соли и механично натоварване",
+      "Противохлъзгаща текстура за безопасност при мокър под",
+      "Бързо полагане и лесно почистване без фуги",
     ],
     process: [
-      { step: 1, title: "Оценка", description: "Консултация и избор на цветова гама." },
-      { step: 2, title: "Подготовка", description: "Почистване и грундиране на основата." },
-      { step: 3, title: "Покритие", description: "Полагане на еластична основа." },
-      { step: 4, title: "Декориране", description: "Поръсване на цветни частици." },
-      { step: 5, title: "Защита", description: "Финална UV защита." }
+      {
+        step: 1,
+        title: "Оглед и избор на флейк микс",
+        description:
+          "Оценка на основата и избор на цветова комбинация от декоративни частици.",
+      },
+      {
+        step: 2,
+        title: "Шлайфане и грундиране",
+        description:
+          "Механична подготовка на бетона/плочките и дълбоко грундиране.",
+      },
+      {
+        step: 3,
+        title: "Хидроизолационен базов слой и флейк",
+        description:
+          "Нанасяне на еластичната мембрана и пълно насищане с цветни частици.",
+      },
+      {
+        step: 4,
+        title: "Запечатване с UV полиуретанов топ лак",
+        description:
+          "Финално запечатване за устойчивост на атмосферни влияния и износване.",
+      },
     ],
     image: flakeFloorImg,
     gallery: [flakeFloorImg, flakeFloorShowroomImg],
-    isInnovative: true
+    isInnovative: true,
   },
 
   // Каменен килим
@@ -445,114 +870,260 @@ const servicesBG: Service[] = [
     icon: Mountain,
     title: "Каменен килим",
     category: "special-solutions",
-    shortDescription: "Естествени камъчета с отвеждане на водата - качествено решение за тераси и басейни.",
-    fullDescription: "Каменният килим е решението за проблема с водата на балкони и тераси. За разлика от плочките, които задържат вода и лед, килимът е напълно водопропусклив и морозоустойчив. Природната красота на естествените камъчета с истинска практичност и спокойствие за години напред.",
+    shortDescription:
+      "Дренажна безшевна настилка от естествени кварцови и мраморни камъчета — край на локвите и разлепените плочки на терасата.",
+    fullDescription:
+      "Каменният килим (Stone Carpet) решава завинаги най-честия проблем на откритите тераси, веранди и зони около басейни в София — задържането на вода, замръзването и разрушаването на плочките. Настилката се състои от калибровани естествени мраморни или речни камъчета, свързани с прозрачна алифатна полиуретанова смола.\n\nПокритието е 100% водопропускливо (дренажно) — дъждовната вода преминава мигновено през микропорите към хидроизолацията и сифона отдолу, оставяйки повърхността суха, нехлъзгава и напълно защитена от лед през зимата.",
     features: [
-      "100% водопропусклив - без локви и застояла вода",
-      "Морозоустойчив - ледът не причинява пукнатини",
-      "Противохлъзгаща повърхност - безопасно около басейни",
-      "Естествен вид с природни материали",
-      "Лесен за почистване с вода под налягане",
-      "Минимална поддръжка за дълги години"
+      "100% дренажна система — без локви, застояла вода и заледяване",
+      "Пълна морозоустойчивост при сурови зимни условия",
+      "Естествени заоблени камъчета — приятни и безопасни за ходене бос",
+      "Полага се безфугово върху тераси, стълбища, алеи и около басейни",
+      "Висока UV устойчивост без пожълтяване на смолата",
+      "Лесно измиване с водоструйка и минимална поддръжка",
     ],
     process: [
-      { step: 1, title: "Консултация", description: "Избор на размер и цвят на камъчетата." },
-      { step: 2, title: "Подготовка", description: "Грундиране на основата за максимално сцепление." },
-      { step: 3, title: "Полагане", description: "Ръчно разстилане с дебелина 8-12 мм." },
-      { step: 4, title: "Втвърдяване", description: "Пълно втвърдяване за 24-48 часа." }
+      {
+        step: 1,
+        title: "Оглед и избор на фракция",
+        description:
+          "Проверка на наклоните и хидроизолацията и избор на цвят на естествените камъчета.",
+      },
+      {
+        step: 2,
+        title: "Подготовка и хидроизолация",
+        description:
+          "Грундиране и полагане на безшевна хидроизолационна мембрана под килима.",
+      },
+      {
+        step: 3,
+        title: "Ръчно полагане и заглаждане",
+        description:
+          "Смесване на камъчетата с UV смола и полагане с дебелина 8–12 мм.",
+      },
+      {
+        step: 4,
+        title: "Полимеризация",
+        description:
+          "Пълно втвърдяване в рамките на 24–48 часа до готовност за експлоатация.",
+      },
     ],
     image: stoneCarpetImg,
     gallery: [stoneCarpetImg, stoneCarpetPoolImg],
-    isInnovative: true
+    isInnovative: true,
   },
 
   // Смарт инсталации
   {
     id: "smart-installations",
     icon: Lightbulb,
-    title: "Смарт инсталации 2025",
+    title: "Смарт инсталации 2026",
     category: "special-solutions",
-    shortDescription: "Домашна автоматизация с Matter протокол - интелигентно управление на целия дом.",
-    fullDescription: "Смарт инсталациите от 2025 година превръщат вашия дом в интелигентна екосистема с Matter стандарт - новият универсален протокол, поддържан от Apple, Google, Amazon и Samsung. Това означава, че всички устройства работят безпроблемно заедно, независимо от производителя. Изкуственият интелект учи вашите навици - кога се събуждате, кога напускате дома, кога се прибирате - и автоматично оптимизира климата и осветлението. 5G свързаност осигурява мигновен отговор без забавяне. Биометричната сигурност включва лицево разпознаване и пръстов отпечатък за входна врата. Реални спестявания от 15-30% на енергийните разходи чрез интелигентно управление на отопление и климатизация.",
+    shortDescription:
+      "Интелигентна домашна автоматизация с Matter протокол — централизиран контрол на осветление, климат, щори и защита от течове.",
+    fullDescription:
+      "Модерният цялостен ремонт през 2026 г. е немислим без интелигентно планирана електроинсталация и автоматизация. Изграждаме системи за Умен дом (Smart Home), базирани на универсалния стандарт Matter, който гарантира пълна съвместимост с Apple Home, Google Home, Amazon Alexa и Samsung SmartThings без обвързване с един производител.\n\nИнтегрираме димируемо архитектурно осветление по сценарии, умно управление на подово отопление и климатици за икономия на енергия до 30%, моторизирани корнизи и щори, интелигентни брави и автоматични кранове със сензори за наводнение, които спират водата за секунди при наличие на влага.",
     features: [
-      "Matter протокол - универсална съвместимост",
-      "AI управление - учи вашите навици",
-      "5G свързаност - мигновен отговор",
-      "Биометрична сигурност - лицево разпознаване и пръстов отпечатък",
-      "Гласов контрол - Google Assistant, Alexa, Siri",
-      "Енергийна оптимизация в реално време",
-      "Интеграция със соларни и възобновяеми източници",
-      "Предиктивна диагностика и поддръжка"
+      "Универсален Matter протокол — работи с Apple Siri, Google и Alexa",
+      "Умно управление на осветлението и готови светлинни сценарии (Ден, Кино, Нощ)",
+      "Автоматичен контрол на подово отопление, термопомпи и климатици по стаи",
+      "Защита от наводнение със сензори и автоматично спиране на централния водопровод",
+      "Моторизирани пердета, щори и интелигентни входни брави с код/отпечатък",
+      "Изграждане по време на ремонта със скрито окабеляване и дълбоки конзоли",
+      "Намаляване на разходите за отопление и охлаждане с 15–30%",
     ],
     process: [
-      { step: 1, title: "Анализ на дома", description: "Оценка на архитектурата и интеграция с Matter устройства." },
-      { step: 2, title: "Избор на устройства", description: "Препоръка на Matter-съвместими устройства." },
-      { step: 3, title: "Инсталация", description: "Професионален монтаж на хъб, сензори и актуатори." },
-      { step: 4, title: "Конфигурация", description: "Програмиране на автоматизационни сценарии." },
-      { step: 5, title: "Обучение", description: "Обучение за ползване и непрекъсната поддръжка." }
+      {
+        step: 1,
+        title: "Проектиране преди ремонта",
+        description:
+          "Планиране на всички умни функции, датчици и захранвания още преди шпакловките.",
+      },
+      {
+        step: 2,
+        title: "Окабеляване и табло",
+        description:
+          "Полагане на правилните кабели, дълбоки конзоли с нулев проводник и смарт модули.",
+      },
+      {
+        step: 3,
+        title: "Монтаж на ключове и сензори",
+        description:
+          "Инсталация на смарт ключове, термостати, актуатори за вода и мотори за пердета.",
+      },
+      {
+        step: 4,
+        title: "Програмиране и обучение",
+        description:
+          "Настройка на автоматизациите във вашия телефон и предаване на готовата система.",
+      },
     ],
     image: smartHomeImg,
     gallery: [smartHomeImg],
-    isInnovative: true
-  }
+    isInnovative: true,
+  },
 ];
 
-// English services data
+// English services data — Пълен паритет на всички 10 маршрута (без липсващи страници!)
 const servicesEN: Service[] = [
-  // ========== COMPLETE FINISHING WORKS ==========
   {
-    id: "finishing-works",
-    icon: Paintbrush,
-    title: "Complete Finishing Works",
-    category: "finishing-work",
-    shortDescription: "We transform newly built homes into ready-to-move-in homes with attention to every detail.",
-    fullDescription: "Finishing works are the final stage that transforms raw construction into a finished home. Our team takes on the entire process - from initial surface preparation to final installation of doors and accessories. We work with proven materials and modern technologies to guarantee durability and flawless aesthetics. Each project is executed according to an individual plan, tailored to your requirements and budget.",
+    id: "apartment-renovation",
+    icon: Home,
+    title: "Turnkey Apartment Renovation",
+    category: "full-renovation",
+    shortDescription:
+      "End-to-end apartment renovation in Sofia — managed by a single accountable project lead with a detailed BOQ quote and a fixed contract price.",
+    fullDescription:
+      "A turnkey apartment renovation in Sofia by Renovivo covers the entire engineering and interior transformation from A to Z. You work with one dedicated project manager, an itemized Bill of Quantities (BOQ), and a fixed budget and deadline locked in a written contract.\n\nWe specialize in both full refurbishments of older properties (brick, EPK, panel) and high-ROI renovations for investment properties in Sofia. For old construction, we handle controlled demolition, waste removal, complete replacement of aged plumbing with silent PPR systems, and new electrical wiring with modern breaker panels.\n\nWe then execute laser-leveled screeds, Knauf drywall and concealed lighting, Q3/Q4 plastering, certified bathroom waterproofing, flooring, doors, and in-house custom kitchen and wardrobe manufacturing — backed by daily photo updates and a 2-year written warranty.",
     features: [
-      "Plastering and priming of walls and ceilings",
-      "Installation of floor coverings - laminate, parquet, tiles",
-      "Painting with high-quality paints",
-      "Installation of suspended ceilings and lighting",
-      "Construction of drywall structures",
-      "Installation of doors and baseboards",
-      "Installation of sanitary equipment"
+      "3D laser scanning and itemized BOQ quote with zero hidden costs",
+      "Single dedicated project manager and permanent specialized crews",
+      "Controlled demolition and organized debris removal",
+      "Complete replacement of plumbing, electrical, and HVAC systems",
+      "Q3/Q4 fine plastering, self-leveling screeds, and airless painting",
+      "Turnkey bathrooms with large-format tiles or seamless microcement",
+      "Flooring, interior doors, lighting, and custom furniture installation",
     ],
     process: [
-      { step: 1, title: "Inspection and planning", description: "Site visit and preparation of detailed work plan." },
-      { step: 2, title: "Surface preparation", description: "Plastering, priming and preparation of walls and ceilings." },
-      { step: 3, title: "Flooring and tiling", description: "Installation of floor coverings and wall coatings." },
-      { step: 4, title: "Installation", description: "Placement of doors, sanitary ware and electrical accessories." },
-      { step: 5, title: "Finalization", description: "Painting, cleaning and handover of the property." }
+      {
+        step: 1,
+        title: "Free On-Site Inspection & 3D Scan",
+        description:
+          "We assess the property in Sofia and take millimeter-accurate laser measurements.",
+      },
+      {
+        step: 2,
+        title: "Itemized BOQ & Fixed Contract",
+        description:
+          "You receive a transparent Bill of Quantities with a fixed price and binding schedule.",
+      },
+      {
+        step: 3,
+        title: "Demolition & Rough MEP Installations",
+        description:
+          "Site preparation and installation of new plumbing, electrical, and HVAC lines.",
+      },
+      {
+        step: 4,
+        title: "Drywall, Plastering & Bathrooms",
+        description:
+          "Suspended ceilings, waterproofing, tiling/microcement, and smooth wall preparation.",
+      },
+      {
+        step: 5,
+        title: "Flooring, Custom Furniture & Handover",
+        description:
+          "Parquet, doors, custom kitchen installation, deep cleaning, and 2-year warranty.",
+      },
     ],
-    image: paintingImg,
-    gallery: [paintingImg, flooringImg],
-    isInnovative: false
+    image: apartmentRenovationImg,
+    gallery: [apartmentRenovationImg, bathroomImg],
+    isInnovative: false,
   },
 
   {
-    id: "drywall-construction",
-    icon: Layers,
-    title: "Drywall Construction",
+    id: "finishing-works",
+    icon: Paintbrush,
+    title: "Complete Finishing Works (BDS New Builds)",
     category: "finishing-work",
-    shortDescription: "Drywall, suspended ceilings and partition walls - fast and clean construction of interior elements.",
-    fullDescription: "Drywall construction is a modern technology for fast and efficient construction of interior walls, ceilings and decorative elements without using wet processes. Drywall structures allow easy concealment of installations, improved sound insulation and creation of unique architectural forms. Key advantages include: speed of execution (up to 3 times faster than masonry), cleanliness of the work process, easy subsequent modifications and perfect surface geometry. We work with quality Knauf profiles and boards with different characteristics - standard, moisture-resistant, fire-resistant and sound-insulating.",
+    shortDescription:
+      "We transform newly built shell & core (BDS) apartments in Sofia into move-in or rental-ready homes with fixed pricing and timelines.",
+    fullDescription:
+      "Our Complete Finishing Works service is tailored for buyers of new-build properties in Sofia (handed over at BDS — plaster and screed stage after Act 14/15/16) and property investors seeking predictable, high-end execution without managing separate contractors.\n\nWe handle the entire cycle: adjusting electrical and plumbing points to match your kitchen and furniture layout, building Knauf suspended ceilings with concealed LED lighting, applying self-leveling screeds, and finishing walls to Q3/Q4 smoothness.\n\nWe build complete turnkey bathrooms, apply premium washable paints, and install parquet/tile flooring, interior doors, and custom-made kitchens and cabinetry under a single fixed-price contract.",
     features: [
-      "Drywall partition walls",
-      "Suspended ceilings - smooth and multi-level",
-      "Wall cladding for concealing installations",
-      "Decorative niches and shelves",
-      "Hidden lighting and LED strips",
-      "Sound and thermal insulation",
-      "Moisture-resistant solutions for bathrooms"
+      "Electrical and plumbing adjustments tailored to your interior layout",
+      "Q3/Q4 fine plastering, priming, and airless painting",
+      "Self-leveling screeds and installation of parquet, SPC vinyl, laminate, and tiles",
+      "Knauf suspended ceilings, concealed curtain tracks, and LED lighting",
+      "Complete turnkey bathroom execution with 2-year warranty",
+      "Supply and installation of interior doors, baseboards, and lighting",
+      "Parallel manufacturing and installation of custom kitchens and wardrobes",
     ],
     process: [
-      { step: 1, title: "Consultation", description: "Discussion of ideas and technical possibilities." },
-      { step: 2, title: "Construction", description: "Installation of metal structure and cladding." },
-      { step: 3, title: "Insulation", description: "Installation of insulation material if needed." },
-      { step: 4, title: "Finishing", description: "Joint plastering and preparation for painting." }
+      {
+        step: 1,
+        title: "Site Inspection & BOQ Quote",
+        description:
+          "We inspect the developer's screed and walls and prepare an itemized fixed-price quote.",
+      },
+      {
+        step: 2,
+        title: "MEP Adjustments & Drywall",
+        description:
+          "Relocating sockets/plumbing points and constructing suspended ceilings.",
+      },
+      {
+        step: 3,
+        title: "Bathrooms & Fine Plastering",
+        description:
+          "Waterproofing and tiling bathrooms while preparing walls to Q3/Q4 level.",
+      },
+      {
+        step: 4,
+        title: "Painting, Flooring & Doors",
+        description:
+          "Airless painting, flooring installation, and fitting interior doors.",
+      },
+      {
+        step: 5,
+        title: "Custom Furniture & Deep Clean",
+        description:
+          "Installing bespoke cabinetry, sanitary ware, and lighting before turnkey handover.",
+      },
     ],
-    image: drywallImg,
-    gallery: [drywallImg],
-    isInnovative: false
+    image: paintingImg,
+    gallery: [paintingImg, flooringImg],
+    isInnovative: false,
+  },
+
+  {
+    id: "house-renovation",
+    icon: Home,
+    title: "Turnkey House Renovation",
+    category: "full-renovation",
+    shortDescription:
+      "Comprehensive interior and exterior renovation of single-family houses in Sofia and the region.",
+    fullDescription:
+      "Renovating a single-family house in Sofia requires rigorous engineering coordination. Our team manages complete house renovations from A to Z: structural and insulation upgrades, window replacement, complete plumbing, electrical, and underfloor heating / heat pump installations, staircases, bathrooms, outdoor terraces, and turnkey interior finishing.",
+    features: [
+      "Engineering assessment and itemized BOQ project planning",
+      "Underfloor heating, heat pumps, plumbing, and electrical upgrades",
+      "Thermal and acoustic insulation and Knauf drywall systems",
+      "High-efficiency PVC and aluminum window and door replacement",
+      "Turnkey bathrooms, wet zones, and spa areas",
+      "Frost-proof outdoor terrace flooring (Stone Carpet, Flake Floor)",
+      "Complete interior finishing and custom furniture installation",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Engineering Assessment",
+        description: "Full evaluation of structure, insulation, and MEP systems.",
+      },
+      {
+        step: 2,
+        title: "BOQ Budget & Schedule",
+        description: "Itemized quote and binding milestone contract.",
+      },
+      {
+        step: 3,
+        title: "MEP & Insulation Works",
+        description: "Plumbing, electrical, underfloor heating, and windows.",
+      },
+      {
+        step: 4,
+        title: "Interior & Exterior Finishing",
+        description: "Plastering, bathrooms, flooring, and seamless coatings.",
+      },
+      {
+        step: 5,
+        title: "Custom Cabinetry & Handover",
+        description: "Furniture installation, deep cleaning, and written warranty.",
+      },
+    ],
+    image: fullRenovationImg,
+    gallery: [fullRenovationImg],
+    isInnovative: false,
   },
 
   {
@@ -560,26 +1131,89 @@ const servicesEN: Service[] = [
     icon: Sofa,
     title: "Custom Furniture — Kitchens & Cabinetry",
     category: "finishing-work",
-    shortDescription: "Kitchens and cabinetry made to your project and measurements — wardrobes, walk-in closets, bathroom and hallway cabinets.",
-    fullDescription: "Custom furniture is the perfect solution for maximum utilization of every centimeter of your space. We work with experienced furniture makers who create functional and beautiful products tailored to your needs and style. From kitchen furniture through built-in wardrobes to special solutions for non-standard niches - everything is made with precision and attention to detail.",
+    shortDescription:
+      "Bespoke kitchens, walk-in closets, and cabinetry manufactured and installed in sync with your renovation in Sofia.",
+    fullDescription:
+      "Ordering custom furniture through Renovivo eliminates the 2-month wait after construction finishes. We take 3D laser measurements during the plastering stage, align all electrical and plumbing outlets with the cabinetry design, manufacture your furniture in parallel, and install it right after the flooring is laid.",
     features: [
-      "Kitchen furniture according to individual project",
-      "Built-in wardrobes and closets",
-      "Bathroom and hallway cabinets",
-      "Furniture for non-standard spaces",
-      "Choice of multiple materials and finishes",
-      "3D visualization before production",
-      "Delivery and installation by our team"
+      "Custom kitchens with full appliance and LED integration",
+      "Floor-to-ceiling wardrobes and walk-in closets with Blum/Hettich hardware",
+      "Waterproof MDF and compact laminate bathroom vanities",
+      "Hallway storage, TV units, home offices, and bespoke niche cabinetry",
+      "Wide selection of painted MDF, natural veneer, Egger/Kronospan boards, and stone",
+      "3D visualization and technical drawings prior to production",
+      "Delivery and clean professional installation by our Sofia team",
     ],
     process: [
-      { step: 1, title: "Measurement", description: "Precise measurement of the space." },
-      { step: 2, title: "Design", description: "Preparation of project and 3D visualization." },
-      { step: 3, title: "Production", description: "Manufacturing in furniture workshop according to approved project." },
-      { step: 4, title: "Installation", description: "Delivery and professional on-site installation." }
+      {
+        step: 1,
+        title: "3D Laser Measurement",
+        description: "Exact on-site dimensions and material selection.",
+      },
+      {
+        step: 2,
+        title: "3D Design & MEP Drawings",
+        description: "Visual approval and exact outlet mapping.",
+      },
+      {
+        step: 3,
+        title: "Precision Manufacturing",
+        description: "Workshop production while finishing works are underway.",
+      },
+      {
+        step: 4,
+        title: "Delivery & Installation",
+        description: "On-site assembly, leveling, and appliance integration.",
+      },
     ],
     image: kitchenImg,
     gallery: [kitchenImg],
-    isInnovative: false
+    isInnovative: false,
+  },
+
+  {
+    id: "drywall-construction",
+    icon: Layers,
+    title: "Drywall & Acoustic Construction",
+    category: "finishing-work",
+    shortDescription:
+      "Suspended ceilings, concealed LED lighting, partition walls, and acoustic insulation using certified Knauf systems.",
+    fullDescription:
+      "Drywall construction delivers flawless geometry, concealed architectural lighting, and superior soundproofing for apartments and houses in Sofia. We work exclusively with certified Knauf profiles, acoustic hangers, rockwool insulation, and moisture/fire/sound-resistant boards finished to Q3/Q4 level.",
+    features: [
+      "Smooth and multi-level suspended ceilings with concealed LED coves",
+      "Double-board partition walls with rockwool sound insulation",
+      "Acoustic wall linings against noisy neighboring apartments",
+      "Concealed cistern enclosures and pipe boxing in bathrooms",
+      "Decorative TV walls, niches, and recessed curtain tracks",
+      "Joint reinforcement and full Q3/Q4 fine plastering",
+      "Moisture-resistant and cement boards for wet zones",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Laser Layout",
+        description: "Marking exact ceiling heights, partitions, and light coves.",
+      },
+      {
+        step: 2,
+        title: "Metal Framing & Insulation",
+        description: "Installing decoupled profiles and acoustic mineral wool.",
+      },
+      {
+        step: 3,
+        title: "Board Installation",
+        description: "Single or double-layer boarding with staggered joints.",
+      },
+      {
+        step: 4,
+        title: "Q3/Q4 Finishing",
+        description: "Taping and full-surface skimming ready for painting.",
+      },
+    ],
+    image: drywallImg,
+    gallery: [drywallImg],
+    isInnovative: false,
   },
 
   {
@@ -587,152 +1221,364 @@ const servicesEN: Service[] = [
     icon: Frame,
     title: "Window Replacement",
     category: "finishing-work",
-    shortDescription: "Removal of old windows and installation of new windows and doors with professional treatment.",
-    fullDescription: "Window replacement is an investment in comfort and energy efficiency. New windows can reduce heat loss by up to 40%, which directly affects heating bills. We remove old windows and install new PVC or aluminum windows and doors with precise treatment of openings. We ensure proper hydro and thermal insulation, joint filling and finishing of interior and exterior sills. We work with leading brands such as Rehau, Salamander, Veka and Schüco, guaranteeing durability and aesthetics.",
+    shortDescription:
+      "Removal of old frames and installation of high-efficiency PVC and aluminum windows with full reveal finishing.",
+    fullDescription:
+      "Upgrading windows reduces heat loss by up to 40% and blocks street noise in Sofia. We dismantle old frames, install triple-glazed PVC or aluminum systems (Rehau, Salamander, Veka, Schüco), and fully plaster and finish interior and exterior window reveals.",
     features: [
-      "Removal of old windows",
-      "Preparation and correction of openings",
-      "Installation of PVC or aluminum windows",
-      "Hydro and thermal insulation along the perimeter",
-      "Installation of interior sills",
-      "Fabrication of exterior sills",
-      "Adjustment and tuning of mechanisms"
+      "Removal and disposal of old window frames",
+      "Installation of multi-chamber PVC or thermal-break aluminum systems",
+      "Triple glazing with four-season and low-E glass",
+      "Complete interior and exterior plastering of window reveals",
+      "Interior sills and exterior aluminum drip caps",
+      "Insect screens, roller shutters, and security hardware",
+      "Hardware adjustment and warranty",
     ],
     process: [
-      { step: 1, title: "Measurement", description: "Precise measurement of openings." },
-      { step: 2, title: "Removal", description: "Careful removal of old windows." },
-      { step: 3, title: "Installation", description: "Professional placement and leveling." },
-      { step: 4, title: "Finishing", description: "Insulation, sills and final adjustment." }
+      {
+        step: 1,
+        title: "Measurement",
+        description: "Precise sizing and profile specification.",
+      },
+      {
+        step: 2,
+        title: "Dismantling",
+        description: "Careful removal of existing windows.",
+      },
+      {
+        step: 3,
+        title: "Level Installation",
+        description: "Mounting and thermal perimeter sealing.",
+      },
+      {
+        step: 4,
+        title: "Reveal Finishing",
+        description: "Drywall/plastering of reveals and sill installation.",
+      },
     ],
     image: windowsImg,
     gallery: [windowsImg],
-    isInnovative: false
+    isInnovative: false,
   },
 
   {
     id: "doors-installation",
     icon: DoorOpen,
-    title: "Interior and Entrance Door Installation",
+    title: "Interior & Entrance Door Installation",
     category: "finishing-work",
-    shortDescription: "Professional installation of interior, sliding and entrance doors with perfect treatment.",
-    fullDescription: "Doors are an important element of the interior that combines functionality and aesthetics. Proper installation is critical for silent opening, tight closing and durability. We offer professional installation of all types of doors - from standard interior through hidden systems with concealed hinges to sliding doors in the wall and solid entrance doors with biometric locking. We work with different brands and models, ensuring precise leveling (up to 1mm tolerance), proper frame treatment and flawless finish with baseboards.",
+    shortDescription:
+      "Laser-leveled installation of interior, concealed flush-to-wall, sliding, and armored entrance doors.",
+    fullDescription:
+      "Proper door installation ensures silent operation and clean architectural lines. We install standard interior doors, concealed-frame flush doors (painted or coated in microcement), pocket sliding doors, and armored entrance doors with 1mm laser precision.",
     features: [
-      "Installation of interior doors",
-      "Sliding and hidden systems",
-      "Entrance doors - steel and aluminum",
-      "Glass doors and partition systems",
-      "Precise frame treatment",
-      "Installation of baseboards and moldings",
-      "Adjustment and tuning"
+      "Interior doors with adjustable architrave frames",
+      "Concealed (flush) doors integrated during the drywall/plastering stage",
+      "In-wall pocket sliding doors and glass partitions",
+      "Armored entrance doors with full frame finishing",
+      "Precision mitered architraves and baseboards",
+      "Magnetic locks, concealed hinges, and drop-down acoustic seals",
+      "Seamless alignment with parquet and bathroom tile levels",
     ],
     process: [
-      { step: 1, title: "Measurement", description: "Exact dimensions for proper door selection." },
-      { step: 2, title: "Preparation", description: "Opening correction if necessary." },
-      { step: 3, title: "Installation", description: "Placement of frames and leaves." },
-      { step: 4, title: "Finishing", description: "Baseboards, silicone and final adjustment." }
+      {
+        step: 1,
+        title: "Opening Verification",
+        description: "Checking wall thickness and rough opening dimensions.",
+      },
+      {
+        step: 2,
+        title: "Floor Level Coordination",
+        description: "Aligning thresholds with finished floor heights.",
+      },
+      {
+        step: 3,
+        title: "Laser-Leveled Mounting",
+        description: "Securing frames, hanging leaves, and fitting hardware.",
+      },
+      {
+        step: 4,
+        title: "Trim & Adjustment",
+        description: "Installing architraves and tuning latches.",
+      },
     ],
     image: doorsImg,
     gallery: [doorsImg],
-    isInnovative: false
+    isInnovative: false,
   },
 
-  // ========== MAJOR RENOVATION ==========
+  // ========== SPECIAL INNOVATIVE SOLUTIONS (EN) ==========
   {
-    id: "apartment-renovation",
-    icon: Home,
-    title: "Major Apartment Renovation",
-    category: "full-renovation",
-    shortDescription: "Complete renovation of apartments in panel, brick and EPK buildings - old construction.",
-    fullDescription: "Major apartment renovation in old construction is a complex process requiring specialized approach according to construction type. Panel buildings have their specifics - thin walls (12-16 cm), specific distribution of installations in channels, limited possibilities for moving plumbing points. Brick buildings offer more possibilities for restructuring, but often have uneven walls and floors. EPK structures require attention when working with load-bearing elements and thermal insulation. For all types of old construction we recommend complete replacement of installations (average age 40+ years), modern electrical solutions (minimum 10kW input power), contemporary plumbing system with PPR pipes and professional waterproofing.",
+    id: "microcement",
+    icon: Square,
+    title: "Microcement",
+    category: "special-solutions",
+    shortDescription:
+      "Luxury 2–3 mm seamless and 100% waterproof coating for modern bathrooms, floors, walls, and custom furniture.",
+    fullDescription:
+      "Microcement is a high-performance polymer-mineral coating applied at just 2–3 mm thickness to create a monolithic, joint-free surface. It is the premier choice for luxury renovations in Sofia — ideal for seamless bathrooms, walk-in showers, kitchen backsplashes, floors with underfloor heating, stairs, and furniture.\n\nThanks to its extreme adhesion, microcement can be applied over new screed and drywall or directly over existing tiles without demolition.",
     features: [
-      "Demolition and removal of old flooring and tiling",
-      "Replacement of plumbing installations",
-      "Replacement of electrical installation",
-      "Leveling of walls and floors",
-      "Waterproofing of wet rooms",
-      "Installation of new flooring",
-      "Painting and finishing works"
+      "100% joint-free monolithic surface — zero grout lines or mold",
+      "Fully waterproof — ideal for bathrooms, showers, and wet zones",
+      "Applies directly over existing tiles, concrete, screed, or MDF",
+      "50+ bespoke colors and textures — from warm travertine to graphite",
+      "High thermal conductivity — perfect over underfloor heating",
+      "Resistant to wear, impact, and household cleaning agents",
+      "Hygienic and effortless to maintain",
     ],
     process: [
-      { step: 1, title: "Inspection and assessment", description: "Analysis of condition and construction type." },
-      { step: 2, title: "Planning", description: "Preparation of budget and schedule." },
-      { step: 3, title: "Demolition", description: "Breaking and preparation for new installations." },
-      { step: 4, title: "Installations", description: "Replacement of plumbing, electrical and heating systems." },
-      { step: 5, title: "Finishing", description: "Flooring, plastering, painting and installation." }
+      {
+        step: 1,
+        title: "Consultation & Sample Selection",
+        description: "Substrate inspection in Sofia and color/texture selection.",
+      },
+      {
+        step: 2,
+        title: "Priming & Fiberglass Mesh",
+        description: "Reinforcing the substrate for crack-free performance.",
+      },
+      {
+        step: 3,
+        title: "Base & Decorative Coats",
+        description: "Hand-troweled application of base and fine microcement layers.",
+      },
+      {
+        step: 4,
+        title: "Polyurethane Sealing",
+        description: "Multi-coat protective sealing for 100% waterproofing.",
+      },
     ],
-    image: apartmentRenovationImg,
-    gallery: [apartmentRenovationImg, bathroomImg],
-    isInnovative: false
+    image: microcementImg,
+    gallery: [microcementImg, microcementKitchenImg],
+    isInnovative: true,
+    vsTiles: {
+      advantages: [
+        "Zero grout lines — no discoloration, mold, or scrubbing",
+        "Applies directly over old tiles without noisy demolition",
+        "Only 2–3 mm thick — does not raise floor height",
+        "Creates a spacious, monolithic architectural aesthetic",
+      ],
+      disadvantages: [
+        "Requires certified applicators and strict curing times",
+        "Higher initial investment compared to basic ceramic tiles",
+      ],
+      comparison: [
+        {
+          aspect: "Grout & Hygiene",
+          innovative: "100% seamless & antibacterial",
+          tiles: "Multiple grout lines that trap dirt",
+        },
+        {
+          aspect: "Renovation Prep",
+          innovative: "Applies over existing tiles",
+          tiles: "Requires full demolition",
+        },
+        {
+          aspect: "System Thickness",
+          innovative: "2 – 3 mm",
+          tiles: "12 – 20 mm (with adhesive)",
+        },
+        {
+          aspect: "Visual Style",
+          innovative: "Bespoke monolithic luxury",
+          tiles: "Standard grid pattern",
+        },
+      ],
+    },
   },
 
   {
-    id: "house-renovation",
-    icon: Home,
-    title: "Major House Renovation",
-    category: "full-renovation",
-    shortDescription: "Complete renovation of single-family houses - from foundations to roof.",
-    fullDescription: "House renovation is a large-scale project requiring coordination of multiple activities - from structural reinforcement to roof structure replacement. We work with old houses, which often require facade renovation, replacement of wooden structures and modernization of heating systems. Our team has experience with different architectural styles and materials characteristic of Bulgarian construction.",
+    id: "terrazzo",
+    icon: Sparkles,
+    title: "Terrazzo",
+    category: "special-solutions",
+    shortDescription:
+      "Monolithic Venetian mosaic flooring with natural marble and granite aggregates — engineered to last 75+ years.",
+    fullDescription:
+      "Terrazzo is a bespoke monolithic flooring system combining natural marble, granite, and quartz aggregates in a high-strength matrix, diamond-ground and polished on site to a seamless finish. Lasting over 75 years, Terrazzo delivers timeless architectural prestige for living areas, foyers, bathrooms, and commercial interiors in Sofia.",
     features: [
-      "Assessment of structural condition",
-      "Reinforcement if necessary",
-      "Replacement of roof structure",
-      "Renovation and thermal insulation",
-      "Replacement of all installations",
-      "Interior finishing works",
-      "Improvement of energy efficiency"
+      "Bespoke design — custom matrix color and marble aggregate selection",
+      "75+ years of structural durability",
+      "Authentic natural marble and granite aggregates",
+      "100% seamless and hygienic monolithic floor",
+      "Can be re-polished multiple times over decades",
+      "UV-stable and compatible with underfloor heating",
+      "Suitable for luxury residences and commercial spaces",
     ],
     process: [
-      { step: 1, title: "Expertise", description: "Assessment of load-bearing structure and condition." },
-      { step: 2, title: "Design", description: "Renovation plan and necessary permits." },
-      { step: 3, title: "Structural works", description: "Reinforcement, roof, facade." },
-      { step: 4, title: "Installations", description: "New plumbing, electrical and heating systems." },
-      { step: 5, title: "Finishing", description: "Interior works and completion." }
+      {
+        step: 1,
+        title: "Design Consultation",
+        description: "Selecting stone aggregates, pigments, and gloss level.",
+      },
+      {
+        step: 2,
+        title: "Substrate Preparation",
+        description: "Leveling and priming the base.",
+      },
+      {
+        step: 3,
+        title: "Casting",
+        description: "Mixing and hand-spreading the Terrazzo matrix.",
+      },
+      {
+        step: 4,
+        title: "Diamond Grinding & Sealing",
+        description: "Multi-stage diamond polishing to reveal the stone.",
+      },
     ],
-    image: fullRenovationImg,
-    gallery: [fullRenovationImg],
-    isInnovative: false
+    image: terrazzoImg,
+    gallery: [terrazzoImg, terrazzoBathroomImg],
+    isInnovative: true,
   },
 
-  // ========== SPECIAL INNOVATIVE SOLUTIONS ==========
+  {
+    id: "flake-floor",
+    icon: Hexagon,
+    title: "Flake Floor",
+    category: "special-solutions",
+    shortDescription:
+      "Seamless waterproof and frost-resistant decorative flake flooring for terraces, balconies, and garages.",
+    fullDescription:
+      "Flake Floor combines monolithic waterproofing and heavy-duty decorative protection in a single seamless system. Elastic, UV-stable, and frost-proof, it is the ideal long-term flooring solution for outdoor terraces, balconies, and garages in Sofia.",
+    features: [
+      "Waterproofing and decorative finish in one seamless system",
+      "100% frost-resistant and elastic — prevents winter cracking",
+      "UV-stable — colors never yellow or fade",
+      "Resistant to hot tires, oils, and heavy wear",
+      "Anti-slip texture for wet-weather safety",
+      "Fast installation and easy joint-free maintenance",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Inspection & Flake Selection",
+        description: "Substrate check and color blend selection.",
+      },
+      {
+        step: 2,
+        title: "Grinding & Priming",
+        description: "Mechanical surface preparation and deep priming.",
+      },
+      {
+        step: 3,
+        title: "Elastic Base & Flake Broadcast",
+        description: "Applying the waterproof membrane and decorative flakes.",
+      },
+      {
+        step: 4,
+        title: "UV Polyurethane Topcoat",
+        description: "Sealing for extreme weather and abrasion resistance.",
+      },
+    ],
+    image: flakeFloorImg,
+    gallery: [flakeFloorImg, flakeFloorShowroomImg],
+    isInnovative: true,
+  },
+
+  {
+    id: "stone-carpet",
+    icon: Mountain,
+    title: "Stone Carpet",
+    category: "special-solutions",
+    shortDescription:
+      "100% porous natural quartz and marble pebble flooring — eliminating puddles and cracked tiles on terraces and pools.",
+    fullDescription:
+      "Stone Carpet permanently solves the most common outdoor terrace problem in Sofia: trapped water and frost-damaged tiles. Made from natural marble or river pebbles bound with UV-stable polyurethane resin, the surface is 100% porous — rainwater drains immediately through the carpet to the waterproofing layer below, leaving no puddles or ice.",
+    features: [
+      "100% porous drainage system — zero puddles or standing water",
+      "Completely frost-proof during harsh Sofia winters",
+      "Anti-slip natural rounded pebbles — safe around pools and terraces",
+      "Seamless monolithic application on terraces, stairs, and walkways",
+      "Aliphatic UV-stable resin that never yellows",
+      "Easy pressure-washer cleaning and minimal maintenance",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Consultation & Stone Selection",
+        description: "Checking drainage slopes and choosing pebble colors.",
+      },
+      {
+        step: 2,
+        title: "Waterproofing Membrane",
+        description: "Applying a seamless waterproof base layer.",
+      },
+      {
+        step: 3,
+        title: "Trowel Application",
+        description: "Hand-laying the resin-bound pebbles at 8–12 mm thickness.",
+      },
+      {
+        step: 4,
+        title: "Curing",
+        description: "Full curing within 24–48 hours.",
+      },
+    ],
+    image: stoneCarpetImg,
+    gallery: [stoneCarpetImg, stoneCarpetPoolImg],
+    isInnovative: true,
+  },
+
   {
     id: "smart-installations",
     icon: Lightbulb,
-    title: "Smart Installations 2025",
+    title: "Smart Installations 2026",
     category: "special-solutions",
-    shortDescription: "Home automation with Matter protocol - intelligent control of the entire home.",
-    fullDescription: "Smart installations from 2025 turn your home into an intelligent ecosystem with Matter standard - the new universal protocol supported by Apple, Google, Amazon and Samsung. This means all devices work seamlessly together, regardless of manufacturer. Artificial intelligence learns your habits - when you wake up, when you leave home, when you return - and automatically optimizes climate and lighting. 5G connectivity ensures instant response without delay. Biometric security includes facial recognition and fingerprint for entrance door. Real savings of 15-30% on energy costs through intelligent heating and air conditioning management.",
+    shortDescription:
+      "Matter-based Smart Home automation — unified control of lighting, HVAC, underfloor heating, shades, and leak protection.",
+    fullDescription:
+      "We design and install future-proof Smart Home systems during your renovation in Sofia using the universal Matter protocol — natively supported by Apple Home, Google Home, Amazon Alexa, and Samsung SmartThings.\n\nWe integrate architectural lighting scenes, room-by-room underfloor heating and AC optimization (saving 15–30% on energy bills), motorized shades, smart locks, and automatic water shut-off valves with leak sensors.",
     features: [
-      "Matter protocol - universal compatibility",
-      "AI control - learns your habits",
-      "5G connectivity - instant response",
-      "Biometric security - facial recognition and fingerprint",
-      "Voice control - Google Assistant, Alexa, Siri",
-      "Real-time energy optimization",
-      "Integration with solar and renewable sources",
-      "Predictive diagnostics and maintenance"
+      "Universal Matter protocol — compatible with Apple Siri, Google, and Alexa",
+      "Smart lighting scenes and dimming control",
+      "Automated room-by-room HVAC and underfloor heating control",
+      "Flood protection with leak sensors and automatic main water shut-off",
+      "Motorized curtain tracks, blinds, and biometric smart locks",
+      "Concealed wiring and deep junction boxes installed during renovation",
+      "15–30% real-world energy savings",
     ],
     process: [
-      { step: 1, title: "Home analysis", description: "Assessment of architecture and integration with Matter devices." },
-      { step: 2, title: "Device selection", description: "Recommendation of Matter-compatible devices." },
-      { step: 3, title: "Installation", description: "Professional installation of hub, sensors and actuators." },
-      { step: 4, title: "Configuration", description: "Programming of automation scenarios." },
-      { step: 5, title: "Training", description: "Training for use and continuous support." }
+      {
+        step: 1,
+        title: "Pre-Renovation Engineering",
+        description: "Planning sensors, actuators, and wiring before plastering.",
+      },
+      {
+        step: 2,
+        title: "Wiring & Panel Integration",
+        description: "Installing neutral wires, deep boxes, and DIN-rail modules.",
+      },
+      {
+        step: 3,
+        title: "Device Installation",
+        description: "Mounting smart switches, thermostats, and water valves.",
+      },
+      {
+        step: 4,
+        title: "Scene Configuration & Handover",
+        description: "Setting up your mobile app and automation routines.",
+      },
     ],
     image: smartHomeImg,
     gallery: [smartHomeImg],
-    isInnovative: true
-  }
+    isInnovative: true,
+  },
 ];
 
-// Export function to get services by language
 export const getServices = (language: Language): Service[] => {
-  return language === 'bg' ? servicesBG : servicesEN;
+  return language === "bg" ? servicesBG : servicesEN;
 };
 
-export const getServiceByIdWithLanguage = (id: string, language: Language): Service | undefined => {
-  const serviceList = language === 'bg' ? servicesBG : servicesEN;
-  return serviceList.find(service => service.id === id);
+export const getServiceByIdWithLanguage = (
+  id: string,
+  language: Language,
+): Service | undefined => {
+  const serviceList = language === "bg" ? servicesBG : servicesEN;
+  return serviceList.find((service) => service.id === id);
 };
 
-// Legacy export for backward compatibility
+export const getServiceById = (id: string): Service | undefined => {
+  return servicesBG.find((service) => service.id === id);
+};
+
 export const services = servicesBG;
