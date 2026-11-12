@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
     
     <!-- Primary Meta Tags (sitewide fallback — per-route Helmet overrides) -->
-    <title>Ремонти и довършителни работи от висок клас в София | Renovivo</title>
-    <meta name="description" content="Цялостни ремонти и довършителни работи от висок клас за апартаменти и къщи в София. Един отговорен ръководител, фиксирана цена по договор. Тел. 089 371 2919">
+    <title>Цялостни ремонти до ключ и довършителни работи в София | Renovivo</title>
+    <meta name="description" content="Цялостни ремонти до ключ от А до Я и довършителни работи от висок клас за апартаменти и къщи в София. Един технически ръководител, фиксирана цена и срок по договор. Тел. 089 371 2919" />
     <meta name="author" content="Renovivo" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://renovivo.bg/" />
     
     <!-- Geo Tags for Local SEO Sofia -->
     <meta name="geo.region" content="BG-22" />
@@ -21,35 +22,47 @@
     <meta name="geo.position" content="42.6977;23.3219" />
     <meta name="ICBM" content="42.6977, 23.3219" />
     
-    <!-- Language -->
-    <meta http-equiv="content-language" content="bg" />
-
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Facebook / Viber / LinkedIn -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://renovivo.bg/" />
-    
-    
-    <meta property="og:image" content="https://renovivo.bg/og-image.jpg">
+    <meta property="og:title" content="Цялостни ремонти до ключ и довършителни работи в София | Renovivo" />
+    <meta property="og:description" content="Цялостни ремонти и довършителни работи от висок клас за апартаменти и къщи в София. Един отговорен ръководител, фиксирана цена по договор. Тел. 089 371 2919" />
+    <meta property="og:image" content="https://renovivo.bg/og-image.jpg" />
     <meta property="og:locale" content="bg_BG" />
     <meta property="og:site_name" content="Renovivo" />
 
-    <!-- Twitter -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://renovivo.bg/og-image.jpg">
+    <meta name="twitter:title" content="Цялостни ремонти до ключ и довършителни работи в София | Renovivo" />
+    <meta name="twitter:description" content="Цялостни ремонти от А до Я за нови жилища и инвестиционни имоти в София. Фиксирана цена и срок по договор." />
+    <meta name="twitter:image" content="https://renovivo.bg/og-image.jpg" />
 
-    <!-- Structured Data — единствен sitewide обект за бизнеса.
-         Всички страници реферират към него чрез "@id": "https://renovivo.bg/#organization".
-         Само проверими факти, видими на сайта. Без рейтинги/отзиви, докато няма реални. -->
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Оптимизирани шрифтове за Кирилица (Montserrat + Manrope, само нужните тежести) -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Montserrat:wght@600;700;800&subset=cyrillic,latin&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Montserrat:wght@600;700;800&subset=cyrillic,latin&display=swap" />
+    </noscript>
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+    <!-- Structured Data (Schema.org) — Оптимизиран граф за Google и AI търсачки -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "HomeAndConstructionBusiness",
+          "@type": ["HomeAndConstructionBusiness", "GeneralContractor"],
           "@id": "https://renovivo.bg/#organization",
           "name": "Renovivo",
           "alternateName": "Реновиво",
-          "description": "Ремонтна фирма в София за цялостни ремонти и довършителни работи от висок клас на апартаменти и къщи — ремонт до ключ, бани, мебели по поръчка и безшевни покрития (микроцимент, terrazzo). Безплатен оглед на място, писмена оферта с количества и договор с фиксирана цена.",
+          "slogan": "Цялостни ремонти до ключ в София с един отговорен ръководител и фиксирана цена по договор",
+          "description": "Ремонтна компания в София, специализирана в цялостни ремонти до ключ от А до Я и довършителни работи от висок клас за апартаменти (ново строителство по БДС и старо строителство), къщи и инвестиционни имоти. Включва интериорен дизайн, ВиК, Ел., гипсокартон, шпакловки, бани, микроцимент, terrazzo и мебели по поръчка.",
           "url": "https://renovivo.bg/",
           "logo": "https://renovivo.bg/logo.png",
           "image": "https://renovivo.bg/og-image.jpg",
@@ -62,8 +75,13 @@
             "addressRegion": "София-град",
             "addressCountry": "BG"
           },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 42.6977,
+            "longitude": 23.3219
+          },
           "areaServed": [
-            { "@type": "City", "name": "София" },
+            { "@type": "City", "name": "София", "sameAs": "https://www.wikidata.org/wiki/Q472" },
             { "@type": "AdministrativeArea", "name": "Софийска област" }
           ],
           "openingHoursSpecification": [
@@ -75,19 +93,77 @@
             }
           ],
           "priceRange": "от 100 €/м²",
-          "currenciesAccepted": "EUR",
-          "paymentAccepted": "Cash, Bank Transfer",
+          "currenciesAccepted": "EUR, BGN",
+          "paymentAccepted": "Bank Transfer, Cash",
           "knowsLanguage": ["bg", "en"],
+          "knowsAbout": [
+            "Цялостен ремонт на апартамент до ключ в София",
+            "Довършителни работи от шпакловка и замазка (БДС)",
+            "Ремонт на инвестиционни имоти за наем и продажба",
+            "Основен ремонт на старо строителство (панел, ЕПК, тухла)",
+            "Ремонт на къщи в София и околността",
+            "Безшевни покрития микроцимент и терацо (terrazzo)",
+            "Изработка на кухни и корпусна мебел по поръчка",
+            "Интериорен дизайн и авторски надзор"
+          ],
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
-            "name": "Ремонтни услуги",
+            "name": "Услуги за цялостни ремонти и довършителни работи в София",
             "itemListElement": [
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Цялостен ремонт на апартамент", "url": "https://renovivo.bg/services/apartment-renovation" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Цялостни довършителни работи", "url": "https://renovivo.bg/services/finishing-works" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт на къща", "url": "https://renovivo.bg/services/house-renovation" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Изработка на мебели по поръчка — кухни и корпусна мебел", "url": "https://renovivo.bg/services/custom-furniture" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Микроцимент", "url": "https://renovivo.bg/services/microcement" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Интериорен дизайн", "url": "https://renovivo.bg/services/interior-design" } }
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Цялостен ремонт на апартамент до ключ",
+                  "description": "Пълно изпълнение и управление на ремонта от А до Я за ново и старо строителство в София с фиксиран бюджет и график.",
+                  "url": "https://renovivo.bg/services/apartment-renovation"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Цялостни довършителни работи",
+                  "description": "Висококачествени довършителни работи на апартаменти на шпакловка и замазка (Акт 16) до готов за нанасяне дом.",
+                  "url": "https://renovivo.bg/services/finishing-works"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Ремонт на къща",
+                  "description": "Цялостна реновация и вътрешни ремонти на еднофамилни къщи в София и Софийска област.",
+                  "url": "https://renovivo.bg/services/house-renovation"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Изработка на мебели по поръчка — кухни и корпусна мебел",
+                  "description": "Проектиране, производство и монтаж на кухни и мебели по индивидуален проект като част от цялостния ремонт.",
+                  "url": "https://renovivo.bg/services/custom-furniture"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Микроцимент и безшевни покрития",
+                  "description": "Полагане на висок клас микроцимент и terrazzo за модерни бани, подове и стени.",
+                  "url": "https://renovivo.bg/services/microcement"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Интериорен дизайн",
+                  "description": "Функционално разпределение, 3D визуализации и технически чертежи, гарантиращи точно изпълнение на ремонта.",
+                  "url": "https://renovivo.bg/services/interior-design"
+                }
+              }
             ]
           },
           "sameAs": [
@@ -107,26 +183,29 @@
       ]
     }
     </script>
-
-    <!-- Preconnect for Performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <!-- Non-blocking Google Fonts loading — Urbanist (display) + Epilogue (body) -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@100;300;400;600;700;800;900&family=Epilogue:wght@300;400;500;600&family=Montserrat:wght@100;300;400;600;700;800;900&family=Manrope:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@100;300;400;600;700;800;900&family=Epilogue:wght@300;400;500;600&family=Montserrat:wght@100;300;400;600;700;800;900&family=Manrope:wght@300;400;500;600&display=swap" /></noscript>
-    
-    <!-- DNS Prefetch -->
-    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    
-  <meta property="og:title" content="Ремонти и довършителни работи от висок клас в София | Renovivo">
-  <meta property="og:description" content="Цялостни ремонти и довършителни работи от висок клас за апартаменти и къщи в София. Един отговорен ръководител, фиксирана цена по договор. Тел. 089 371 2919">
-
-</head>
+  </head>
 
   <body>
     <div id="root"></div>
+    
+    <!-- Semantic Fallback за AI краулери (GPTBot, ClaudeBot, Perplexity) и ботове без JS рендеринг -->
+    <noscript>
+      <main>
+        <h1>Renovivo — Цялостни ремонти до ключ и довършителни работи от висок клас в София</h1>
+        <p>Ние поемаме цялостния ремонт на вашия апартамент, къща или инвестиционен имот в София от А до Я. Работите с един отговорен технически ръководител, получавате подробна писмена оферта с количества (КСС) и подписвате договор с фиксирана цена и срок.</p>
+        <h2>Основни услуги в гр. София:</h2>
+        <ul>
+          <li><a href="https://renovivo.bg/services/apartment-renovation">Цялостен ремонт на апартамент до ключ (ново и старо строителство)</a></li>
+          <li><a href="https://renovivo.bg/services/finishing-works">Цялостни довършителни работи по БДС (от шпакловка и замазка)</a></li>
+          <li><a href="https://renovivo.bg/services/house-renovation">Цялостен ремонт на къща</a></li>
+          <li><a href="https://renovivo.bg/services/custom-furniture">Изработка на мебели и кухни по поръчка</a></li>
+          <li><a href="https://renovivo.bg/services/microcement">Полагане на микроцимент и безшевни покрития</a></li>
+          <li><a href="https://renovivo.bg/services/interior-design">Интериорен дизайн и проектиране</a></li>
+        </ul>
+        <p>Контакти за безплатен оглед в София: телефон <a href="tel:+359893712919">+359 89 371 2919</a>, имейл: <a href="mailto:office@renovivo.bg">office@renovivo.bg</a>.</p>
+      </main>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
