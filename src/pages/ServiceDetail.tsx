@@ -34,17 +34,12 @@ const serviceToPriceCategoryMap: Record<string, string> = {
 // Services that should NOT show price tables (individual projects)
 const servicesWithoutPrices = [
   "full-renovation",
-  "bathroom",
   "interior-design",
   "gipsokarton-design",
 ];
 
 // Custom content for services without prices
 const customServiceContent: Record<string, { title: string; content: string; showRelated?: boolean }> = {
-  "bathroom": {
-    title: "Комплексен ремонт на баня",
-    content: "Цялостен ремонт на баня: къртене, подмяна на ВиК и електро инсталации, професионална хидроизолация, монтаж на вградени казанчета и линейни сифони. Работим прецизно и с плочки на 45 градуса, ниши и скрити тръби. Гарантираме водоплътност и коректно изпълнение."
-  },
   "full-renovation": {
     title: "Цялостен ремонт - процес",
     content: "Цялостният ремонт е сложен логистичен и технически процес, който ние управляваме вместо Вас.\n\nЕтапи на работа:\n1. Оглед и заснемане на обекта.\n2. Изготвяне на подробен бюджет и график.\n3. Демонтаж и подготовка на основата.\n4. Изграждане на нови инсталации (ВиК, Ел, ОВК).\n5. Довършителни работи (шпакловка, замазка, настилки, боя).\n6. Монтаж и почистване.\n\nНие координираме всички екипи, за да спазим сроковете и качеството.",
@@ -63,7 +58,6 @@ const customServiceContent: Record<string, { title: string; content: string; sho
 // Related services for full renovation
 const relatedServicesForFullRenovation = [
   { name: "Цялостни довършителни работи", path: "/services/finishing-works" },
-  { name: "Ремонт на баня", path: "/services/bathroom" },
   { name: "Кухни и корпусна мебел по поръчка", path: "/services/custom-furniture" },
   { name: "Сухо строителство", path: "/services/drywall-construction" },
   { name: "Интериорен дизайн", path: "/services/interior-design" },

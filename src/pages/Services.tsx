@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { Phone, ArrowRight, Home, Paintbrush, Wrench, Sparkles, Scan, ChevronRight } from "lucide-react";
+import { Phone, ArrowRight, Home, Paintbrush, Sparkles, Scan, ChevronRight } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import VisualBreadcrumb from "@/components/VisualBreadcrumb";
@@ -34,17 +34,6 @@ const ServicesPage = () => {
       items: [
         { name: t('services.item.apartment'), path: "/services/apartment-renovation", description: t('services.item.apartment.desc') },
         { name: t('services.item.house'), path: "/services/house-renovation", description: t('services.item.house.desc') },
-      ]
-    },
-    {
-      id: "partial-renovations",
-      title: t('services.cat.partial'),
-      description: t('services.cat.partial.desc'),
-      icon: Wrench,
-      items: [
-        { name: t('services.item.bathroom'), path: "/services/bathroom", description: t('services.item.bathroom.desc') },
-        { name: t('services.item.livingRoom'), path: "/services/living-room", description: t('services.item.livingRoom.desc') },
-        { name: t('services.item.quickRefresh'), path: "/services/quick-refresh", description: t('services.item.quickRefresh.desc') },
       ]
     },
     {
@@ -88,8 +77,8 @@ const ServicesPage = () => {
         <meta 
           name="description" 
           content={language === 'bg' 
-            ? "Професионални ремонтни услуги в София - цялостен ремонт на апартаменти, частични ремонти, довършителни работи, микроцимент, terrazzo, flake floor."
-            : "Professional renovation services in Sofia - complete apartment renovations, partial renovations, finishing works, microcement, terrazzo, flake floor."
+            ? "Професионални ремонтни услуги в София - цялостен ремонт на апартаменти, довършителни работи, микроцимент, terrazzo, flake floor."
+            : "Professional renovation services in Sofia - complete apartment renovations, finishing works, microcement, terrazzo, flake floor."
           } 
         />
         <link rel="canonical" href="https://renovivo.bg/services" />

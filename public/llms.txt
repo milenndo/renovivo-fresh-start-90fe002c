@@ -47,9 +47,6 @@
 - Цялостен ремонт на апартамент: https://renovivo.bg/services/apartment-renovation
 - Цялостни довършителни работи (шпакловка, боядисване, настилки, врати, санитария): https://renovivo.bg/services/finishing-works
 - Ремонт на къща: https://renovivo.bg/services/house-renovation
-- Ремонт на баня: https://renovivo.bg/services/bathroom
-- Ремонт на дневна и спалня: https://renovivo.bg/services/living-room
-- Бърз освежителен ремонт: https://renovivo.bg/services/quick-refresh
 - Сухо строителство (гипсокартон): https://renovivo.bg/services/drywall-construction
 - Дограма: https://renovivo.bg/services/windows-doors
 - Монтаж на врати: https://renovivo.bg/services/doors-installation
@@ -65,7 +62,6 @@
 
 ## Ориентировъчни срокове
 
-- Ремонт на баня: 2–4 седмици
 - Цялостен ремонт на апартамент: 2–4 месеца според площта и обхвата
 
 ## Основни страници

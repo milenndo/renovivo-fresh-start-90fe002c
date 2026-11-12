@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Home,
   Paintbrush,
-  Droplets,
   Hammer,
   Layers,
   Grid3X3,
@@ -18,7 +17,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 // Service images
 import fullRenovationImg from "@/assets/images/services/full-renovation.jpg";
-import bathroomImg from "@/assets/images/services/bathroom.jpg";
 import kitchenImg from "@/assets/images/services/kitchen.jpg";
 import microcementImg from "@/assets/images/services/microcement.jpg";
 import terrazzoImg from "@/assets/images/services/terrazzo.jpg";
@@ -69,14 +67,6 @@ const Services = () => {
           descKey: "service.fullRenovation.desc",
           image: fullRenovationImg,
           featured: true,
-        },
-        {
-          id: "bathroom",
-          path: "/services/bathroom",
-          icon: Droplets,
-          titleKey: "service.bathroom.title",
-          descKey: "service.bathroom.desc",
-          image: bathroomImg,
         },
         {
           id: "custom-furniture",
