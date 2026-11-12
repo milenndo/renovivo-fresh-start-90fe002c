@@ -4,19 +4,21 @@ import path from "path";
 import fs from "fs";
 import { componentTagger } from "lovable-tagger";
 import prerender from "@prerenderer/rollup-plugin";
-import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/supabase/vite";
 
 const SITE_URL = "https://renovivo.bg";
 
-// --- 0. Почистване на <head> след prerender -------------------------------
-// index.html съдържа sitewide fallback мета тагове (за crawler-и без JS).
-// react-helmet-async добавя собствените си (с data-rh) вместо да ги замени,
-// което води до два description/og:title/og:url и т.н. в статичния HTML.
-// Тук махаме fallback-а, когато страницата има собствена версия.
+// --- 0. Почистване на <head> след prerender (вкл. <title>) ----------------
 function dedupeHead(html: string): string {
   const headMatch = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
   if (!headMatch) return html;
   let head = headMatch[1];
+
+  // 1. Ако Helmet е добавил <title data-rh="true">, премахваме базовия <title> без data-rh
+  if (/<title[^>]*\bdata-rh=/i.test(head)) {
+    head = head.replace(/<title(?![^>]*\bdata-rh=)[^>]*>[\s\S]*?<\/title>/gi, "");
+  }
+
+  // 2. Почистване на дублирани <meta> и <link rel="canonical">
   const keyOf = (tag: string): string | null => {
     const m =
       tag.match(/\b(?:name|property)="([^"]+)"/i) ||
@@ -32,6 +34,7 @@ function dedupeHead(html: string): string {
     const k = keyOf(t);
     if (k && helmetKeys.has(k)) head = head.replace(t, "");
   }
+
   return html.replace(headMatch[1], head);
 }
 
@@ -60,7 +63,7 @@ const staticRoutes = [
   "/blog",
 ];
 
-// --- 2. Портфолио (src/data/projects.ts) --------------------------------
+// --- 2. Портфолио --------------------------------------------------------
 const portfolioRoutes = [
   "terrazzo-living-room",
   "flake-floor-terrace",
@@ -78,15 +81,13 @@ const portfolioRoutes = [
   "modern-bedroom",
 ].map((id) => `/portfolio/${id}`);
 
-// --- 3. Локални статии (src/data/blog-posts-*.ts) -----------------------
+// --- 3. Локални статии ---------------------------------------------------
 const localBlogRoutes = [
   "/blog/kak-da-planirate-remont-step-by-step-2026",
   "/blog/mikrociment-moderno-reshenie-steni-podove",
-  // "/blog/remont-na-apartament-sofia-2024" — няма локален fallback; ако е
-  // публикувана в Supabase, fetchBlogRoutes() я добавя автоматично.
 ];
 
-// --- 4. Статии от Supabase (изтеглят се по време на build) --------------
+// --- 4. Статии от Supabase -----------------------------------------------
 async function fetchBlogRoutes(env: Record<string, string>): Promise<string[]> {
   const url = env.VITE_SUPABASE_URL;
   const key = env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -100,20 +101,25 @@ async function fetchBlogRoutes(env: Record<string, string>): Promise<string[]> {
     const rows = (await res.json()) as Array<{ slug: string }>;
     return rows.filter((r) => r?.slug).map((r) => `/blog/${r.slug}`);
   } catch {
-    // Никога не чупим build-а заради SEO стъпка.
     return [];
   }
 }
 
-// --- 5. Автоматичен sitemap.xml ----------------------------------------
-function sitemapPlugin(routes: string[]): Plugin {
+// --- 5. Автоматичен sitemap.xml + llms.txt за AI модели ------------------
+function seoAndAiFilesPlugin(routes: string[]): Plugin {
   return {
-    name: "renovivo-sitemap",
+    name: "renovivo-seo-ai-files",
     apply: "build",
     closeBundle() {
       const today = new Date().toISOString().slice(0, 10);
       const priorityFor = (r: string) =>
-        r === "/" ? "1.0" : r.split("/").length <= 2 ? "0.9" : "0.8";
+        r === "/"
+          ? "1.0"
+          : r === "/services/apartment-renovation" || r === "/services/finishing-works"
+          ? "0.95"
+          : r.split("/").length <= 2
+          ? "0.9"
+          : "0.8";
       const changefreqFor = (r: string) =>
         r === "/" || r === "/blog" ? "weekly" : "monthly";
 
@@ -131,22 +137,51 @@ function sitemapPlugin(routes: string[]): Plugin {
         `<?xml version="1.0" encoding="UTF-8"?>\n` +
         `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 
+      const llmsTxt = `# Renovivo (Реновиво) — ${SITE_URL}
+
+> Ремонтна компания в гр. София за цялостни ремонти до ключ от А до Я и довършителни работи от висок клас за апартаменти, къщи и инвестиционни имоти. Един отговорен технически ръководител, КСС оферта и договор с фиксирана цена и срок.
+
+## Контакти и локация
+- **Град:** София и Софийска област
+- **Телефон:** +359 89 371 2919
+- **Имейл:** office@renovivo.bg
+- **Ценови диапазон:** от 100 €/м² за труд при цялостни ремонти и довършителни работи
+
+## Водещи услуги с висок приоритет (Основен фокус)
+- [Цялостен ремонт на апартамент до ключ](${SITE_URL}/services/apartment-renovation): Пълно управление и изпълнение на ремонта от А до Я в София (ново строителство на шпакловка и замазка и старо строителство).
+- [Цялостни довършителни работи](${SITE_URL}/services/finishing-works): Довършване на имоти след Акт 14/15/16 до готов за живеене или отдаване под наем дом.
+- [Цялостен ремонт на къща](${SITE_URL}/services/house-renovation): Вътрешни и довършителни ремонти на къщи в София и околността.
+
+## Специализирани и иновативни услуги
+- [Интериорен дизайн](${SITE_URL}/services/interior-design)
+- [3D лазерно сканиране и заснемане](${SITE_URL}/3d-scanning)
+- [Изработка на мебели и кухни по поръчка](${SITE_URL}/services/custom-furniture)
+- [Микроцимент](${SITE_URL}/services/microcement)
+- [Терацо (Terrazzo) настилки](${SITE_URL}/services/terrazzo)
+- [Каменен килим (Stone Carpet)](${SITE_URL}/services/stone-carpet)
+- [Флейк настилки (Flake Floor)](${SITE_URL}/services/flake-floor)
+- [Умни инсталации (Smart Home)](${SITE_URL}/services/smart-installations)
+- [Гипсокартон и сухо строителство](${SITE_URL}/services/drywall-construction)
+
+## Всички индексирани страници и статии
+${routes.map((r) => `- ${SITE_URL}${r}`).join("\n")}
+`;
+
       try {
         fs.mkdirSync("dist", { recursive: true });
         fs.writeFileSync(path.join("dist", "sitemap.xml"), xml, "utf8");
-        console.log(`[sitemap] ${routes.length} URL адреса записани в dist/sitemap.xml`);
+        fs.writeFileSync(path.join("dist", "llms.txt"), llmsTxt, "utf8");
+        console.log(`[SEO/AI] Записани dist/sitemap.xml (${routes.length} URL) и dist/llms.txt`);
       } catch (e) {
-        console.warn("[sitemap] пропуснат:", e);
+        console.warn("[SEO/AI] грешка при запис:", e);
       }
     },
   };
 }
 
-// https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-  const blogRoutes =
-    mode === "production" ? await fetchBlogRoutes(env) : [];
+  const blogRoutes = mode === "production" ? await fetchBlogRoutes(env) : [];
 
   const allRoutes = Array.from(
     new Set([
@@ -170,9 +205,6 @@ export default defineConfig(async ({ mode }) => {
           routes: allRoutes,
           renderer: "@prerenderer/renderer-puppeteer",
           rendererOptions: {
-            // Чакаме сигнал от src/main.tsx („render-event“), вместо фиксиран
-            // таймер — иначе част от страниците се снимат преди Helmet да
-            // запише title/description/canonical/schema.
             renderAfterDocumentEvent: "render-event",
             timeout: 30000,
             maxConcurrentRoutes: 1,
@@ -182,12 +214,13 @@ export default defineConfig(async ({ mode }) => {
             },
           },
           postProcess(rendered: { route: string; html: string }) {
-            rendered.html = dedupeHead(
-              rendered.html.replace(/https?:\/\/[^/"]*lovable\.app/g, SITE_URL),
-            );
+            const cleaned = rendered.html
+              .replace(/https?:\/\/[^/"]*lovable\.app/g, SITE_URL)
+              .replace(/http:\/\/(?:localhost|127\.0\.0\.1):\d+/g, SITE_URL);
+            rendered.html = dedupeHead(cleaned);
           },
         }),
-      mode === "production" && sitemapPlugin(allRoutes),
+      mode === "production" && seoAndAiFilesPlugin(allRoutes),
     ].filter(Boolean),
     resolve: {
       alias: {
