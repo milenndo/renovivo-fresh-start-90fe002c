@@ -3,40 +3,10 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import fs from "fs";
 import { componentTagger } from "lovable-tagger";
-import prerender from "@prerenderer/rollup-plugin";
 
 const SITE_URL = "https://renovivo.bg";
 
-// --- 0. Почистване на <head> след prerender (вкл. <title>) ----------------
-function dedupeHead(html: string): string {
-  const headMatch = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
-  if (!headMatch) return html;
-  let head = headMatch[1];
-
-  if (/<title[^>]*\bdata-rh=/i.test(head)) {
-    head = head.replace(/<title(?![^>]*\bdata-rh=)[^>]*>[\s\S]*?<\/title>/gi, "");
-  }
-
-  const keyOf = (tag: string): string | null => {
-    const m =
-      tag.match(/\b(?:name|property)="([^"]+)"/i) ||
-      (/rel="canonical"/i.test(tag) ? ["", "canonical"] : null);
-    return m ? m[1].toLowerCase() : null;
-  };
-  const tags = head.match(/<(?:meta|link)\b[^>]*>/gi) || [];
-  const helmetKeys = new Set(
-    tags.filter((t) => /data-rh=/i.test(t)).map(keyOf).filter(Boolean) as string[],
-  );
-  for (const t of tags) {
-    if (/data-rh=/i.test(t)) continue;
-    const k = keyOf(t);
-    if (k && helmetKeys.has(k)) head = head.replace(t, "");
-  }
-
-  return html.replace(headMatch[1], head);
-}
-
-// --- 1. Статични маршрути -----------------------------------------------
+// --- 0. Статични маршрути -----------------------------------------------
 const staticRoutes = [
   "/",
   "/services",
@@ -61,7 +31,7 @@ const staticRoutes = [
   "/blog",
 ];
 
-// --- 2. Портфолио --------------------------------------------------------
+// --- 1. Портфолио --------------------------------------------------------
 const portfolioRoutes = [
   "terrazzo-living-room",
   "flake-floor-terrace",
@@ -79,13 +49,13 @@ const portfolioRoutes = [
   "modern-bedroom",
 ].map((id) => `/portfolio/${id}`);
 
-// --- 3. Локални статии ---------------------------------------------------
+// --- 2. Локални статии ---------------------------------------------------
 const localBlogRoutes = [
   "/blog/kak-da-planirate-remont-step-by-step-2026",
   "/blog/mikrociment-moderno-reshenie-steni-podove",
 ];
 
-// --- 4. Статии от Supabase -----------------------------------------------
+// --- 3. Статии от Supabase -----------------------------------------------
 async function fetchBlogRoutes(env: Record<string, string>): Promise<string[]> {
   const url = env.VITE_SUPABASE_URL;
   const key = env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -103,7 +73,7 @@ async function fetchBlogRoutes(env: Record<string, string>): Promise<string[]> {
   }
 }
 
-// --- 5. Автоматичен sitemap.xml + llms.txt за AI модели ------------------
+// --- 4. Автоматичен sitemap.xml + llms.txt за AI модели ------------------
 function seoAndAiFilesPlugin(routes: string[]): Plugin {
   return {
     name: "renovivo-seo-ai-files",
@@ -198,27 +168,6 @@ export default defineConfig(async ({ mode }) => {
     plugins: [
       react(),
       mode === "development" && componentTagger(),
-      // Автоматично изключва Puppeteer, когато билдът се изпълнява във Vercel
-      mode === "production" &&
-        !process.env.VERCEL &&
-        prerender({
-          routes: allRoutes,
-          renderer: "@prerenderer/renderer-puppeteer",
-          rendererOptions: {
-            renderAfterTime: 4000,
-            maxConcurrentRoutes: 1,
-            headless: true,
-            launchOptions: {
-              args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            },
-          },
-          postProcess(rendered: { route: string; html: string }) {
-            const cleaned = rendered.html
-              .replace(/https?:\/\/[^/"]*lovable\.app/g, SITE_URL)
-              .replace(/http:\/\/(?:localhost|127\.0\.0\.1):\d+/g, SITE_URL);
-            rendered.html = dedupeHead(cleaned);
-          },
-        }),
       mode === "production" && seoAndAiFilesPlugin(allRoutes),
     ].filter(Boolean),
     resolve: {
