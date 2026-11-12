@@ -71,14 +71,6 @@ const Services = () => {
           featured: true,
         },
         {
-          id: "bathroom",
-          path: "/services/bathroom",
-          icon: Droplets,
-          titleKey: "service.bathroom.title",
-          descKey: "service.bathroom.desc",
-          image: bathroomImg,
-        },
-        {
           id: "custom-furniture",
           path: "/services/custom-furniture",
           icon: Grid3X3,
