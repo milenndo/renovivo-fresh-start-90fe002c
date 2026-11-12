@@ -198,7 +198,7 @@ export default defineConfig(async ({ mode }) => {
     plugins: [
       react(),
       mode === "development" && componentTagger(),
-      // Изпълнява се в production, но изрично изключваме Vercel (който няма линукс браузър за Puppeteer)
+      // Автоматично изключва Puppeteer, когато билдът се изпълнява във Vercel
       mode === "production" &&
         !process.env.VERCEL &&
         prerender({
