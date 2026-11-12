@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import { HelmetProvider } from "react-helmet-async";
+import { Analytics } from "@vercel/analytics/react";
 import { InspectionRequestProvider } from "./contexts/InspectionRequestContext";
 import { ChatProvider } from "./contexts/ChatContext";
 import { CookieConsentProvider } from "./contexts/CookieConsentContext";
@@ -27,6 +28,7 @@ import Auth from "./pages/Auth";
 import OAuthConsent from "./pages/OAuthConsent";
 import NotFound from "./pages/NotFound";
 
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -48,7 +50,7 @@ const App = () => (
                     <Route path="/services/interior-design" element={<InteriorDesign />} />
                     <Route path="/services/:id" element={<ServiceDetail />} />
                     <Route path="/innovative-coatings" element={<InnovativeCoatings />} />
-                    <Route path="/3d-scanning" element={<VirtualTours />} />
+                    <Route path="/3d-scanning" element={<VirtualTworks || VirtualTours />} />
                     <Route path="/portfolio" element={<Portfolio />} />
                     <Route path="/portfolio/:id" element={<ProjectDetail />} />
                     <Route path="/about" element={<About />} />
@@ -61,6 +63,7 @@ const App = () => (
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </BrowserRouter>
+                <Analytics />
               </ChatProvider>
             </InspectionRequestProvider>
           </CookieConsentProvider>
