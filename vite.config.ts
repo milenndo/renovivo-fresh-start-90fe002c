@@ -205,8 +205,7 @@ export default defineConfig(async ({ mode }) => {
           routes: allRoutes,
           renderer: "@prerenderer/renderer-puppeteer",
           rendererOptions: {
-            renderAfterDocumentEvent: "render-event",
-            timeout: 30000,
+            renderAfterTime: 4000, // <--- Изчаква 4 секунди за зареждане вместо липсващо събитие
             maxConcurrentRoutes: 1,
             headless: true,
             launchOptions: {
