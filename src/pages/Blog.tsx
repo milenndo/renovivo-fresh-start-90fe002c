@@ -1,3 +1,4 @@
+import { renovationPosts2026, findRenovationPost } from '@/data/blog-posts-2026';
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -37,14 +38,16 @@ const Blog = () => {
 
   const { data: posts, isLoading } = useQuery({
     queryKey: ["blog-posts", language],
+    initialData: [...renovationPosts2026, getPlanningRenovationPost(language), getMicrocementPost(language)] as any[],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("blog_posts")
         .select("*")
+        .eq("is_published", true)
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      const allPosts = data || [];
+      if (error) console.warn("Blog service unavailable; showing local articles.");
+      const allPosts: any[] = [...renovationPosts2026, ...(data || []).filter(p => !findRenovationPost(p.slug))];
       const existingSlugs = new Set(allPosts.map((p: any) => p.slug));
       const planningPost = getPlanningRenovationPost(language);
       const microcementPostData = getMicrocementPost(language);
@@ -104,7 +107,7 @@ const Blog = () => {
   };
 
   const getPostImage = (slug: string) => {
-    return blogImages[slug] || null;
+    return findRenovationPost(slug)?.image_url || blogImages[slug] || null;
   };
 
   return (

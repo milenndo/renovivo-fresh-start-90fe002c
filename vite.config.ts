@@ -51,6 +51,12 @@ const portfolioRoutes = [
 
 // --- 2. Локални статии ---------------------------------------------------
 const localBlogRoutes = [
+  "/blog/osnoven-remont-apartament-sofia-ceni-2026",
+  "/blog/remont-banya-stapki-vik-hidroizolatsiya",
+  "/blog/remont-staro-stroitelstvo-panel-epk-sofia",
+  "/blog/podgotovka-zhilishte-remont-cheklist",
+  "/blog/shpaklovka-izravnyavane-steni-kachestvo",
+
   "/blog/kak-da-planirate-remont-step-by-step-2026",
   "/blog/mikrociment-moderno-reshenie-steni-podove",
 ];

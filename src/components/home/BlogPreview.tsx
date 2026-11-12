@@ -1,3 +1,4 @@
+import { renovationPosts2026, findRenovationPost } from '@/data/blog-posts-2026';
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Calendar, Clock, BookOpen, Sparkles } from "lucide-react";
@@ -46,16 +47,18 @@ const BlogPreview = () => {
 
   const { data: posts, isLoading } = useQuery({
     queryKey: ["blog-posts-preview"],
+    initialData: renovationPosts2026.slice(0, 3) as any[],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("blog_posts")
         .select("*")
+        .eq("is_published", true)
         .order("created_at", { ascending: false })
         .limit(3);
 
-      if (error) throw error;
+      if (error) console.warn("Blog service unavailable; showing local articles.");
 
-      const allPosts = data || [];
+      const allPosts: any[] = [...renovationPosts2026, ...(data || []).filter(p => !findRenovationPost(p.slug))];
       const existingSlugs = new Set(allPosts.map((p: any) => p.slug));
 
       if (!existingSlugs.has(planningRenovationPost.slug)) {
@@ -93,7 +96,7 @@ const BlogPreview = () => {
   };
 
   const getPostImage = (slug: string) => {
-    return blogImages[slug] || null;
+    return findRenovationPost(slug)?.image_url || blogImages[slug] || null;
   };
 
   if (isLoading) {

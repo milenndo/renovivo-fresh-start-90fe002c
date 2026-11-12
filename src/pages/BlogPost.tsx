@@ -1,3 +1,5 @@
+import BlogContent from '@/components/BlogContent';
+import { findRenovationPost, renovationPosts2026 } from '@/data/blog-posts-2026';
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -18,7 +20,10 @@ const BlogPost = () => {
 
   const { data: post, isLoading } = useQuery({
     queryKey: ["blog-post", slug, language],
+    initialData: findRenovationPost(slug) as any,
     queryFn: async () => {
+      const editorialPost = findRenovationPost(slug);
+      if (editorialPost) return editorialPost;
       // Локалните статии са винаги налични — показваме ги дори ако базата
       // е недостъпна (важно и за статичния prerender по време на build).
       const planningPost = getPlanningRenovationPost(language);
@@ -44,8 +49,9 @@ const BlogPost = () => {
   });
 
   const { data: relatedPosts } = useQuery({
-    queryKey: ["related-posts", post?.category, language],
+    queryKey: ["related-posts", post?.category, slug, language],
     queryFn: async () => {
+      if (findRenovationPost(slug)) return renovationPosts2026.filter(p => p.slug !== slug).slice(0, 3);
       const { data, error } = await supabase
         .from("blog_posts")
         .select("*")
@@ -82,86 +88,6 @@ const BlogPost = () => {
       default:
         return "bg-muted text-muted-foreground";
     }
-  };
-
-  // Convert markdown-like content to HTML
-  const renderContent = (content: string) => {
-    return content
-      .split("\n")
-      .map((line, index) => {
-        // Headers
-        if (line.startsWith("## ")) {
-          return (
-            <h2
-              key={index}
-              className="text-2xl font-bold mt-8 mb-4 text-foreground"
-            >
-              {line.replace("## ", "")}
-            </h2>
-          );
-        }
-        if (line.startsWith("### ")) {
-          return (
-            <h3
-              key={index}
-              className="text-xl font-semibold mt-6 mb-3 text-foreground"
-            >
-              {line.replace("### ", "")}
-            </h3>
-          );
-        }
-
-        // Horizontal rule
-        if (line === "---") {
-          return <hr key={index} className="my-8 border-border" />;
-        }
-
-        // Bold text handling
-        if (line.startsWith("**") && line.endsWith("**")) {
-          return (
-            <p key={index} className="font-semibold mb-2">
-              {line.replace(/\*\*/g, "")}
-            </p>
-          );
-        }
-
-        // List items
-        if (line.startsWith("- ")) {
-          return (
-            <li key={index} className="ml-4 mb-1 text-muted-foreground">
-              {line.replace("- ", "")}
-            </li>
-          );
-        }
-        if (line.match(/^\d+\. /)) {
-          return (
-            <li
-              key={index}
-              className="ml-4 mb-1 text-muted-foreground list-decimal"
-            >
-              {line.replace(/^\d+\. /, "")}
-            </li>
-          );
-        }
-
-        // Table rows
-        if (line.startsWith("|")) {
-          return null; // Skip tables for now
-        }
-
-        // Empty lines
-        if (line.trim() === "") {
-          return <br key={index} />;
-        }
-
-        // Regular paragraphs
-        return (
-          <p key={index} className="text-muted-foreground mb-4 leading-relaxed">
-            {line}
-          </p>
-        );
-      })
-      .filter(Boolean);
   };
 
   if (isLoading) {
@@ -236,7 +162,9 @@ const BlogPost = () => {
       name: "Renovivo",
     },
     datePublished: post.created_at,
-    dateModified: post.updated_at,
+    dateModified: post.updated_at || post.created_at,
+    mainEntityOfPage: `https://renovivo.bg/blog/${post.slug}`,
+    ...(post.image_url ? { image: `https://renovivo.bg${post.image_url}` } : {}),
   };
 
   return (
@@ -259,6 +187,7 @@ const BlogPost = () => {
           content={`https://renovivo.bg/blog/${post.slug}`}
         />
         <meta property="og:type" content="article" />
+        {post.image_url && <meta property="og:image" content={`https://renovivo.bg${post.image_url}`} />}
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbSchema)}
         </script>
@@ -312,7 +241,9 @@ const BlogPost = () => {
                     {post.excerpt}
                   </p>
                 </div>
-                {renderContent(post.content)}
+                {post.image_url && <figure className="mb-8"><img src={post.image_url} alt={post.image_alt || post.title} width={1536} height={1024} className="w-full rounded-xl" />{post.image_caption && <figcaption className="text-xs text-muted-foreground">{post.image_caption}</figcaption>}</figure>}
+                <BlogContent content={post.content} />
+                <Link to="/contact" className="not-prose inline-flex rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground hover:opacity-90">Заявете безплатен оглед</Link>
               </article>
 
               {/* Sidebar */}
