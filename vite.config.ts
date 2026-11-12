@@ -200,12 +200,14 @@ export default defineConfig(async ({ mode }) => {
     plugins: [
       react(),
       mode === "development" && componentTagger(),
+      // Пускаме пре-рендерирането само в CI/GitHub Actions среда, за да избегнем липсващи библиотеки във Vercel
       mode === "production" &&
+        process.env.CI &&
         prerender({
           routes: allRoutes,
           renderer: "@prerenderer/renderer-puppeteer",
           rendererOptions: {
-            renderAfterTime: 4000, // <--- Изчаква 4 секунди за зареждане вместо липсващо събитие
+            renderAfterTime: 4000,
             maxConcurrentRoutes: 1,
             headless: true,
             launchOptions: {
