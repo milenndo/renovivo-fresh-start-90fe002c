@@ -130,7 +130,6 @@ const BespokeEstimator = () => {
       </div>
 
       <div className="container-custom relative z-10">
-        {/* Заглавна част — винаги видима в статичния HTML за Google и AI краулери */}
         <div className="max-w-3xl mx-auto text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="h-px w-8 bg-primary" />
@@ -146,7 +145,7 @@ const BespokeEstimator = () => {
           >
             {isEn ? (
               <>
-                 Indicative <span className="text-primary italic">Budget</span> & Prices
+                Indicative <span className="text-primary italic">Budget</span> & Prices
               </>
             ) : (
               <>
@@ -179,7 +178,6 @@ const BespokeEstimator = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-5">
             <div className="lg:col-span-3 p-8 md:p-12 space-y-10 border-b lg:border-b-0 lg:border-r border-primary/20">
-              {/* 01. Обхват */}
               <div>
                 <div className="flex items-baseline justify-between mb-4">
                   <span className="eyebrow">
@@ -223,7 +221,6 @@ const BespokeEstimator = () => {
                 </div>
               </div>
 
-              {/* 02. Квадратура */}
               <div>
                 <div className="flex items-baseline justify-between mb-4">
                   <span className="eyebrow">
@@ -250,7 +247,6 @@ const BespokeEstimator = () => {
                 </div>
               </div>
 
-              {/* 03. Ниво на завършване */}
               <div>
                 <div className="flex items-baseline justify-between mb-4">
                   <span className="eyebrow">
@@ -262,4 +258,163 @@ const BespokeEstimator = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {tiers.map((t) => {
-                    const active
+                    const active = t.id === tierId;
+                    return (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => setTierId(t.id)}
+                        disabled={isBathroom}
+                        className={`text-left p-4 border transition-all duration-300 ${
+                          isBathroom
+                            ? "border-primary/10 opacity-40 cursor-not-allowed"
+                            : active
+                            ? "border-primary bg-primary/10"
+                            : "border-primary/20 hover:border-primary/60"
+                        }`}
+                      >
+                        <span
+                          className={`block text-base font-bold tracking-tight ${
+                            active && !isBathroom ? "text-primary" : "text-foreground"
+                          }`}
+                        >
+                          {isEn ? t.labelEn : t.labelBg}
+                        </span>
+                        <span className="block text-[11px] text-foreground/50 mt-1 leading-relaxed">
+                          {isEn ? t.noteEn : t.noteBg}
+                        </span>
+                        <span className="block text-[11px] text-primary/80 mt-2 tabular-nums font-semibold">
+                          {t.maxEur
+                            ? `${t.minEur}–${t.maxEur} €/${isEn ? "m²" : "м²"}`
+                            : `${isEn ? "from" : "от"} ${t.minEur} €/${isEn ? "m²" : "м²"}`}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-2 p-8 md:p-12 bg-background/70 flex flex-col justify-between gap-8">
+              <div>
+                <span className="eyebrow block mb-4">
+                  {isEn ? "Estimated Investment" : "Ориентировъчна инвестиция"}
+                </span>
+
+                {isBathroom ? (
+                  <div className="space-y-3">
+                    <div className="display-serif text-2xl md:text-3xl text-primary leading-tight">
+                      {isEn ? "Custom Quote After Inspection" : "По индивидуален проект"}
+                    </div>
+                    <p className="text-sm text-foreground/60 font-light leading-relaxed">
+                      {isEn
+                        ? "Bathroom renovation costs depend on plumbing complexity, waterproofing, tile format or microcement, and sanitary ware class. Exact fixed price is provided after a free site inspection in Sofia."
+                        : "При ремонт на баня цената зависи от ВиК разводките, формата на плочките или микроцимента и вградената санитария. Точната фиксирана стойност се определя след безплатен оглед в София."}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <div className="display-serif text-3xl md:text-4xl text-primary tabular-nums leading-none">
+                      {estimate!.highEur
+                        ? `${fmt(estimate!.lowEur, isEn)} – ${fmt(estimate!.highEur, isEn)} €`
+                        : `${isEn ? "from" : "от"} ${fmt(estimate!.lowEur, isEn)} €`}
+                    </div>
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-foreground/50 pt-1">
+                      {isEn
+                        ? "excl. VAT · labor + materials"
+                        : "без ДДС · труд + материали"}
+                    </div>
+                  </div>
+                )}
+
+                <div className="hairline h-px my-8" />
+
+                <ul className="space-y-3 text-sm text-foreground/70 font-light">
+                  <li className="flex justify-between">
+                    <span>{isEn ? "Project Type" : "Тип проект"}</span>
+                    <span className="text-foreground font-medium">
+                      {isEn ? scope.labelEn : scope.labelBg}
+                    </span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>{isEn ? "Property Area" : "Квадратура"}</span>
+                    <span className="text-foreground font-medium">
+                      {area} {isEn ? "m²" : "м²"}
+                    </span>
+                  </li>
+                  {!isBathroom && (
+                    <li className="flex justify-between">
+                      <span>{isEn ? "Finishing Level" : "Ниво на изпълнение"}</span>
+                      <span className="text-foreground font-medium">
+                        {isEn ? tier.labelEn : tier.labelBg}
+                      </span>
+                    </li>
+                  )}
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <button
+                  type="button"
+                  onClick={openModal}
+                  className="group w-full flex items-center justify-between px-5 py-4 bg-primary text-primary-foreground font-bold text-xs tracking-[0.3em] uppercase hover:bg-primary/90 transition-colors"
+                >
+                  <span>
+                    {isEn ? "Request Free Inspection & BOQ" : "Заяви безплатен оглед и КСС"}
+                  </span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <p className="text-[11px] leading-relaxed text-foreground/45">
+                  {isEn
+                    ? "The range is indicative. Your final fixed price is locked in a written contract after a free on-site inspection and approved Bill of Quantities (BOQ) in Sofia."
+                    : "Диапазонът е ориентировъчен. Финалната фиксирана цена се записва в договор след безплатен оглед на място в София и одобрена количествено-стойностна сметка (КСС)."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="sr-only">
+          <h3>Ориентировъчни цени за цялостен ремонт на апартамент в София (2026 г.)</h3>
+          <table>
+            <caption>Цени за цялостен ремонт до ключ и довършителни работи в гр. София (труд и материали, без ДДС)</caption>
+            <thead>
+              <tr>
+                <th>Пакет / Ниво на завършване</th>
+                <th>Цена на кв.м (€/м²)</th>
+                <th>Двустаен апартамент (65 м²)</th>
+                <th>Тристаен апартамент (100 м²)</th>
+                <th>Какво включва</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Базово ниво (Довършителни работи / Инвестиционен стандарт)</td>
+                <td>100 – 300 €/м²</td>
+                <td>6 500 – 19 500 €</td>
+                <td>10 000 – 30 000 €</td>
+                <td>Шпакловки, боядисване, базови довършителни работи с материали от среден клас.</td>
+              </tr>
+              <tr>
+                <td>Завършване до ключ (Renovivo Comfort)</td>
+                <td>301 – 500 €/м²</td>
+                <td>19 565 – 32 500 €</td>
+                <td>30 100 – 50 000 €</td>
+                <td>Цялостен ремонт до ключ: ВиК и Ел., настилки, врати, баня, климатизация, осветление с материали среден към висок клас.</td>
+              </tr>
+              <tr>
+                <td>Премиум изпълнение (Renovivo Premium с мебели по поръчка)</td>
+                <td>от 500 €/м²</td>
+                <td>от 32 500 €</td>
+                <td>от 50 000 €</td>
+                <td>Пълно управление от А до Я, интериорен дизайн, микроцимент/терацо, кухня и корпусни мебели по поръчка, премиум материали.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default BespokeEstimator;
