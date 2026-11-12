@@ -13,12 +13,10 @@ function dedupeHead(html: string): string {
   if (!headMatch) return html;
   let head = headMatch[1];
 
-  // 1. Ако Helmet е добавил <title data-rh="true">, премахваме базовия <title> без data-rh
   if (/<title[^>]*\bdata-rh=/i.test(head)) {
     head = head.replace(/<title(?![^>]*\bdata-rh=)[^>]*>[\s\S]*?<\/title>/gi, "");
   }
 
-  // 2. Почистване на дублирани <meta> и <link rel="canonical">
   const keyOf = (tag: string): string | null => {
     const m =
       tag.match(/\b(?:name|property)="([^"]+)"/i) ||
@@ -200,9 +198,9 @@ export default defineConfig(async ({ mode }) => {
     plugins: [
       react(),
       mode === "development" && componentTagger(),
-      // Пускаме пре-рендерирането само в CI/GitHub Actions среда, за да избегнем липсващи библиотеки във Vercel
+      // Изпълнява се в production, но изрично изключваме Vercel (който няма линукс браузър за Puppeteer)
       mode === "production" &&
-        process.env.CI &&
+        !process.env.VERCEL &&
         prerender({
           routes: allRoutes,
           renderer: "@prerenderer/renderer-puppeteer",
