@@ -66,7 +66,7 @@ export default function EditorialHome() {
     <div className="rv-approved-home">
       <section className="rv-approved-hero relative isolate overflow-hidden" aria-labelledby="home-hero-title">
         <div className="absolute inset-0 -z-10" aria-hidden="true">
-          <img key={heroIndex} src={heroPhotos[heroIndex]} alt="" width="1600" height="1000" decoding="async" fetchPriority={undefined} className="h-full w-full animate-fade-in object-cover object-[65%_center] md:object-[58%_center]" />
+          <img key={heroIndex} src={heroPhotos[heroIndex]} alt="" width="1600" height="1000" decoding="async" className="h-full w-full animate-fade-in object-cover object-[65%_center] md:object-[58%_center]" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,249,246,0.99)_0%,rgba(250,249,246,0.97)_26%,rgba(250,249,246,0.67)_44%,rgba(250,249,246,0.05)_72%)] max-md:bg-[linear-gradient(90deg,rgba(250,249,246,0.98)_0%,rgba(250,249,246,0.9)_38%,rgba(250,249,246,0.27)_100%)]" />
         </div>
         <div className="container-custom relative z-10 flex h-full min-h-[500px] flex-col justify-center py-14 md:min-h-[450px] md:py-12 lg:min-h-[540px]">
