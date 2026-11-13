@@ -42,7 +42,7 @@ const Hero = () => {
             <button
               type="button"
               onClick={openModal}
-              className="group inline-flex min-h-13 items-center justify-center gap-5 bg-foreground px-7 py-4 text-sm font-semibold text-background transition-colors duration-300 hover:bg-[#444D47] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6A746B]"
+              className="group inline-flex min-h-[52px] items-center justify-center gap-5 bg-foreground px-7 py-4 text-sm font-semibold text-background transition-colors duration-300 hover:bg-[#444D47] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6A746B]"
             >
               {isEn ? "Book a free site visit" : "Заяви безплатен оглед"}
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
