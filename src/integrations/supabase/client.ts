@@ -3,8 +3,13 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 import { brokeredPreviewStorage } from './previewAuthStorage';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+// Static HTML generation imports the app under Node.js but never runs browser
+// data queries. When SSR has no public VITE_ config, keep client construction
+// inert instead of making the build depend on a live Supabase connection.
+// In the browser the actual VITE_ environment is required, unchanged.
+const duringStaticRender = typeof window === "undefined";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || (duringStaticRender ? "https://prerender.invalid" : "");
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || (duringStaticRender ? "prerender-only" : "");
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
