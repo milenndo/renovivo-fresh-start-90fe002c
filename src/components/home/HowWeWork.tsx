@@ -1,150 +1,45 @@
-import { Eye, FileText, Hammer, ShieldCheck, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useEffect, useRef, useState } from "react";
 
 const HowWeWork = () => {
-  const { t } = useLanguage();
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const steps = [
-    {
-      icon: Eye,
-      number: "01",
-      titleKey: 'howWeWork.step1.title',
-      descKey: 'howWeWork.step1.desc',
-    },
-    {
-      icon: FileText,
-      number: "02",
-      titleKey: 'howWeWork.step2.title',
-      descKey: 'howWeWork.step2.desc',
-    },
-    {
-      icon: Hammer,
-      number: "03",
-      titleKey: 'howWeWork.step3.title',
-      descKey: 'howWeWork.step3.desc',
-    },
-    {
-      icon: ShieldCheck,
-      number: "04",
-      titleKey: 'howWeWork.step4.title',
-      descKey: 'howWeWork.step4.desc',
-    },
-  ];
+  const { language } = useLanguage();
+  const en = language === "en";
+  const steps = en
+    ? [
+        ["01", "Site visit", "We review the property, your priorities and its technical constraints."],
+        ["02", "Quote & agreement", "We clarify quantities, materials, scope, cost and deadlines."],
+        ["03", "Execution", "We coordinate the work and keep you informed about progress."],
+        ["04", "Handover", "We review the finished result and hand over the project."],
+      ]
+    : [
+        ["01", "Оглед", "Запознаваме се с обекта, вашите идеи и техническите ограничения."],
+        ["02", "Оферта и договор", "Уточняваме обхват, количества, материали, цена и срокове."],
+        ["03", "Изпълнение", "Координираме работите и ви информираме за напредъка."],
+        ["04", "Предаване", "Преглеждаме резултата и предаваме завършения обект."],
+      ];
 
   return (
-    <section ref={sectionRef} className="relative py-20 md:py-28 bg-muted/30 overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 opacity-[0.02]" 
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
-                            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }}
-      />
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -translate-y-1/2" />
-      <div className="absolute top-1/2 right-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px] -translate-y-1/2" />
-      
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
-        <div 
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full mb-6">
-            <Hammer className="w-4 h-4 text-primary" />
-            <span className="text-primary text-sm font-semibold tracking-wider uppercase">Процес</span>
+    <section id="process" className="border-b border-border bg-background py-20 md:py-28">
+      <div className="container-custom">
+        <div className="mb-12 grid grid-cols-1 gap-6 md:mb-16 md:grid-cols-12">
+          <div className="md:col-span-8">
+            <p className="eyebrow mb-5">{en ? "Process / Clear from day one" : "Процес / Яснота от първия ден"}</p>
+            <h2 className="max-w-3xl text-[clamp(2.25rem,4.2vw,4.4rem)] font-semibold leading-[1.13] tracking-[-0.05em]">
+              {en ? "Good renovations begin before work starts." : "Добрият ремонт започва преди първия работен ден."}
+            </h2>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            {t('howWeWork.title')}
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            {t('howWeWork.subtitle')}
+          <p className="self-end text-base leading-[1.7] text-muted-foreground md:col-span-4">
+            {en ? "Four practical steps and one clear line of responsibility." : "Четири ясни стъпки и една последователна линия на отговорност."}
           </p>
         </div>
-
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4">
-          {steps.map((step, index) => (
-            <div 
-              key={index} 
-              className={`relative group transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-              }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
-              {/* Connector line for desktop */}
-              {index < steps.length - 1 && (
-                <div className="hidden lg:flex absolute top-14 left-[55%] w-[90%] items-center">
-                  <div 
-                    className={`h-0.5 bg-gradient-to-r from-primary/50 to-border flex-grow transition-all duration-1000 ${
-                      isVisible ? 'scale-x-100' : 'scale-x-0'
-                    }`}
-                    style={{ 
-                      transformOrigin: 'left',
-                      transitionDelay: `${(index + 1) * 200}ms`
-                    }}
-                  />
-                  <ArrowRight 
-                    className={`h-4 w-4 text-primary/50 flex-shrink-0 transition-all duration-500 ${
-                      isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
-                    }`}
-                    style={{ transitionDelay: `${(index + 1) * 200 + 300}ms` }}
-                  />
-                </div>
-              )}
-              
-              {/* Card */}
-              <div className="relative bg-card rounded-2xl p-6 shadow-lg border border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 overflow-hidden h-full">
-                {/* Shine effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="relative z-10">
-                  {/* Number & Icon Row */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="relative">
-                      <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 transition-all duration-500">
-                        <step.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
-                      </div>
-                      {/* Animated ring */}
-                      <div className="absolute -inset-1 rounded-2xl border-2 border-primary/30 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
-                    </div>
-                    <span className="text-5xl font-black text-muted-foreground/20 group-hover:text-primary/30 transition-colors" aria-hidden="true">
-                      {step.number}
-                    </span>
-                  </div>
-                  
-                  <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {t(step.titleKey)}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {t(step.descKey)}
-                  </p>
-                </div>
+        <div className="grid grid-cols-1 border-t border-border sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map(([n,title,description],i) => (
+            <div key={n} className={`border-b border-border px-0 py-9 sm:px-5 lg:min-h-[260px] lg:border-b-0 lg:px-7 ${i>0?"lg:border-l lg:border-border":""}`}>
+              <div className="mb-12 flex items-center justify-between">
+                <span className="text-xs font-medium tracking-[0.2em] text-[#6A746B]">{n}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6A746B]" aria-hidden="true" />
               </div>
+              <h3 className="mb-3 text-xl font-semibold tracking-tight">{title}</h3>
+              <p className="max-w-[290px] text-sm leading-[1.7] text-muted-foreground">{description}</p>
             </div>
           ))}
         </div>
@@ -152,5 +47,4 @@ const HowWeWork = () => {
     </section>
   );
 };
-
 export default HowWeWork;
