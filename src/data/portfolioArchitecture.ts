@@ -51,8 +51,9 @@ export const wallSegments:WallSegment[] = [
   wall(5.6,6.10,5.6,7.4),
   // Bedroom/bathroom horizontal partition.
   wall(5.6,4.3,9.8,4.3,"partition"),
-  // Utility/storage niche, no fictional door or added bedroom.
-  wall(8.35,4.3,8.35,7.4,"partition"),
+  // A real 90 cm opening connects bathroom to the utility cupboard.
+  wall(8.35,4.3,8.35,5.45,"partition"),
+  wall(8.35,6.35,8.35,7.4,"partition"),
 ];
 export const rooms: WalkZone[] = [
   {
