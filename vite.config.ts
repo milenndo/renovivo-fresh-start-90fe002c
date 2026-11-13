@@ -80,7 +80,7 @@ async function fetchBlogRoutes(env: Record<string, string>): Promise<string[]> {
 }
 
 // --- 4. Автоматичен sitemap.xml + llms.txt за AI модели ------------------
-function seoAndAiFilesPlugin(routes: string[]): Plugin {
+function seoAndAiFilesPlugin(routes: string[], buildEnv: Record<string, string>): Plugin {
   return {
     name: "renovivo-seo-ai-files",
     apply: "build",
@@ -135,6 +135,12 @@ function seoAndAiFilesPlugin(routes: string[]): Plugin {
         appType: "custom",
         mode: "production",
         ssr: { noExternal: ["react-helmet-async"] },
+        // SSR runs with configFile:false: explicitly pass public VITE_ settings.
+        // The harmless fallback is only for build-time rendering, never client JS.
+        define: {
+          "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(buildEnv.VITE_SUPABASE_URL || "https://prerender.invalid"),
+          "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(buildEnv.VITE_SUPABASE_PUBLISHABLE_KEY || "prerender-only"),
+        },
       });
       try {
         const { renderRoute } = await server.ssrLoadModule("/src/entry-server.tsx");
@@ -199,7 +205,7 @@ export default defineConfig(async ({ mode }) => {
     plugins: [
       react(),
       mode === "development" && componentTagger(),
-      mode === "production" && seoAndAiFilesPlugin(allRoutes),
+      mode === "production" && seoAndAiFilesPlugin(allRoutes, env),
     ].filter(Boolean),
     resolve: {
       alias: {
