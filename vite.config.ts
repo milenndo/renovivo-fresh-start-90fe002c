@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv, type Plugin } from "vite";
+import { defineConfig, loadEnv, createServer, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import fs from "fs";
@@ -73,7 +73,7 @@ async function fetchBlogRoutes(env: Record<string, string>): Promise<string[]> {
     );
     if (!res.ok) return [];
     const rows = (await res.json()) as Array<{ slug: string }>;
-    return rows.filter((r) => r?.slug).map((r) => `/blog/${r.slug}`);
+    return rows.filter((r) => /^[a-z0-9-]+$/.test(r?.slug ?? "")).map((r) => `/blog/${r.slug}`);
   } catch {
     return [];
   }
@@ -84,7 +84,7 @@ function seoAndAiFilesPlugin(routes: string[]): Plugin {
   return {
     name: "renovivo-seo-ai-files",
     apply: "build",
-    closeBundle() {
+    async closeBundle() {
       const today = new Date().toISOString().slice(0, 10);
       const priorityFor = (r: string) =>
         r === "/"
@@ -117,7 +117,61 @@ function seoAndAiFilesPlugin(routes: string[]): Plugin {
         fs.writeFileSync(path.join("dist", "sitemap.xml"), xml, "utf8");
         console.log(`[SEO/AI] Записан dist/sitemap.xml (${routes.length} URL); llms.txt идва от public/`);
       } catch (e) {
-        console.warn("[SEO/AI] грешка при запис:", e);
+        throw e;
+      }
+
+      // Real HTML snapshots are created from the React tree for known public
+      // pages, so users and crawlers receive per-page content without JS.
+      // CMS-only posts remain client-rendered when the build has no post data.
+      const prerenderRoutes = Array.from(new Set([
+        ...staticRoutes, ...portfolioRoutes, ...localBlogRoutes,
+      ]));
+      const template = fs.readFileSync(path.join("dist", "index.html"), "utf8");
+      const server = await createServer({
+        configFile: false,
+        plugins: [react()],
+        resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+        server: { middlewareMode: true, hmr: false },
+        appType: "custom",
+        mode: "production",
+      });
+      try {
+        const { renderRoute } = await server.ssrLoadModule("/src/entry-server.tsx");
+        for (const route of prerenderRoutes) {
+          const { markup, head } = renderRoute(route) as {
+            markup: string;
+            head: { title: string; meta: string; link: string; script: string };
+          };
+          const canonicalMatch = head.link.match(/<link[^>]+rel="canonical"[^>]*href="([^"]+)"/);
+          const expected = SITE_URL + (route === "/" ? "" : route);
+          if (!canonicalMatch || canonicalMatch[1].replace(/\/$/, "") !== expected) {
+            throw new Error("[Prerender] " + route + ": canonical missing/mismatched; expected " + expected);
+          }
+          if (!head.title.includes("<title") || !/<h1[\s>]/i.test(markup)) {
+            throw new Error("[Prerender] " + route + ": missing rendered title or h1");
+          }
+          // Remove the base homepage title/metadata but preserve sitewide schema.
+          let page = template
+            .replace(/<title>[\s\S]*?<\/title>\s*/i, "")
+            .replace(/<meta\s+name="description"[^>]*>\s*/i, "")
+            .replace(/<link\s+rel="canonical"[^>]*>\s*/i, "")
+            .replace(/<meta\s+property="og:(?:title|description|url|image)"[^>]*>\s*/gi, "")
+            .replace(/<meta\s+name="twitter:(?:title|description|image)"[^>]*>\s*/gi, "");
+          const header = [head.title, head.meta, head.link, head.script]
+            .filter(Boolean).join("\n");
+          page = page.replace("</head>", header + "\n  </head>");
+          page = page.replace('<div id="root"></div>', '<div id="root">' + markup + '</div>');
+          if (!page.includes('<div id="root">' + markup)) {
+            throw new Error("[Prerender] " + route + ": root placeholder not found");
+          }
+          const dest = route === "/" ? path.join("dist", "index.html")
+            : path.join("dist", route.slice(1), "index.html");
+          fs.mkdirSync(path.dirname(dest), { recursive: true });
+          fs.writeFileSync(dest, page, "utf8");
+        }
+        console.log("[Prerender] Wrote " + prerenderRoutes.length + " route HTML documents");
+      } finally {
+        await server.close();
       }
     },
   };

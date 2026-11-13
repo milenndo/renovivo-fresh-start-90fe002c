@@ -1,4 +1,4 @@
-name: Build, Prerender & Deploy Renovivo
+name: Build & Verify SEO HTML — Renovivo
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
       - name: 3. Инсталиране на пакетите
         run: npm install
 
-      - name: 4. Build (статичен билд + sitemap.xml + llms.txt)
+      - name: 4. Build + prerender static HTML
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
@@ -33,7 +33,10 @@ jobs:
           ls -la dist/
           head -n 25 dist/llms.txt
           head -n 25 dist/sitemap.xml
-          head -n 25 dist/index.html
+          test -s dist/services/apartment-renovation/index.html
+          test -s dist/portfolio/modern-apartment-sofia/index.html
+          test -s dist/blog/osnoven-remont-apartament-sofia-ceni-2026/index.html
+          node scripts/verify-prerender.mjs
 
       - name: 6. Запазване на готовия статичен сайт (Artifact)
         uses: actions/upload-artifact@v4

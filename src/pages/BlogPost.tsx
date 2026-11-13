@@ -17,10 +17,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const { language, t } = useLanguage();
+  // Include local articles during server rendering, without a database request.
+  const localPost = findRenovationPost(slug)
+    ?? [getPlanningRenovationPost(language), getMicrocementPost(language)].find(p => p.slug === slug);
 
   const { data: post, isLoading } = useQuery({
     queryKey: ["blog-post", slug, language],
-    initialData: findRenovationPost(slug) as any,
+    initialData: localPost as any,
     queryFn: async () => {
       const editorialPost = findRenovationPost(slug);
       if (editorialPost) return editorialPost;

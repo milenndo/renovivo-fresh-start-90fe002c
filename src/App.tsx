@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import type { ComponentType, PropsWithChildren } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 import { HelmetProvider } from "react-helmet-async";
 import { Analytics } from "@vercel/analytics/react";
@@ -31,8 +32,13 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <HelmetProvider>
+interface AppProps {
+  Router?: ComponentType<PropsWithChildren>;
+  helmetContext?: Record<string, unknown>;
+}
+
+const App = ({ Router = BrowserRouter, helmetContext }: AppProps = {}) => (
+  <HelmetProvider context={helmetContext}>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <LanguageProvider>
@@ -42,7 +48,7 @@ const App = () => (
                 <Toaster />
                 <Sonner />
                 <InspectionRequestModal />
-                <BrowserRouter>
+                <Router>
                   <ScrollToTop />
                   <Routes>
                     <Route path="/" element={<Index />} />
@@ -62,7 +68,7 @@ const App = () => (
                     <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
-                </BrowserRouter>
+                </Router>
                 <Analytics />
               </ChatProvider>
             </InspectionRequestProvider>
