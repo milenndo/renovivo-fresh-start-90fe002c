@@ -5,6 +5,7 @@ import PeaceOfMind from "@/components/home/PeaceOfMind";
 import Services from "@/components/home/Services";
 import About from "@/components/home/About";
 import Projects from "@/components/home/Projects";
+import VisualTransform from "@/components/home/VisualTransform";
 import HowWeWork from "@/components/home/HowWeWork";
 import BlogPreview from "@/components/home/BlogPreview";
 import BespokeEstimator from "@/components/home/BespokeEstimator";
@@ -40,9 +41,10 @@ const Index = () => {
       <Layout>
         <Hero />
         <PeaceOfMind />
-        <Projects />
         <Services />
+        <Projects />
         <HowWeWork />
+        <VisualTransform />
         <BespokeEstimator />
         <About />
         <LuxuryGuide />

@@ -137,3 +137,19 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* Approved Renovivo mobile-first editorial direction */
+.renovivo-editorial {
+  font-family: 'Literata', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+.renovivo-rail {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.renovivo-rail::-webkit-scrollbar { display:none; }
+#services,#projects,#process,#estimator,#approach { scroll-margin-top: 92px; }
+@media (max-width: 767px) {
+  #services,#projects,#process,#estimator,#approach { scroll-margin-top: 74px; }
+}
