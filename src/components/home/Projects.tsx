@@ -1,144 +1,72 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { projects as allProjects } from "@/data/projects";
-import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const displayProjects = allProjects.slice(0, 4);
+// Lead with whole-home renovation rather than specialty coatings.
+// Case-study photos, dates and project statistics must be verified before promotion as completed work.
+const displayProjects = [
+  ...allProjects.filter((project) => project.categoryId === "full"),
+  ...allProjects.filter((project) => project.categoryId === "bathroom"),
+  ...allProjects.filter((project) => project.categoryId === "kitchen"),
+  ...allProjects.filter((project) => project.categoryId === "living"),
+  ...allProjects.filter((project) => !["full", "bathroom", "kitchen", "living"].includes(project.categoryId)),
+].slice(0, 4);
 
 const Projects = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => entry.isIntersecting && setIsVisible(true),
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const { language } = useLanguage();
+  const en = language === "en";
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-background py-24 md:py-32 overflow-hidden border-t border-primary/15"
-    >
-      <div className="container-custom relative z-10">
-        {/* Editorial masthead */}
-        <div
-          className={`grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-end mb-16 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+    <section id="projects" className="border-b border-border bg-background py-20 md:py-28">
+      <div className="container-custom">
+        <div className="mb-12 grid grid-cols-1 items-end gap-8 md:mb-16 md:grid-cols-12">
           <div className="md:col-span-8">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="h-px w-8 bg-primary" />
-              <span className="eyebrow">Портфолио · N°01 — N°04</span>
-            </div>
-            <h2 className="display-serif text-4xl md:text-6xl lg:text-7xl text-foreground">
-              Живи <span className="italic text-primary">пространства.</span>
-              <br />
-              Реални истории.
+            <p className="eyebrow mb-5">{en ? "Portfolio / Spaces" : "Портфолио / Пространства"}</p>
+            <h2 className="max-w-3xl text-[clamp(2.25rem,4.5vw,4.5rem)] font-semibold leading-[1.12] tracking-[-0.05em] text-foreground">
+              {en ? "Craft is in the details." : "Качеството се вижда в детайлите."}
             </h2>
           </div>
-          <div className="md:col-span-4 md:pb-4">
-            <p className="text-foreground/60 font-light text-base md:text-lg leading-relaxed mb-6">
-              Всеки проект е авторска работа — от избора на камъка до последния
-              шев в тапицерията. Разгледайте селекция от последните ни завършени
-              резиденции в София.
+          <div className="md:col-span-4 md:pb-2">
+            <p className="mb-6 max-w-sm text-base leading-[1.7] text-muted-foreground">
+              {en
+                ? "Explore spaces, finishes and the design decisions behind renovation projects."
+                : "Разгледайте пространства, материали и решения — от цялостния интериор до най-малкия довършителен детайл."}
             </p>
-            <Link
-              to="/portfolio"
-              className="inline-flex items-center gap-4 group"
-            >
-              <span className="text-[10px] tracking-[0.3em] uppercase font-bold text-foreground group-hover:text-primary transition-colors">
-                Пълен архив
-              </span>
-              <span className="w-12 h-px bg-primary transition-all duration-500 group-hover:w-24" />
+            <Link to="/portfolio" className="inline-flex items-center gap-3 border-b border-foreground pb-2 text-sm font-semibold transition-colors hover:text-[#6A746B]">
+              {en ? "All projects" : "Всички проекти"} <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
 
-        {/* Editorial grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
-          {displayProjects.map((project, index) => {
-            const num = String(index + 1).padStart(2, "0");
-            const materials = project.features?.slice(0, 3) ?? [];
-            return (
-              <Link
-                key={project.id}
-                to={`/portfolio/${project.id}`}
-                className={`group block transition-all duration-700 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-                }`}
-                style={{ transitionDelay: `${index * 120}ms` }}
-              >
-                {/* Image */}
-                <div className="relative overflow-hidden aspect-[4/5] bg-secondary border border-primary/15">
-                  <img
-                    src={project.mainImage}
-                    alt={project.title}
-                    width={800}
-                    height={1000}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-70" />
-                  <div className="absolute top-6 left-6 flex items-center gap-3">
-                    <span className="display-serif text-primary text-4xl leading-none">
-                      N°{num}
-                    </span>
-                  </div>
-                  <div className="absolute top-6 right-6 w-11 h-11 border border-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm bg-background/40">
-                    <ArrowUpRight className="w-4 h-4 text-primary" />
-                  </div>
+        <div className="grid grid-cols-1 gap-x-7 gap-y-12 md:grid-cols-2">
+          {displayProjects.map((project, index) => (
+            <Link key={project.id} to={`/portfolio/${project.id}`} className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6A746B]">
+              <div className="relative aspect-[5/4] overflow-hidden bg-secondary">
+                <img
+                  src={project.mainImage}
+                  alt={project.title}
+                  loading="lazy"
+                  decoding="async"
+                  width={1100}
+                  height={880}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 motion-reduce:transform-none group-hover:scale-[1.035]"
+                />
+                <span className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center bg-background text-foreground opacity-90 transition-all duration-300 group-hover:bg-foreground group-hover:text-background">
+                  <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+                </span>
+              </div>
+              <div className="flex items-start justify-between gap-4 border-b border-border py-5">
+                <div>
+                  <p className="mb-2 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                    {String(index + 1).padStart(2, "0")} / {project.category}
+                  </p>
+                  <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">{project.title}</h3>
                 </div>
-
-                {/* Story block */}
-                <div className="pt-6 md:pt-8 grid grid-cols-12 gap-4">
-                  <div className="col-span-12 md:col-span-8 space-y-3">
-                    <span className="eyebrow">
-                      {project.category} · {project.location}
-                    </span>
-                    <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors duration-500">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-foreground/60 font-light leading-relaxed line-clamp-2">
-                      {project.description}
-                    </p>
-                  </div>
-                  <div className="col-span-12 md:col-span-4 md:border-l md:border-primary/20 md:pl-4 space-y-2">
-                    <span className="eyebrow block">Спецификации</span>
-                    <div className="text-xs text-foreground/70 space-y-1 font-light">
-                      <div className="flex justify-between border-b border-primary/10 pb-1">
-                        <span className="text-foreground/45">Площ</span>
-                        <span>{project.area}</span>
-                      </div>
-                      <div className="flex justify-between border-b border-primary/10 pb-1">
-                        <span className="text-foreground/45">Срок</span>
-                        <span>{project.duration}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Materials strip */}
-                {materials.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-primary/15 flex flex-wrap gap-x-4 gap-y-2">
-                    {materials.map((m) => (
-                      <span
-                        key={m}
-                        className="text-[10px] tracking-[0.2em] uppercase text-foreground/50"
-                      >
-                        · {m}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </Link>
-            );
-          })}
+                <span className="hidden shrink-0 text-sm text-muted-foreground sm:block">{en ? "Explore" : "Разгледай"}</span>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
