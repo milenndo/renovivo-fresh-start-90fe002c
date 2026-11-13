@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import { componentTagger } from "lovable-tagger";
 
-const SITE_URL = "https://renovivo.bg";
+const SITE_URL = "https://www.renovivo.bg";
 
 // --- 0. Статични маршрути -----------------------------------------------
 const staticRoutes = [

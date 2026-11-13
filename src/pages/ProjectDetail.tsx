@@ -41,11 +41,11 @@ const ProjectDetail = () => {
     publisher: {
       "@type": "Organization",
       name: "Renovivo",
-      url: "https://renovivo.bg"
+      url: "https://www.renovivo.bg"
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://renovivo.bg/portfolio/${id}`
+      "@id": `https://www.renovivo.bg/portfolio/${id}`
     },
     about: {
       "@type": "CreativeWork",
@@ -59,7 +59,7 @@ const ProjectDetail = () => {
       <Helmet>
         <title>{project.title} | Renovivo - Case Study</title>
         <meta name="description" content={`${project.description} ${language === 'bg' ? 'Вижте как решихме предизвикателството:' : 'See how we solved the challenge:'} ${project.challenge}`} />
-        <link rel="canonical" href={`https://renovivo.bg/portfolio/${id}`} />
+        <link rel="canonical" href={`https://www.renovivo.bg/portfolio/${id}`} />
         <script type="application/ld+json">{JSON.stringify(caseStudySchema)}</script>
       </Helmet>
       <Layout>

@@ -77,8 +77,8 @@ const ContactPage = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": t('breadcrumb.home'), "item": "https://renovivo.bg" },
-      { "@type": "ListItem", "position": 2, "name": t('contact.page.title'), "item": "https://renovivo.bg/contact" }
+      { "@type": "ListItem", "position": 1, "name": t('breadcrumb.home'), "item": "https://www.renovivo.bg" },
+      { "@type": "ListItem", "position": 2, "name": t('contact.page.title'), "item": "https://www.renovivo.bg/contact" }
     ]
   };
 
@@ -93,7 +93,7 @@ const ContactPage = () => {
             : "Contact Renovivo for a free consultation and inspection. ☎️ +359 89 371 29 19. Renovation services in Sofia and surroundings."
           } 
         />
-        <link rel="canonical" href="https://renovivo.bg/contact" />
+        <link rel="canonical" href="https://www.renovivo.bg/contact" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
       <Layout>

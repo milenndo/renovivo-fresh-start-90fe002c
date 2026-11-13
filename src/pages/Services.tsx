@@ -135,13 +135,13 @@ const ServicesPage = () => {
         "@type": "ListItem",
         "position": 1,
         "name": t("breadcrumb.home"),
-        "item": "https://renovivo.bg/",
+        "item": "https://www.renovivo.bg/",
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": t("services.page.title"),
-        "item": "https://renovivo.bg/services",
+        "item": "https://www.renovivo.bg/services",
       },
     ],
   };
@@ -157,7 +157,7 @@ const ServicesPage = () => {
       "position": idx + 1,
       "name": item.name,
       "description": item.description,
-      "url": `https://renovivo.bg${item.path}`,
+      "url": `https://www.renovivo.bg${item.path}`,
     })),
   };
 
@@ -178,7 +178,7 @@ const ServicesPage = () => {
               : "Пълен спектър от ремонтни услуги в София — цялостен ремонт на апартаменти и къщи до ключ, довършителни работи по БДС, кухни по поръчка, микроцимент и 3D сканиране."
           }
         />
-        <link rel="canonical" href="https://renovivo.bg/services" />
+        <link rel="canonical" href="https://www.renovivo.bg/services" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(itemListSchema)}</script>
       </Helmet>

@@ -41,9 +41,9 @@ const InteriorDesign = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Начало", "item": "https://renovivo.bg" },
-      { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://renovivo.bg/services" },
-      { "@type": "ListItem", "position": 3, "name": "Интериорен дизайн", "item": "https://renovivo.bg/services/interior-design" }
+      { "@type": "ListItem", "position": 1, "name": "Начало", "item": "https://www.renovivo.bg" },
+      { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://www.renovivo.bg/services" },
+      { "@type": "ListItem", "position": 3, "name": "Интериорен дизайн", "item": "https://www.renovivo.bg/services/interior-design" }
     ]
   };
 
@@ -56,10 +56,10 @@ const InteriorDesign = () => {
           content="Професионален интериорен дизайн в София - цялостна концепция, 3D визуализация, избор на материали и цветове. Ясен план, реалистична визуализация и коректно изпълнение." 
         />
         <meta name="keywords" content="интериорен дизайн София, 3D визуализация, проектиране на интериор, дизайн на апартамент, интериорен проект" />
-        <link rel="canonical" href="https://renovivo.bg/services/interior-design" />
+        <link rel="canonical" href="https://www.renovivo.bg/services/interior-design" />
         <meta property="og:title" content="Интериорен дизайн София | Renovivo" />
         <meta property="og:description" content="Цялостна концепция за вашия интериор - от идея до реализация с 3D визуализация." />
-        <meta property="og:url" content="https://renovivo.bg/services/interior-design" />
+        <meta property="og:url" content="https://www.renovivo.bg/services/interior-design" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
       <Layout>

@@ -15,7 +15,7 @@ createRoot(document.getElementById("root")!).render(<App />);
   const started = Date.now();
   const MAX_WAIT = 15000;
   const path = window.location.pathname.replace(/\/$/, "") || "/";
-  const expected = `https://renovivo.bg${path === "/" ? "" : path}`;
+  const expected = `https://www.renovivo.bg${path === "/" ? "" : path}`;
   let lastMutation = Date.now();
   const mo = new MutationObserver(() => { lastMutation = Date.now(); });
   mo.observe(document.documentElement, { childList: true, subtree: true });

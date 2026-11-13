@@ -36,5 +36,5 @@ Disallow: /auth
 Disallow: /auth/
 Disallow: /.lovable/
 
-# Структуриран индекс за AI езикови модели (GEO): https://renovivo.bg/llms.txt
-Sitemap: https://renovivo.bg/sitemap.xml
+# Структуриран индекс за AI езикови модели (GEO): https://www.renovivo.bg/llms.txt
+Sitemap: https://www.renovivo.bg/sitemap.xml

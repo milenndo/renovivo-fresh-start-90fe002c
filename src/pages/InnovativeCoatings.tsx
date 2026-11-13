@@ -101,8 +101,8 @@ const InnovativeCoatings = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Начало", "item": "https://renovivo.bg" },
-      { "@type": "ListItem", "position": 2, "name": "Иновативни покрития", "item": "https://renovivo.bg/innovative-coatings" }
+      { "@type": "ListItem", "position": 1, "name": "Начало", "item": "https://www.renovivo.bg" },
+      { "@type": "ListItem", "position": 2, "name": "Иновативни покрития", "item": "https://www.renovivo.bg/innovative-coatings" }
     ]
   };
 
@@ -118,7 +118,7 @@ const InnovativeCoatings = () => {
         "@type": "Product",
         "name": service.title,
         "description": service.shortDescription,
-        "url": `https://renovivo.bg/services/${service.id}`
+        "url": `https://www.renovivo.bg/services/${service.id}`
       }
     }))
   };
@@ -129,10 +129,10 @@ const InnovativeCoatings = () => {
         <title>Микроцимент, terrazzo и Flake Floor в София | Renovivo</title>
         <meta name="description" content="Модерни безшевни покрития в София - микроцимент, Terrazzo, Flake Floor и каменен килим. Иновативни решения за под и стени. Издръжливост до 75+ години (terrazzo)." />
         <meta name="keywords" content="микроцимент София, Terrazzo под, Flake Floor, каменен килим, безшевни подове, декоративни покрития, иновативни настилки" />
-        <link rel="canonical" href="https://renovivo.bg/innovative-coatings" />
+        <link rel="canonical" href="https://www.renovivo.bg/innovative-coatings" />
         <meta property="og:title" content="Иновативни покрития София | Renovivo" />
         <meta property="og:description" content="Микроцимент, Terrazzo, Flake Floor и каменен килим - модерни безшевни покрития." />
-        <meta property="og:url" content="https://renovivo.bg/innovative-coatings" />
+        <meta property="og:url" content="https://www.renovivo.bg/innovative-coatings" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(coatingsSchema)}</script>
       </Helmet>

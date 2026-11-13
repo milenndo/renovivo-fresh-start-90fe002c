@@ -88,7 +88,7 @@ const ServiceDetail = () => {
 
   const fullImageUrl = service.image?.startsWith("http")
     ? service.image
-    : `https://renovivo.bg${service.image}`;
+    : `https://www.renovivo.bg${service.image}`;
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -98,19 +98,19 @@ const ServiceDetail = () => {
         "@type": "ListItem",
         "position": 1,
         "name": isEn ? "Home" : "Начало",
-        "item": "https://renovivo.bg/",
+        "item": "https://www.renovivo.bg/",
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": isEn ? "Services" : "Услуги",
-        "item": "https://renovivo.bg/services",
+        "item": "https://www.renovivo.bg/services",
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": service.title,
-        "item": `https://renovivo.bg/services/${id}`,
+        "item": `https://www.renovivo.bg/services/${id}`,
       },
     ],
   };
@@ -118,12 +118,12 @@ const ServiceDetail = () => {
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "@id": `https://renovivo.bg/services/${id}#service`,
+    "@id": `https://www.renovivo.bg/services/${id}#service`,
     "name": `${service.title} — ${isEn ? "Sofia" : "гр. София"}`,
     "description": service.fullDescription,
-    "url": `https://renovivo.bg/services/${id}`,
+    "url": `https://www.renovivo.bg/services/${id}`,
     "image": fullImageUrl,
-    "provider": { "@id": "https://renovivo.bg/#organization" },
+    "provider": { "@id": "https://www.renovivo.bg/#organization" },
     "areaServed": [
       {
         "@type": "City",
@@ -142,7 +142,7 @@ const ServiceDetail = () => {
       "@type": "Offer",
       "priceCurrency": "EUR",
       "availability": "https://schema.org/InStock",
-      "url": `https://renovivo.bg/services/${id}`,
+      "url": `https://www.renovivo.bg/services/${id}`,
     },
   };
 
@@ -180,10 +180,10 @@ const ServiceDetail = () => {
         <html lang={language} />
         <title>{seoTitle}</title>
         <meta name="description" content={seoDescription} />
-        <link rel="canonical" href={`https://renovivo.bg/services/${id}`} />
+        <link rel="canonical" href={`https://www.renovivo.bg/services/${id}`} />
         <meta property="og:title" content={seoTitle} />
         <meta property="og:description" content={seoDescription} />
-        <meta property="og:url" content={`https://renovivo.bg/services/${id}`} />
+        <meta property="og:url" content={`https://www.renovivo.bg/services/${id}`} />
         <meta property="og:image" content={fullImageUrl} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>

@@ -70,13 +70,13 @@ const Blog = () => {
         "@type": "ListItem",
         position: 1,
         name: t('breadcrumb.home'),
-        item: "https://renovivo.bg",
+        item: "https://www.renovivo.bg",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: t('blog.page.title'),
-        item: "https://renovivo.bg/blog",
+        item: "https://www.renovivo.bg/blog",
       },
     ],
   };
@@ -121,7 +121,7 @@ const Blog = () => {
             : "Helpful articles and tips for apartment, bathroom and kitchen renovations in Sofia. Learn about prices, materials and how to plan a successful renovation."
           }
         />
-        <link rel="canonical" href="https://renovivo.bg/blog" />
+        <link rel="canonical" href="https://www.renovivo.bg/blog" />
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbSchema)}
         </script>

@@ -148,8 +148,8 @@ const VirtualTours = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": language === 'bg' ? "Начало" : "Home", "item": "https://renovivo.bg" },
-      { "@type": "ListItem", "position": 2, "name": language === 'bg' ? "3D сканиране" : "3D Scanning", "item": "https://renovivo.bg/3d-scanning" }
+      { "@type": "ListItem", "position": 1, "name": language === 'bg' ? "Начало" : "Home", "item": "https://www.renovivo.bg" },
+      { "@type": "ListItem", "position": 2, "name": language === 'bg' ? "3D сканиране" : "3D Scanning", "item": "https://www.renovivo.bg/3d-scanning" }
     ]
   };
 
@@ -163,7 +163,7 @@ const VirtualTours = () => {
     "provider": {
       "@type": "Organization",
       "name": "Renovivo",
-      "url": "https://renovivo.bg"
+      "url": "https://www.renovivo.bg"
     },
     "areaServed": {
       "@type": "City",
@@ -180,13 +180,13 @@ const VirtualTours = () => {
           : 'Professional 3D scanning, 360° virtual tours and BIM modeling in Sofia. Digital twins for real estate, architecture and construction.'
         } />
         <meta name="keywords" content="3D scanning Sofia, virtual tours, Matterport, BIM, digital twin, 360 tour, point cloud, Revit" />
-        <link rel="canonical" href="https://renovivo.bg/3d-scanning" />
+        <link rel="canonical" href="https://www.renovivo.bg/3d-scanning" />
         <meta property="og:title" content={language === 'bg' ? '3D Сканиране & Виртуални Турове | Renovivo' : '3D Scanning & Virtual Tours | Renovivo'} />
         <meta property="og:description" content={language === 'bg' 
           ? 'Професионални 3D сканиране и 360° виртуални турове за недвижими имоти и строителство.'
           : 'Professional 3D scanning and 360° virtual tours for real estate and construction.'
         } />
-        <meta property="og:url" content="https://renovivo.bg/3d-scanning" />
+        <meta property="og:url" content="https://www.renovivo.bg/3d-scanning" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
       </Helmet>

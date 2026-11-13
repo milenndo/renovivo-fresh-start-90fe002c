@@ -24,7 +24,7 @@ interface VisualBreadcrumbProps {
 const VisualBreadcrumb = ({ items, className = "" }: VisualBreadcrumbProps) => {
   const { t } = useLanguage();
   // Generate BreadcrumbList Schema.org structured data
-  const baseUrl = "https://renovivo.bg";
+  const baseUrl = "https://www.renovivo.bg";
 
   const schemaItems = [
     {

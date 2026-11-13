@@ -21,7 +21,7 @@ for (const url of urls) {
   const file = resolve(dist, route === "/" ? "index.html" : route.slice(1) + "/index.html");
   if (!existsSync(file)) { errors.push(route + ": missing HTML"); continue; }
   const html = readFileSync(file, "utf8");
-  const expectedCanonical = "https://renovivo.bg" + (route === "/" ? "" : route);
+  const expectedCanonical = "https://www.renovivo.bg" + (route === "/" ? "" : route);
   const canonical = html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1] ?? "";
   const titles = [...html.matchAll(/<title\b[^>]*>(.*?)<\/title>/gis)];
   if (canonical.replace(/\/$/, "") !== expectedCanonical) errors.push(route + ": bad canonical " + canonical);

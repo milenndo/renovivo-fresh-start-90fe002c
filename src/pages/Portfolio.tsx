@@ -23,8 +23,8 @@ const PortfolioPage = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": t('breadcrumb.home'), "item": "https://renovivo.bg" },
-      { "@type": "ListItem", "position": 2, "name": t('portfolio.page.title'), "item": "https://renovivo.bg/portfolio" }
+      { "@type": "ListItem", "position": 1, "name": t('breadcrumb.home'), "item": "https://www.renovivo.bg" },
+      { "@type": "ListItem", "position": 2, "name": t('portfolio.page.title'), "item": "https://www.renovivo.bg/portfolio" }
     ]
   };
 
@@ -47,7 +47,7 @@ const PortfolioPage = () => {
             : "Browse 127 completed renovations in Sofia - bathrooms, kitchens, apartments. Before and after photos."
           }
         />
-        <link rel="canonical" href="https://renovivo.bg/portfolio" />
+        <link rel="canonical" href="https://www.renovivo.bg/portfolio" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(gallerySchema)}</script>
       </Helmet>

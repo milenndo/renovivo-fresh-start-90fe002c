@@ -134,19 +134,19 @@ const BlogPost = () => {
         "@type": "ListItem",
         position: 1,
         name: t('breadcrumb.home'),
-        item: "https://renovivo.bg",
+        item: "https://www.renovivo.bg",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: t('blogPost.breadcrumb'),
-        item: "https://renovivo.bg/blog",
+        item: "https://www.renovivo.bg/blog",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: post.title,
-        item: `https://renovivo.bg/blog/${post.slug}`,
+        item: `https://www.renovivo.bg/blog/${post.slug}`,
       },
     ],
   };
@@ -166,8 +166,8 @@ const BlogPost = () => {
     },
     datePublished: post.created_at,
     dateModified: post.updated_at || post.created_at,
-    mainEntityOfPage: `https://renovivo.bg/blog/${post.slug}`,
-    ...(post.image_url ? { image: `https://renovivo.bg${post.image_url}` } : {}),
+    mainEntityOfPage: `https://www.renovivo.bg/blog/${post.slug}`,
+    ...(post.image_url ? { image: `https://www.renovivo.bg${post.image_url}` } : {}),
   };
 
   return (
@@ -182,15 +182,15 @@ const BlogPost = () => {
           name="keywords"
           content={post.tags?.join(", ") || (language === 'bg' ? "ремонти, съвети" : "renovations, tips")}
         />
-        <link rel="canonical" href={`https://renovivo.bg/blog/${post.slug}`} />
+        <link rel="canonical" href={`https://www.renovivo.bg/blog/${post.slug}`} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
         <meta
           property="og:url"
-          content={`https://renovivo.bg/blog/${post.slug}`}
+          content={`https://www.renovivo.bg/blog/${post.slug}`}
         />
         <meta property="og:type" content="article" />
-        {post.image_url && <meta property="og:image" content={`https://renovivo.bg${post.image_url}`} />}
+        {post.image_url && <meta property="og:image" content={`https://www.renovivo.bg${post.image_url}`} />}
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbSchema)}
         </script>

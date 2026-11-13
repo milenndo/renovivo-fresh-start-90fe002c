@@ -17,8 +17,8 @@ const AboutPage = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: t('breadcrumb.home'), item: "https://renovivo.bg" },
-      { "@type": "ListItem", position: 2, name: t('aboutPage.breadcrumb'), item: "https://renovivo.bg/about" },
+      { "@type": "ListItem", position: 1, name: t('breadcrumb.home'), item: "https://www.renovivo.bg" },
+      { "@type": "ListItem", position: 2, name: t('aboutPage.breadcrumb'), item: "https://www.renovivo.bg/about" },
     ],
   };
 
@@ -62,10 +62,10 @@ const AboutPage = () => {
             : "renovation company Sofia, Renovivo, stress-free renovations, reliable contractors, renovations with warranty Sofia"
           }
         />
-        <link rel="canonical" href="https://renovivo.bg/about" />
+        <link rel="canonical" href="https://www.renovivo.bg/about" />
         <meta property="og:title" content={t('aboutPage.title')} />
         <meta property="og:description" content={t('aboutPage.metaDesc')} />
-        <meta property="og:url" content="https://renovivo.bg/about" />
+        <meta property="og:url" content="https://www.renovivo.bg/about" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(aboutSchema)}</script>
       </Helmet>
