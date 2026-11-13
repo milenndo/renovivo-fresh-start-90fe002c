@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 const dist = resolve("dist");
 const sitemap = readFileSync(resolve(dist, "sitemap.xml"), "utf8");
-const urls = [...sitemap.matchAll(/<loc>(https:\/\/renovivo\.bg\/?[^<]*)<\/loc>/g)].map(m => new URL(m[1]));
+const urls = [...sitemap.matchAll(/<loc>(https:\/\/[^<]+)<\/loc>/g)].map(m => new URL(m[1]));
 const localBlog = new Set([
   "osnoven-remont-apartament-sofia-ceni-2026",
   "remont-banya-stapki-vik-hidroizolatsiya",
@@ -16,6 +16,7 @@ const localBlog = new Set([
 let checked = 0;
 const errors = [];
 for (const url of urls) {
+  if (url.hostname !== "www.renovivo.bg") { errors.push("Unexpected sitemap host: " + url.href); continue; }
   const route = url.pathname === "/" ? "/" : url.pathname.replace(/\/$/, "");
   if (route.startsWith("/blog/") && !localBlog.has(route.split("/").at(-1))) continue;
   const file = resolve(dist, route === "/" ? "index.html" : route.slice(1) + "/index.html");
