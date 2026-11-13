@@ -30,7 +30,7 @@ export const renovationProject01 = {
   status:t("Интериорна концепция · визуален пример","Interior concept · illustrative example"),
   category:t("Цялостен ремонт на апартамент","Complete apartment renovation"),
   typology:t("Примерен двустаен апартамент","Illustrative one-bedroom apartment"),
-  area:t("Около 70 м² · примерна площ","Approx. 70 m² · indicative area"),
+  area:t("Около 72.5 м² · примерен габарит","Approx. 72.5 m² · conceptual footprint"),
   location:t("София · примерен проект","Sofia · concept project"),
   intro:t(
     "Идеята: истински удобен дом за ежедневието. Няма демонстративен лукс — има светлина, логична организация, достатъчно място за вещи и детайли, които се изпълняват добре.",
