@@ -7,18 +7,18 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
-import heroImage from "@/assets/images/services/apartment-renovation.jpg";
-import apartmentImage from "@/assets/images/services/full-renovation.jpg";
-import finishingImage from "@/assets/images/services/microcement-modern.jpg";
-import houseImage from "@/assets/images/services/living-room.jpg";
-import bathroomImage from "@/assets/images/services/bathroom.jpg";
-import projectLiving from "@/assets/images/projects/living-room-detail.jpg";
-import projectKitchen from "@/assets/images/hero-kitchen.jpg";
-import projectBathroom from "@/assets/images/services/terrazzo-bathroom.jpg";
-import projectBedroom from "@/assets/images/projects/bedroom.jpg";
-import craftDetail from "@/assets/images/quality-work.webp";
-import workPhoto from "@/assets/images/about-team.jpg";
-import budgetPhoto from "@/assets/images/blog/planning-renovation-2026.jpg";
+const heroImage = "/images/home/hero-apartment.jpg";
+const apartmentImage = "/images/home/service-apartment.jpg";
+const finishingImage = "/images/home/service-finish.jpg";
+const houseImage = "/images/home/service-house.jpg";
+const bathroomImage = "/images/home/service-bath.jpg";
+const projectLiving = "/images/home/project-living.jpg";
+const projectKitchen = "/images/home/project-kitchen.jpg";
+const projectBathroom = "/images/home/project-bath.jpg";
+const projectBedroom = "/images/home/project-bedroom.jpg";
+const craftDetail = "/images/home/craft.webp";
+const workPhoto = "/images/home/team.jpg";
+const budgetPhoto = "/images/home/budget.jpg";
 
 const services = [
   { bg: "Цялостен ремонт на апартамент", en: "Complete apartment renovation", image: apartmentImage, path: "/services/apartment-renovation", number: "01", icon: Home },
