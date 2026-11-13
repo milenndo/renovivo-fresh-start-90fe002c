@@ -63,7 +63,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="text-background/70 hover:text-primary transition-colors text-sm">
+                  <Link to={link.path} className="text-background/70 hover:text-[#C5CCC5] transition-colors text-sm">
                     {t(link.key)}
                   </Link>
                 </li>
@@ -78,27 +78,27 @@ const Footer = () => {
               <li>
                 <a
                   href="tel:+359893712919"
-                  className="flex items-start gap-3 text-background/70 hover:text-primary transition-colors"
+                  className="flex items-start gap-3 text-background/70 hover:text-[#C5CCC5] transition-colors"
                 >
-                  <Phone className="h-5 w-5 mt-0.5 text-primary" aria-hidden="true" />
+                  <Phone className="h-5 w-5 mt-0.5 text-[#C5CCC5]" aria-hidden="true" />
                   <span className="text-sm">+359 89 371 29 19</span>
                 </a>
               </li>
               <li>
                 <a
                   href="mailto:office@renovivo.bg"
-                  className="flex items-start gap-3 text-background/70 hover:text-primary transition-colors"
+                  className="flex items-start gap-3 text-background/70 hover:text-[#C5CCC5] transition-colors"
                 >
-                  <Mail className="h-5 w-5 mt-0.5 text-primary" aria-hidden="true" />
+                  <Mail className="h-5 w-5 mt-0.5 text-[#C5CCC5]" aria-hidden="true" />
                   <span className="text-sm">office@renovivo.bg</span>
                 </a>
               </li>
               <li className="flex items-start gap-3 text-background/70">
-                <MapPin className="h-5 w-5 mt-0.5 text-primary" aria-hidden="true" />
+                <MapPin className="h-5 w-5 mt-0.5 text-[#C5CCC5]" aria-hidden="true" />
                 <span className="text-sm">{t('footer.address')}</span>
               </li>
               <li className="flex items-start gap-3 text-background/70">
-                <Clock className="h-5 w-5 mt-0.5 text-primary" aria-hidden="true" />
+                <Clock className="h-5 w-5 mt-0.5 text-[#C5CCC5]" aria-hidden="true" />
                 <span className="text-sm">{t('nav.workingHours')}</span>
               </li>
             </ul>
@@ -109,7 +109,7 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-6">Language</h3>
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-2 text-background/70 hover:text-primary transition-colors text-sm"
+              className="flex items-center gap-2 text-background/70 hover:text-[#C5CCC5] transition-colors text-sm"
               aria-label={`Switch to ${language === 'bg' ? 'English' : 'Bulgarian'}`}
             >
               <Globe className="h-5 w-5" aria-hidden="true" />
@@ -128,7 +128,7 @@ const Footer = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={openSettings}
-              className="flex items-center gap-1.5 text-background/70 hover:text-primary transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-foreground rounded"
+              className="flex items-center gap-1.5 text-background/70 hover:text-[#C5CCC5] transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-foreground rounded"
               aria-label="Open cookie settings"
             >
               <Cookie className="h-4 w-4" aria-hidden="true" />
