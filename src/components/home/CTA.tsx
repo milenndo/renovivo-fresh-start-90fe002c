@@ -25,7 +25,7 @@ const CTA = () => {
             </p>
           </div>
           <div className="flex flex-col items-start gap-5 lg:col-span-4 lg:items-start lg:pb-2">
-            <button type="button" onClick={openModal} className="inline-flex min-h-13 items-center gap-5 bg-[#FAF9F6] px-7 py-4 text-sm font-semibold text-[#282D2B] transition-colors hover:bg-[#E5E7DF]">
+            <button type="button" onClick={openModal} className="inline-flex min-h-[52px] items-center gap-5 bg-[#FAF9F6] px-7 py-4 text-sm font-semibold text-[#282D2B] transition-colors hover:bg-[#E5E7DF]">
               {en ? "Request a free site visit" : "Заяви безплатен оглед"}
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </button>
