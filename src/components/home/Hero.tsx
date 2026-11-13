@@ -1,93 +1,87 @@
-import { ArrowDownRight, ArrowUpRight, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroBackground from "@/assets/images/projects/living-room-detail.jpg";
+import heroLiving from "@/assets/images/projects/living-room-after.jpg";
+import heroDetail from "@/assets/images/projects/living-room-detail.jpg";
+import heroKitchen from "@/assets/images/hero-kitchen.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
 
-/**
- * Light Architecture hero — editorial layout instead of a dark brand poster.
- * Photo is used as an atmospheric illustration, not as a verified completed case study.
- */
+const heroImages = [
+  { src: heroLiving, bgAlt: "Светъл интериор с дневна, кухня и трапезария" },
+  { src: heroDetail, bgAlt: "Дневна с дървени облицовки и интериорни детайли" },
+  { src: heroKitchen, bgAlt: "Детайл от съвременна кухня с естествени материали" },
+];
+
+/** Mobile-first immersive hero modeled on the two approved Renovivo mockups. */
 const Hero = () => {
+  const [activeImage, setActiveImage] = useState(0);
   const { language } = useLanguage();
   const { openModal } = useInspectionRequest();
-  const isEn = language === "en";
+  const en = language === "en";
 
   return (
-    <section aria-labelledby="home-hero-title" className="relative overflow-hidden bg-background text-foreground">
-      <div className="container-custom grid min-h-[660px] grid-cols-1 items-stretch gap-10 pb-14 pt-14 lg:min-h-[740px] lg:grid-cols-12 lg:gap-12 lg:pb-20 lg:pt-20">
-        <div className="flex flex-col justify-center lg:col-span-6 xl:col-span-5">
-          <div className="mb-9 flex items-center gap-4">
-            <span className="h-px w-9 bg-[#6A746B]" aria-hidden="true" />
-            <p className="text-[11px] font-semibold uppercase tracking-[0.17em] text-muted-foreground md:text-xs">
-              {isEn ? "Renovations & finishing works · Sofia" : "Цялостни ремонти и довършителни работи · София"}
-            </p>
-          </div>
+    <section aria-labelledby="home-hero-title" className="relative isolate overflow-hidden bg-[#EDEAE5]">
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img
+          key={activeImage}
+          src={heroImages[activeImage].src}
+          alt={heroImages[activeImage].bgAlt}
+          width={1920}
+          height={1080}
+          fetchPriority={activeImage === 0 ? "high" : "auto"}
+          loading={activeImage === 0 ? "eager" : "lazy"}
+          decoding="async"
+          className="h-full w-full animate-fade-in object-cover object-[62%_center] sm:object-[56%_center] lg:object-[center_48%]"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,249,246,0.97)_0%,rgba(250,249,246,0.94)_21%,rgba(250,249,246,0.72)_48%,rgba(250,249,246,0.12)_100%)] lg:bg-[linear-gradient(90deg,rgba(250,249,246,0.98)_0%,rgba(250,249,246,0.92)_28%,rgba(250,249,246,0.48)_52%,rgba(250,249,246,0.03)_83%)]" />
+      </div>
 
-          <h1 id="home-hero-title" className="max-w-[760px] text-[clamp(2.45rem,5vw,5.2rem)] font-semibold leading-[1.07] tracking-[-0.055em] text-foreground">
-            {isEn ? (
-              <>Spaces finished with <span className="font-normal italic text-[#6A746B]" style={{ fontFamily: "'Literata', Georgia, serif" }}>attention to every detail.</span></>
+      <div className="container-custom relative z-10 flex min-h-[675px] flex-col justify-start pb-28 pt-9 sm:min-h-[730px] sm:pt-14 lg:min-h-[660px] lg:justify-center lg:pb-24 lg:pt-16">
+        <div className="max-w-[590px]">
+          <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#3F493E] sm:text-xs">
+            {en ? "RENOVATIONS & FINISHING WORKS · SOFIA" : "РЕМОНТИ И ДОВЪРШИТЕЛНИ РАБОТИ · СОФИЯ"}
+          </p>
+          <h1 id="home-hero-title" className="max-w-[660px] font-[Literata] text-[clamp(2.02rem,7.7vw,3.9rem)] font-normal leading-[1.12] tracking-[-0.045em] text-[#242A26] lg:text-[clamp(3.65rem,4.4vw,5.3rem)]">
+            {en ? (
+              <>Spaces finished with attention <span className="italic text-[#586854]">to every detail.</span></>
             ) : (
-              <>Пространства, завършени <span className="font-normal italic text-[#6A746B]" style={{ fontFamily: "'Literata', Georgia, serif" }}>с внимание към всеки детайл.</span></>
+              <>Пространства, завършени с внимание <span className="italic text-[#586854]">към всеки детайл.</span></>
             )}
           </h1>
-
-          <p className="mt-7 max-w-[520px] text-base leading-[1.75] text-muted-foreground md:mt-9 md:text-lg">
-            {isEn
-              ? "Complete apartment and house renovations in Sofia — from your first site visit and detailed quote to careful execution and handover."
-              : "Цялостни ремонти на апартаменти и къщи — от първия оглед и подробната оферта до прецизното изпълнение и предаването на обекта."}
+          <p className="mt-6 max-w-[440px] text-[14px] leading-[1.65] text-[#333C34] sm:mt-8 sm:text-base">
+            {en
+              ? "Complete renovations for apartments and houses — a clear process, attentive execution and one responsible team."
+              : "Цялостни ремонти на апартаменти и къщи — с ясен процес, контрол и прецизно изпълнение."}
           </p>
 
-          <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center md:mt-11">
-            <button
-              type="button"
-              onClick={openModal}
-              className="group inline-flex min-h-[52px] items-center justify-center gap-5 bg-foreground px-7 py-4 text-sm font-semibold text-background transition-colors duration-300 hover:bg-[#444D47] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6A746B]"
-            >
-              {isEn ? "Book a free site visit" : "Заяви безплатен оглед"}
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
-            </button>
-            <Link to="/portfolio" className="group inline-flex min-h-12 items-center gap-3 border-b border-foreground py-3 text-sm font-semibold text-foreground transition-colors hover:text-[#6A746B]">
-              {isEn ? "Explore projects" : "Разгледай проектите"}
+          <div className="mt-7 flex w-full max-w-[455px] flex-col items-stretch gap-3 sm:mt-9 sm:flex-row sm:items-center">
+            <button type="button" onClick={openModal} className="group inline-flex min-h-[49px] items-center justify-center gap-3 rounded-md bg-[#303D33] px-6 py-3 text-[13px] font-semibold text-white shadow-[0_7px_22px_rgba(27,45,31,0.12)] transition-transform duration-300 hover:-translate-y-0.5 hover:bg-[#425344] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#303D33]">
+              {en ? "Book a free site visit" : "Заяви безплатен оглед"}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </button>
+            <Link to="/portfolio" className="inline-flex min-h-[49px] items-center justify-center rounded-md border border-[#445044] bg-[#FAF9F6]/75 px-6 py-3 text-[13px] font-semibold text-[#303D33] backdrop-blur-sm transition-colors hover:bg-[#FAF9F6]">
+              {en ? "Explore projects" : "Разгледай проектите"}
             </Link>
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 gap-4 border-t border-border pt-7 text-[12px] leading-relaxed text-muted-foreground sm:grid-cols-3 lg:mt-16">
-            <div>{isEn ? "One responsible project lead" : "Един отговорен ръководител"}</div>
-            <div>{isEn ? "Detailed written estimate" : "Подробна писмена оферта"}</div>
-            <div>{isEn ? "Contracted scope & schedule" : "Договорен обхват и срокове"}</div>
           </div>
         </div>
 
-        <div className="relative flex min-h-[440px] flex-col lg:col-span-6 xl:col-span-7 lg:min-h-[640px]">
-          <div className="relative h-full min-h-[440px] overflow-hidden bg-[#E3DFD6]">
-            <img
-              src={heroBackground}
-              alt={isEn ? "Contemporary interior with architectural finishing details" : "Съвременен интериор с прецизни довършителни детайли"}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              width={1600}
-              height={1200}
-              sizes="(max-width: 1024px) 100vw, 58vw"
-              className="absolute inset-0 h-full w-full object-cover object-center"
-            />
-            <div className="absolute bottom-0 left-0 border-r border-t border-border bg-background/95 p-5 backdrop-blur-sm sm:p-7">
-              <p className="mb-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                {isEn ? "Renovivo / Design approach" : "Renovivo / Подход към детайла"}
-              </p>
-              <span className="text-sm font-medium tracking-tight text-foreground">
-                {isEn ? "Function, material, precision." : "Функция. Материал. Прецизност."}
-              </span>
-            </div>
-            <div className="absolute right-0 top-0 flex h-14 w-14 items-center justify-center bg-background/95 text-[#6A746B]" aria-hidden="true">
-              <ArrowDownRight className="h-6 w-6" />
-            </div>
+        <div className="absolute bottom-7 left-4 right-4 flex items-center justify-between sm:left-6 sm:right-6 lg:left-8 lg:right-8">
+          <div className="flex items-center gap-2.5 rounded-full bg-[#FAF9F6]/90 px-3.5 py-2.5 shadow-sm backdrop-blur-sm" role="group" aria-label={en ? "Hero image selection" : "Избор на основна снимка"}>
+            {heroImages.map((photo, index) => (
+              <button
+                type="button"
+                key={photo.src}
+                onClick={() => setActiveImage(index)}
+                aria-label={en ? "Image " + (index + 1) : "Снимка " + (index + 1)}
+                aria-pressed={activeImage === index}
+                className={"h-2 rounded-full transition-all duration-300 " + (activeImage === index ? "w-5 bg-[#586854]" : "w-2 bg-[#C6C8BD] hover:bg-[#7C887B]")}
+              />
+            ))}
           </div>
-          <p className="pt-3 text-right text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-            {isEn ? "Architecture-inspired renovation" : "Ремонт с архитектурно мислене"}
-          </p>
+          <a href="#services" className="grid h-10 w-10 place-items-center rounded-full border border-[#D6D7CD] bg-[#FAF9F6]/95 text-[#303D33] shadow-sm transition-transform hover:translate-y-1" aria-label={en ? "Explore services" : "Към услугите"}>
+            <ArrowDown className="h-5 w-5" aria-hidden="true" />
+          </a>
         </div>
       </div>
     </section>

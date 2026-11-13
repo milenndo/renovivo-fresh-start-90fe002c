@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import CookieBanner from "@/components/CookieBanner";
 import CookieSettingsModal from "@/components/CookieSettingsModal";
 import FloatingContact from "@/components/FloatingContact";
+import MobileActionBar from "@/components/layout/MobileActionBar";
 import { useCookieConsentContext } from "@/contexts/CookieConsentContext";
 import {
   hasAnalyticsConsent,
@@ -47,7 +48,7 @@ const Layout = ({ children }: LayoutProps) => {
   }, [preferences]);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col pb-[calc(68px+env(safe-area-inset-bottom))] md:pb-0">
       <Header />
       <main className="flex-grow">{children}</main>
       <Footer />
@@ -70,7 +71,8 @@ const Layout = ({ children }: LayoutProps) => {
         onSave={savePreferences}
       />
 
-      <FloatingContact />
+      <div className="hidden md:block"><FloatingContact /></div>
+      {!showBanner && !showSettings && <MobileActionBar />}
     </div>
   );
 };
