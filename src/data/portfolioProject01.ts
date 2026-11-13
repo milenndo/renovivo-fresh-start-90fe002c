@@ -20,7 +20,7 @@ export interface EditorialRoom {
 }
 
 const t = (bg:string,en:string):LocalizedCopy=>({bg,en});
-const img = (name:string)=>"/images/project-01/"+name+".webp";
+const img = (name:string)=>"/images/project-01/"+name+".jpg";
 
 export const renovationProject01 = {
   id:"apartment-01",
