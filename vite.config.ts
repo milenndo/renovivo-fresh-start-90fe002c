@@ -111,41 +111,11 @@ function seoAndAiFilesPlugin(routes: string[]): Plugin {
         `<?xml version="1.0" encoding="UTF-8"?>\n` +
         `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 
-      const llmsTxt = `# Renovivo (Реновиво) — ${SITE_URL}
-
-> Ремонтна компания в гр. София за цялостни ремонти до ключ от А до Я и довършителни работи от висок клас за апартаменти, къщи и инвестиционни имоти. Един отговорен технически ръководител, КСС оферта и договор с фиксирана цена и срок.
-
-## Контакти и локация
-- **Град:** София и Софийска област
-- **Телефон:** +359 89 371 2919
-- **Имейл:** office@renovivo.bg
-- **Ценови диапазон:** от 100 €/м² за труд при цялостни ремонти и довършителни работи
-
-## Водещи услуги с висок приоритет (Основен фокус)
-- [Цялостен ремонт на апартамент до ключ](${SITE_URL}/services/apartment-renovation): Пълно управление и изпълнение на ремонта от А до Я в София (ново строителство на шпакловка и замазка и старо строителство).
-- [Цялостни довършителни работи](${SITE_URL}/services/finishing-works): Довършване на имоти след Акт 14/15/16 до готов за живеене или отдаване под наем дом.
-- [Цялостен ремонт на къща](${SITE_URL}/services/house-renovation): Вътрешни и довършителни ремонти на къщи в София и околността.
-
-## Специализирани и иновативни услуги
-- [Интериорен дизайн](${SITE_URL}/services/interior-design)
-- [3D лазерно сканиране и заснемане](${SITE_URL}/3d-scanning)
-- [Изработка на мебели и кухни по поръчка](${SITE_URL}/services/custom-furniture)
-- [Микроцимент](${SITE_URL}/services/microcement)
-- [Терацо (Terrazzo) настилки](${SITE_URL}/services/terrazzo)
-- [Каменен килим (Stone Carpet)](${SITE_URL}/services/stone-carpet)
-- [Флейк настилки (Flake Floor)](${SITE_URL}/services/flake-floor)
-- [Умни инсталации (Smart Home)](${SITE_URL}/services/smart-installations)
-- [Гипсокартон и сухо строителство](${SITE_URL}/services/drywall-construction)
-
-## Всички индексирани страници и статии
-${routes.map((r) => `- ${SITE_URL}${r}`).join("\n")}
-`;
-
+      // Vite копира public/llms.txt в dist автоматично; не го презаписваме.
       try {
         fs.mkdirSync("dist", { recursive: true });
         fs.writeFileSync(path.join("dist", "sitemap.xml"), xml, "utf8");
-        fs.writeFileSync(path.join("dist", "llms.txt"), llmsTxt, "utf8");
-        console.log(`[SEO/AI] Записани dist/sitemap.xml (${routes.length} URL) и dist/llms.txt`);
+        console.log(`[SEO/AI] Записан dist/sitemap.xml (${routes.length} URL); llms.txt идва от public/`);
       } catch (e) {
         console.warn("[SEO/AI] грешка при запис:", e);
       }
