@@ -4,27 +4,16 @@ interface WordmarkProps {
   taglineClassName?: string;
 }
 
-/**
- * Renovivo wordmark. Capital gold "R" + lowercase letters that inherit
- * currentColor (white on dark backgrounds, black on light).
- * Tagline "Every Detail Matters" animates with a subtle shimmer.
- */
-const Wordmark = ({ className = "", showTagline = false, taglineClassName = "" }: WordmarkProps) => {
-  return (
-    <span className={`inline-flex flex-col items-center leading-none ${className}`}>
-      <span className="display-serif normal-case leading-none tracking-tight">
-        <span className="text-primary">R</span>
-        <span>enovivo</span>
+/** Monochrome brand mark; no metallic gradients or decorative shimmer. */
+const Wordmark = ({ className = "", showTagline = false, taglineClassName = "" }: WordmarkProps) => (
+  <span className={`inline-flex flex-col items-start leading-none ${className}`}>
+    <span className="font-semibold normal-case tracking-[-0.065em] leading-none">renovivo<span className="text-[#6A746B]">.</span></span>
+    {showTagline && (
+      <span className={`mt-1.5 text-[8px] sm:text-[9px] tracking-[0.22em] uppercase font-medium text-muted-foreground whitespace-nowrap ${taglineClassName}`}>
+        Every Detail Metters
       </span>
-      {showTagline && (
-        <span
-          className={`mt-1 text-[8px] sm:text-[9px] tracking-[0.35em] uppercase font-medium wordmark-tagline whitespace-nowrap pl-[0.35em] ${taglineClassName}`}
-        >
-          Every Detail Matters
-        </span>
-      )}
-    </span>
-  );
-};
+    )}
+  </span>
+);
 
 export default Wordmark;
