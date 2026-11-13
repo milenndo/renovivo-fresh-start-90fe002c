@@ -134,6 +134,7 @@ function seoAndAiFilesPlugin(routes: string[]): Plugin {
         server: { middlewareMode: true, hmr: false },
         appType: "custom",
         mode: "production",
+        ssr: { noExternal: ["react-helmet-async"] },
       });
       try {
         const { renderRoute } = await server.ssrLoadModule("/src/entry-server.tsx");
