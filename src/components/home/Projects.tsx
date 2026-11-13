@@ -17,8 +17,12 @@ const Projects = () => {
 
   const goTo = (index:number) => {
     const next=Math.max(0,Math.min(prioritized.length-1,index));
-    const item=rail.current?.children[next] as HTMLElement|undefined;
-    item?.scrollIntoView({behavior:"smooth",inline:"start",block:"nearest"});
+    const el=rail.current;
+    const item=el?.children[next] as HTMLElement|undefined;
+    if(el&&item) {
+      const left=item.getBoundingClientRect().left-el.getBoundingClientRect().left+el.scrollLeft;
+      el.scrollTo({left,behavior:"smooth"});
+    }
     setActive(next);
   };
   const onScroll = () => {
@@ -34,7 +38,7 @@ const Projects = () => {
       <div className="container-custom">
         <div className="mb-9 flex flex-col justify-between gap-6 md:mb-12 lg:flex-row lg:items-end">
           <div className="max-w-[700px]">
-            <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#475448]">{en?"PROJECTS / SPACES":"РЕАЛИЗИРАНИ ПРОЕКТИ"}</p>
+            <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#475448]">{en?"PROJECTS / INTERIORS":"ПРОЕКТИ / ИНТЕРИОРИ"}</p>
             <h2 className="renovivo-editorial text-[clamp(2rem,3.8vw,3.8rem)] leading-[1.15] text-[#212823]">
               {en?<>Quality is in <span className="italic text-[#586854]">the execution.</span></>:<>Качеството се вижда <span className="italic text-[#586854]">в изпълнението.</span></>}
             </h2>

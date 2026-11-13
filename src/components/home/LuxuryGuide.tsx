@@ -1,115 +1,44 @@
 import { useState } from "react";
-import { Download, BookOpen } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Download, ArrowUpRight, BookOpen } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import GuideDownloadDialog from "@/components/GuideDownloadDialog";
+import planningImage from "@/assets/images/blog/planning-renovation-2026.jpg";
 
+/** Existing lead magnet, restyled for the approved Renovivo editorial direction. */
 const LuxuryGuide = () => {
   const { language } = useLanguage();
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const copy = language === "en"
-    ? {
-        eyebrow: "Official document",
-        title: "Client Handbook",
-        lead: "Renovivo's standards for execution and project management. The official protocol for communication, financial transparency and expectations during the delivery of interior projects.",
-        bullets: [
-          "Construction stages and technological pauses",
-          "Bill of quantities (BoQ) and financial regulation",
-          "Change orders, payment schedule and handover",
-        ],
-        cta: "Download the handbook (PDF)",
-        note: "PDF · Email required",
-      }
-    : {
-        eyebrow: "Официален документ",
-        title: "Ръководство за възложителя",
-        lead: "Стандартите на Renovivo за изпълнение и управление на строителни процеси. Официален протокол за комуникация, финансова прозрачност и очаквания при реализацията на интериорни проекти.",
-        bullets: [
-          "Технологични етапи и строителна реалност",
-          "Количествено-стойностна сметка и финансов регламент",
-          "Промени, плащания и приемане на обекта",
-        ],
-        cta: "Изтеглете ръководството (PDF)",
-        note: "PDF · Изисква имейл",
-      };
-
+  const [open,setOpen] = useState(false);
+  const en = language === "en";
   return (
-    <section className="relative py-24 md:py-32 bg-background overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-      <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          {/* Left — dossier mock */}
-          <div className="lg:col-span-5">
-            <div className="relative mx-auto max-w-sm">
-              <div className="absolute -inset-4 bg-primary/10 rounded-sm rotate-[-2deg]" />
-              <div className="relative bg-foreground text-background p-10 aspect-[3/4] flex flex-col justify-between shadow-2xl border border-primary/30">
-                <div>
-                  <p className="text-[10px] tracking-[0.3em] text-primary font-semibold uppercase mb-8">
-                    Renovivo
-                  </p>
-                  <BookOpen className="h-8 w-8 text-primary mb-6" strokeWidth={1} />
-                  <h3 className="font-heading text-3xl leading-tight whitespace-pre-line">
-                    {language === "en" ? "Client\nHandbook" : "Ръководство\nза възложителя"}
-                  </h3>
-                </div>
-                <div>
-                  <div className="h-px bg-primary/40 mb-4" />
-                  <p className="text-[10px] tracking-[0.25em] text-background/60 uppercase">
-                    {language === "en" ? "Edition 01" : "Издание 01"}
-                  </p>
-                </div>
-              </div>
-            </div>
+    <section className="bg-[#F0EEE9] py-16 md:py-20">
+      <div className="container-custom grid overflow-hidden rounded-[9px] bg-[#FAF9F6] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div className="relative min-h-[225px] bg-[#DDD9CF] md:min-h-[360px]">
+          <img src={planningImage} alt={en?"Materials and architectural planning illustration":"Материали и скица за планиране на ремонта"} width={760} height={560} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover"/>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#253328]/60 to-transparent" aria-hidden="true"/>
+          <div className="absolute bottom-6 left-6 flex items-center gap-3 text-white">
+            <BookOpen className="h-7 w-7" strokeWidth={1.5} aria-hidden="true"/>
+            <span className="text-xs font-semibold uppercase tracking-[0.18em]">RENOVIVO / GUIDE</span>
           </div>
-
-          {/* Right — content */}
-          <div className="lg:col-span-7">
-            <p className="text-xs tracking-[0.3em] uppercase text-primary font-semibold mb-6">
-              {copy.eyebrow}
-            </p>
-            <h2 className="font-heading text-4xl md:text-5xl leading-[1.05] mb-6">
-              {copy.title}
-            </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl">
-              {copy.lead}
-            </p>
-
-            <ul className="space-y-3 mb-10 max-w-lg">
-              {copy.bullets.map((b) => (
-                <li key={b} className="flex items-start gap-4 border-t border-border/60 pt-3">
-                  <span className="text-primary font-heading text-sm mt-1">—</span>
-                  <span className="text-foreground/90">{b}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="flex flex-wrap items-center gap-6">
-              <Button
-                type="button"
-                onClick={() => setDialogOpen(true)}
-                size="lg"
-                className="group bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-none px-8 py-6 tracking-wider uppercase text-xs"
-              >
-                <Download className="h-4 w-4 mr-3 group-hover:translate-y-0.5 transition-transform" />
-                {copy.cta}
-              </Button>
-              <span className="text-xs text-muted-foreground tracking-wider uppercase">
-                {copy.note}
-              </span>
-            </div>
+        </div>
+        <div className="flex flex-col justify-center p-7 md:p-12">
+          <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#64715F]">{en?"PLAN YOUR PROJECT":"ПЛАНИРАЙТЕ СВОЯ ПРОЕКТ"}</p>
+          <h2 className="renovivo-editorial max-w-[540px] text-[clamp(2rem,3vw,3.25rem)] leading-[1.16] text-[#242A26]">
+            {en?<>A clear renovation <span className="italic text-[#586854]">starts with knowledge.</span></>:<>Добрият ремонт започва <span className="italic text-[#586854]">с ясна информация.</span></>}
+          </h2>
+          <p className="mt-5 max-w-[540px] text-sm leading-[1.75] text-[#5B615B]">
+            {en?"Download our client handbook covering renovation stages, schedules, costs and the handover process.":"Изтеглете ръководството за възложителя — етапи, срокове, КСС, плащания и приемане на обекта."}
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-5">
+            <button type="button" onClick={()=>setOpen(true)} className="inline-flex min-h-11 items-center gap-3 rounded-md bg-[#52614F] px-5 py-3 text-[13px] font-semibold text-white hover:bg-[#303D33]">
+              <Download className="h-4 w-4" aria-hidden="true"/>
+              {en?"Download the PDF handbook":"Изтегли ръководството (PDF)"}
+            </button>
+            <span className="inline-flex items-center gap-2 text-xs text-[#6A746B]">{en?"Email required":"Изисква имейл"} <ArrowUpRight className="h-3 w-3"/></span>
           </div>
         </div>
       </div>
-      <GuideDownloadDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+      <GuideDownloadDialog open={open} onOpenChange={setOpen}/>
     </section>
   );
 };
-
 export default LuxuryGuide;

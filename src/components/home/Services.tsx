@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -11,13 +11,31 @@ const Services = () => {
   const { language } = useLanguage();
   const en = language === "en";
   const rail = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
   const services = [
     { href:"/services/apartment-renovation", img:apartmentImg, bg:"Цялостен ремонт на апартамент", en:"Complete apartment renovation", key:"01" },
     { href:"/services/finishing-works", img:finishingImg, bg:"Довършителни работи", en:"Interior finishing works", key:"02" },
     { href:"/services/house-renovation", img:houseImg, bg:"Ремонт на къща", en:"House renovation", key:"03" },
     { href:"/services/bathroom", img:bathroomImg, bg:"Бани и специализирани решения", en:"Bathrooms and specialist finishes", key:"04" },
   ];
-  const move = (direction:number) => rail.current?.scrollBy({left: direction * Math.max(245, rail.current.clientWidth * 0.58),behavior:"smooth"});
+  const move = (direction:number) => {
+    const el=rail.current;
+    if(!el) return;
+    const next=Math.max(0,Math.min(services.length-1,active+direction));
+    const item=el.children[next] as HTMLElement|undefined;
+    if(!item) return;
+    // Direct offset scrolling is more reliable than relative scrollBy in nested carousels.
+    const left=item.getBoundingClientRect().left-el.getBoundingClientRect().left+el.scrollLeft;
+    el.scrollTo({left,behavior:"smooth"});
+    setActive(next);
+  };
+  const track = () => {
+    const el=rail.current;
+    const first=el?.children[0] as HTMLElement|undefined;
+    if(!el||!first) return;
+    const step=first.offsetWidth+12;
+    setActive(Math.max(0,Math.min(services.length-1,Math.round(el.scrollLeft/step))));
+  };
 
   return (
     <section id="services" className="overflow-hidden bg-[#FAF9F6] py-16 md:py-24">
@@ -46,6 +64,7 @@ const Services = () => {
               ref={rail}
               role="region"
               aria-label={en?"Swipeable service gallery":"Галерия с услуги, плъзнете настрани"}
+              onScroll={track}
               tabIndex={0}
               className="renovivo-rail -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-4 pb-2 scroll-smooth sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0"
             >
@@ -66,7 +85,7 @@ const Services = () => {
               ))}
             </div>
             <div className="mt-4 flex items-center justify-between lg:hidden">
-              <span className="text-[11px] tracking-[0.07em] text-[#6B7468]">{en?"Swipe to explore":"Плъзни за още услуги"}</span>
+              <span className="text-[11px] tracking-[0.07em] text-[#6B7468]">{en?"Swipe to explore":"Плъзни за още услуги"} · {String(active+1).padStart(2,"0")} / 04</span>
               <div className="flex items-center gap-2">
                 <button type="button" onClick={()=>move(-1)} aria-label={en?"Previous":"Назад"} className="grid h-10 w-10 place-items-center rounded-full border border-[#D8DAD1] bg-white text-[#425342]"><ChevronLeft className="h-5 w-5"/></button>
                 <button type="button" onClick={()=>move(1)} aria-label={en?"Next":"Напред"} className="grid h-10 w-10 place-items-center rounded-full border border-[#D8DAD1] bg-white text-[#425342]"><ChevronRight className="h-5 w-5"/></button>
