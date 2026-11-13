@@ -65,6 +65,7 @@ export default function ApartmentPlan({activeRoom,onRoomSelect,language="bg",cam
           <path d={'M '+px(4.1)+' '+pz(3.2)+' L '+px(3.18)+' '+pz(3.2)}/>
           <path d={'M '+px(5.6)+' '+pz(2.35)+' L '+px(6.49)+' '+pz(2.35)}/>
           <path d={'M '+px(5.6)+' '+pz(5.15)+' L '+px(6.49)+' '+pz(5.15)}/>
+          <path d={'M '+px(8.35)+' '+pz(5.45)+' L '+px(9.24)+' '+pz(5.45)}/>
         </g>
 
         {planLabels.map((room)=>{
