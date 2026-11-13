@@ -32,22 +32,7 @@ const staticRoutes = [
 ];
 
 // --- 1. Портфолио --------------------------------------------------------
-const portfolioRoutes = [
-  "terrazzo-living-room",
-  "flake-floor-terrace",
-  "stone-carpet-pool",
-  "microcement-entire-apartment",
-  "stone-carpet-balcony",
-  "modern-apartment-sofia",
-  "luxury-marble-bathroom",
-  "minimalist-white-kitchen",
-  "cozy-bedroom",
-  "spacious-living-room",
-  "microcement-bathroom",
-  "industrial-kitchen",
-  "center-apartment",
-  "modern-bedroom",
-].map((id) => `/portfolio/${id}`);
+const portfolioRoutes = ["/portfolio/apartment-01"];
 
 // --- 2. Локални статии ---------------------------------------------------
 const localBlogRoutes = [
