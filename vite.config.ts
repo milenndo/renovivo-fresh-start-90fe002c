@@ -129,7 +129,10 @@ function seoAndAiFilesPlugin(routes: string[], buildEnv: Record<string, string>)
       const template = fs.readFileSync(path.join("dist", "index.html"), "utf8");
       const server = await createServer({
         configFile: false,
-        plugins: [react()],
+        // The middleware SSR compiler uses esbuild production JSX runtime.
+        // SWC's serve-time transform otherwise emits jsxDEV into this build hook.
+        plugins: [],
+        esbuild: { jsx: "automatic", jsxDev: false, jsxImportSource: "react" },
         resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
         server: { middlewareMode: true, hmr: false },
         appType: "custom",
