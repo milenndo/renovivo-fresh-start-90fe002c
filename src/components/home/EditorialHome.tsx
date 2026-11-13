@@ -166,7 +166,7 @@ export default function EditorialHome() {
               {[0, 1, 2].map((offset) => {
                 const project = projects[(projectIndex + offset) % projects.length];
                 return (
-                  <Link to="/portfolio" key={project.image} className={"group relative overflow-hidden rounded-[5px] " + (offset > 0 ? "max-[380px]:hidden" : "")}>
+                  <Link to="/portfolio" key={project.image} className="group relative overflow-hidden rounded-[5px]">
                     <img src={project.image} alt="" width="800" height="580" loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 to-transparent px-3 pb-3 pt-12 text-white">
                       <p className="text-[10px] font-medium leading-snug md:text-[12px]">{en ? project.en : project.bg}</p>
