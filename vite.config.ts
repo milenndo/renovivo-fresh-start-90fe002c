@@ -127,6 +127,10 @@ function seoAndAiFilesPlugin(routes: string[], buildEnv: Record<string, string>)
         ...staticRoutes, ...portfolioRoutes, ...localBlogRoutes,
       ]));
       const template = fs.readFileSync(path.join("dist", "index.html"), "utf8");
+      // vite build runs with NODE_ENV=production, whereas the embedded dev
+      // SSR loader emits jsxDEV; keep React JSX runtime consistent temporarily.
+      const previousNodeEnv = process.env.NODE_ENV;
+      process.env.NODE_ENV = "development";
       const server = await createServer({
         configFile: false,
         // The middleware SSR compiler uses esbuild production JSX runtime.
@@ -182,6 +186,7 @@ function seoAndAiFilesPlugin(routes: string[], buildEnv: Record<string, string>)
         console.log("[Prerender] Wrote " + prerenderRoutes.length + " route HTML documents");
       } finally {
         await server.close();
+        process.env.NODE_ENV = previousNodeEnv;
       }
     },
   };
