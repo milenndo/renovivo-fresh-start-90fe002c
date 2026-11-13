@@ -30,7 +30,7 @@ const AboutPage = () => {
     mainEntity: {
       "@type": "Organization",
       name: "Renovivo",
-      foundingDate: "2025",
+      foundingDate: "2024",
       slogan: language === 'bg' ? "Ремонт без хаос. Само спокойствие." : "Renovation without chaos. Just peace of mind.",
     },
   };
@@ -71,53 +71,42 @@ const AboutPage = () => {
       </Helmet>
       <Layout>
         {/* Hero */}
-        <section className="relative py-20 bg-foreground">
+        <section className="relative py-20 bg-[#F0EEE9]">
           <div className="container-custom relative z-10">
             {/* Breadcrumb */}
             <VisualBreadcrumb 
               items={[{ label: t('aboutPage.breadcrumb') }]} 
-              className="mb-6 [&_a]:text-background/70 [&_a:hover]:text-primary [&_span[role=link]]:text-background [&_svg]:text-background/50"
+              className="mb-6"
             />
             <div className="max-w-3xl">
               <span className="text-primary font-medium text-sm uppercase tracking-wider">{t('aboutPage.hero.label')}</span>
-              <h1 className="text-3xl md:text-4xl font-bold text-background mt-3 mb-6">
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-3 mb-6">
                 {t('aboutPage.hero.title')}
               </h1>
-              <p className="text-background/90 text-lg leading-relaxed mb-4">
+              <p className="text-muted-foreground text-lg leading-relaxed mb-4">
                 {t('aboutPage.hero.p1')}
               </p>
-              <p className="text-background/80 text-lg leading-relaxed font-medium">
+              <p className="text-muted-foreground text-lg leading-relaxed font-medium">
                 {t('aboutPage.hero.p2')}
               </p>
             </div>
           </div>
         </section>
 
-        {/* Trust Stats */}
-        <section className="py-12 bg-secondary/30">
-          <div className="container-custom">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div className="flex flex-col items-center">
-                <div className="flex items-center gap-2 mb-2">
-                  <CheckCircle2 className="h-6 w-6 text-primary" />
-                  <span className="text-3xl font-bold text-primary">127</span>
-                </div>
-                <p className="text-muted-foreground text-sm font-medium">{t('aboutPage.stats.projects')}</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="flex items-center gap-2 mb-2">
-                  <Award className="h-6 w-6 text-primary" />
-                  <span className="text-3xl font-bold text-primary">94%</span>
-                </div>
-                <p className="text-muted-foreground text-sm font-medium">{t('aboutPage.stats.recommend')}</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="flex items-center gap-2 mb-2">
-                  <Shield className="h-6 w-6 text-primary" />
-                  <span className="text-3xl font-bold text-primary">{language === 'bg' ? '2 години' : '2 years'}</span>
-                </div>
-                <p className="text-muted-foreground text-sm font-medium">{t('aboutPage.stats.warranty')}</p>
-              </div>
+        {/* Verified operational commitments instead of unverified marketing statistics */}
+        <section className="border-y border-border bg-background py-10">
+          <div className="container-custom grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#6A746B]" aria-hidden="true" />
+              <div><strong className="block text-foreground">{language === "bg" ? "Един отговорен ръководител" : "One project lead"}</strong><p className="mt-1 text-sm text-muted-foreground">{language === "bg" ? "Ясна организация и комуникация" : "Clear organization and communication"}</p></div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Award className="mt-0.5 h-5 w-5 shrink-0 text-[#6A746B]" aria-hidden="true" />
+              <div><strong className="block text-foreground">{language === "bg" ? "Подробна писмена оферта" : "Detailed written quote"}</strong><p className="mt-1 text-sm text-muted-foreground">{language === "bg" ? "Обхват, количества и условия" : "Scope, quantities and agreed terms"}</p></div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Shield className="mt-0.5 h-5 w-5 shrink-0 text-[#6A746B]" aria-hidden="true" />
+              <div><strong className="block text-foreground">{language === "bg" ? "Гаранция по договор" : "Contractual warranty"}</strong><p className="mt-1 text-sm text-muted-foreground">{language === "bg" ? "Посоченият на сайта срок е две години" : "The published term is two years"}</p></div>
             </div>
           </div>
         </section>
@@ -215,18 +204,18 @@ const AboutPage = () => {
         <section className="section-padding bg-foreground text-background">
           <div className="container-custom text-center">
             <div className="max-w-2xl mx-auto">
-              <Heart className="h-10 w-10 text-primary mx-auto mb-6" />
+              <Heart className="h-10 w-10 text-[#D6DBD6] mx-auto mb-6" />
               <p className="text-background/70 text-base mb-4 leading-relaxed">
                 {t('aboutPage.cta.p1')}
               </p>
-              <h2 className="text-3xl md:text-5xl font-bold mb-8 text-primary">
+              <h2 className="text-3xl md:text-5xl font-bold mb-8 text-background">
                 {t('aboutPage.cta.title')}
               </h2>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button
                   size="lg"
                   onClick={openModal}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg px-8 py-6"
+                  className="bg-background text-foreground hover:bg-background/90 font-semibold text-lg px-8 py-6"
                 >
                   <Phone className="h-5 w-5 mr-2" />
                   {t('aboutPage.cta.button')}
