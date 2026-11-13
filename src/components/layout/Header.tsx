@@ -50,7 +50,7 @@ export default function Header() {
             );
           })}
         </nav>
-        <a href="tel:+359893712919" className="ml-4 hidden shrink-0 items-center gap-2 whitespace-nowrap text-[11px] font-semibold text-[#273128] xl:inline-flex" aria-label={en ? "Call Renovivo" : "Обадете се на Renovivo"}>
+        <a href="tel:+359893712919" className="ml-2 hidden shrink-0 items-center gap-2 whitespace-nowrap text-[10px] font-semibold text-[#273128] lg:inline-flex xl:text-[11px]" aria-label={en ? "Call Renovivo" : "Обадете се на Renovivo"}>
           <Phone className="h-4 w-4" strokeWidth={1.65} /> +359 89 371 29 19
         </a>
         <button type="button" onClick={openModal} className="hidden min-h-[37px] shrink-0 items-center gap-2 rounded-[5px] bg-[#50614E] px-4 text-[11px] font-semibold text-white transition-colors hover:bg-[#303F33] lg:inline-flex">
