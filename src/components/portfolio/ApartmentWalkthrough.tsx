@@ -100,7 +100,8 @@ export default function ApartmentWalkthrough({language="bg",initialZone,onZoneCh
     pose.current=position;setVisiblePose(position);setActiveZone(id);
     onZoneChange?.(id);
   };
-  useEffect(()=>{if(initialZone)navigateTo(initialZone);},[initialZone]);
+  // External selections move the camera; walking across a room boundary must NOT teleport it.
+  useEffect(()=>{if(initialZone && initialZone!==activeZone)navigateTo(initialZone);},[initialZone]);
 
   useEffect(()=>{
     const el=canvas.current;
