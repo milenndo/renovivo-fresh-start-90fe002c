@@ -29,7 +29,6 @@ const Hero = () => {
           alt={heroImages[activeImage].bgAlt}
           width={1920}
           height={1080}
-          fetchPriority={activeImage === 0 ? "high" : "auto"}
           loading={activeImage === 0 ? "eager" : "lazy"}
           decoding="async"
           className="h-full w-full animate-fade-in object-cover object-[62%_center] sm:object-[56%_center] lg:object-[center_48%]"
