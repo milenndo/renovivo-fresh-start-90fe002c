@@ -27,10 +27,10 @@ const services = [
   { bg: "Бани и специализирани решения", en: "Bathrooms and specialist finishes", image: bathroomImage, path: "/services/bathroom", number: "04", icon: ShieldCheck },
 ] as const;
 const projects = [
-  { image: projectLiving, bg: "Апартамент · интериорен детайл", en: "Apartment · interior detail" },
-  { image: projectBathroom, bg: "Баня · текстури и материали", en: "Bathroom · finishes and materials" },
-  { image: projectBedroom, bg: "Спалня · мек минимализъм", en: "Bedroom · quiet minimalism" },
-  { image: projectKitchen, bg: "Кухня · съвременен дизайн", en: "Kitchen · contemporary design" },
+  { image: projectLiving, bg: "Проект 01 · дневна", en: "Concept 01 · living room" },
+  { image: projectBathroom, bg: "Проект 01 · баня", en: "Concept 01 · bathroom" },
+  { image: projectBedroom, bg: "Проект 01 · спалня", en: "Concept 01 · bedroom" },
+  { image: projectKitchen, bg: "Проект 01 · кухня", en: "Concept 01 · kitchen" },
 ] as const;
 
 /**
@@ -152,21 +152,21 @@ export default function EditorialHome() {
       <section id="projects" className="border-y border-[#E7E4DC] bg-[#F6F4F0] py-10 md:py-12">
         <div className="container-custom lg:grid lg:grid-cols-[minmax(225px,0.83fr)_minmax(0,2.2fr)] lg:gap-10">
           <div className="mb-5">
-            <p className="rv-kicker mb-3">{en ? "SELECTED INTERIORS" : "ПРОЕКТИ И ИНТЕРИОРИ"}</p>
+            <p className="rv-kicker mb-3">{en ? "APARTMENT CONCEPT 01" : "ПРОЕКТ 01 / ЦЯЛОСТЕН РЕМОНТ"}</p>
             <h2 className="rv-heading-serif text-[clamp(1.75rem,3.3vw,3.05rem)] leading-[1.12] text-[#232A24]">
-              {en ? <>Quality shows <em>in the details.</em></> : <>Качеството се вижда <em>в изпълнението.</em></>}
+              {en ? <>One home, <em>one complete vision.</em></> : <>Един апартамент. <em>Една цялостна история.</em></>}
             </h2>
             <p className="mt-4 max-w-[280px] text-[12px] leading-[1.65] text-[#4A5149] md:text-[14px]">
-              {en ? "Explore spaces, materials and finishing solutions in our selection." : "Вижте пространства, материали и решения, подбрани като визуални примери."}
+              {en ? "Explore the same apartment room by room, with an architectural plan and a navigable walkthrough." : "Разгледайте един апартамент по помещения, с архитектурен план и виртуална разходка."}
             </p>
-            <Link to="/portfolio" className="rv-text-link mt-5">{en ? "View all projects" : "Всички проекти"} <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/portfolio/apartment-01" className="rv-text-link mt-5">{en ? "Explore the apartment" : "Разгледай апартамента"} <ArrowRight className="h-4 w-4" /></Link>
           </div>
           <div className="min-w-0">
             <div className="grid h-[216px] grid-cols-[2fr_1fr_1fr] gap-2 sm:h-[275px] md:h-[330px] lg:h-[315px]">
               {[0, 1, 2].map((offset) => {
                 const project = projects[(projectIndex + offset) % projects.length];
                 return (
-                  <Link to="/portfolio" key={project.image} className="group relative overflow-hidden rounded-[5px]">
+                  <Link to="/portfolio/apartment-01" key={project.image} className="group relative overflow-hidden rounded-[5px]">
                     <img src={project.image} alt="" width="800" height="580" loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 to-transparent px-3 pb-3 pt-12 text-white">
                       <p className="text-[10px] font-medium leading-snug md:text-[12px]">{en ? project.en : project.bg}</p>
