@@ -41,12 +41,12 @@ const Index = () => {
       <Layout>
         <Hero />
         <PeaceOfMind />
-        <Services />
-        <About />
         <Projects />
-        <WhyUs />
+        <Services />
         <HowWeWork />
         <BespokeEstimator />
+        <About />
+        <WhyUs />
         <LuxuryGuide />
         <BlogPreview />
         <CTA />
