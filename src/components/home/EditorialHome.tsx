@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
-const heroImage = "/images/home/hero-apartment.jpg";
+const heroImage = "/images/home/project-living.jpg";
 const apartmentImage = "/images/home/service-apartment.jpg";
 const finishingImage = "/images/home/service-finish.jpg";
 const houseImage = "/images/home/service-house.jpg";
@@ -46,7 +46,7 @@ export default function EditorialHome() {
   const serviceRail = useRef<HTMLDivElement>(null);
   const [projectIndex, setProjectIndex] = useState(0);
   const [heroIndex, setHeroIndex] = useState(0);
-  const heroPhotos = [heroImage, projectLiving, projectKitchen];
+  const heroPhotos = [heroImage, projectKitchen, houseImage];
 
   const assurances = [
     { Icon: UserRound, bg: "Един отговорен ръководител", en: "One accountable lead" },
