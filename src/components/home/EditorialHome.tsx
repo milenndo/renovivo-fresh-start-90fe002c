@@ -12,10 +12,7 @@ const apartmentImage = "/images/home/service-apartment.jpg";
 const finishingImage = "/images/home/service-finish.jpg";
 const houseImage = "/images/home/service-house.jpg";
 const bathroomImage = "/images/home/service-bath.jpg";
-const projectLiving = "/images/home/project-living.jpg";
 const projectKitchen = "/images/home/project-kitchen.jpg";
-const projectBathroom = "/images/home/project-bath.jpg";
-const projectBedroom = "/images/home/project-bedroom.jpg";
 const craftDetail = "/images/home/craft.webp";
 const workPhoto = "/images/home/team.jpg";
 const budgetPhoto = "/images/home/budget.jpg";
@@ -25,12 +22,6 @@ const services = [
   { bg: "Довършителни работи", en: "Interior finishing works", image: finishingImage, path: "/services/finishing-works", number: "02", icon: HardHat },
   { bg: "Ремонт на къща", en: "House renovation", image: houseImage, path: "/services/house-renovation", number: "03", icon: Home },
   { bg: "Бани и специализирани решения", en: "Bathrooms and specialist finishes", image: bathroomImage, path: "/services/bathroom", number: "04", icon: ShieldCheck },
-] as const;
-const projects = [
-  { image: projectLiving, bg: "Проект 01 · дневна", en: "Concept 01 · living room" },
-  { image: projectBathroom, bg: "Проект 01 · баня", en: "Concept 01 · bathroom" },
-  { image: projectBedroom, bg: "Проект 01 · спалня", en: "Concept 01 · bedroom" },
-  { image: projectKitchen, bg: "Проект 01 · кухня", en: "Concept 01 · kitchen" },
 ] as const;
 
 /**
@@ -44,7 +35,6 @@ export default function EditorialHome() {
   const { openModal } = useInspectionRequest();
   const en = language === "en";
   const serviceRail = useRef<HTMLDivElement>(null);
-  const [projectIndex, setProjectIndex] = useState(0);
   const [heroIndex, setHeroIndex] = useState(0);
   const heroPhotos = [heroImage, projectKitchen, houseImage];
 
@@ -158,18 +148,18 @@ export default function EditorialHome() {
             </h2>
             <p className="mt-4 max-w-[320px] text-[12px] leading-[1.7] text-[#4A5149] md:text-[14px]">
               {en
-                ? "Instead of unrelated kitchens and bathrooms, explore a coherent apartment renovation concept — every room, floor plan and an interactive walkthrough."
-                : "Без отделни кухни и бани, представени като цели проекти. Разгледайте концепцията за един апартамент — всяко помещение, архитектурен план и виртуална разходка."}
+                ? "Discover one complete apartment — from the first renovation steps to the finished rooms. A practical story, not a collection of unrelated spaces."
+                : "Един цялостен ремонт, разказан последователно — подготовка, етапи на работа и всяко помещение в завършения дом."}
             </p>
-            <Link to="/portfolio/apartment-01" className="rv-text-link mt-5">{en?"Explore Project 01":"Разгледай Проект 01"} <ArrowRight className="h-4 w-4"/></Link>
+            <Link to="/portfolio/apartment-01" className="rv-text-link mt-5">{en?"View the apartment":"Разгледай апартамента"} <ArrowRight className="h-4 w-4"/></Link>
           </div>
           <Link to="/portfolio/apartment-01" className="group relative block min-h-[270px] overflow-hidden rounded-[7px] bg-[#D5D6CB] md:min-h-[350px]">
             <img src="/images/project-01/overview.jpg" alt={en?"Apartment renovation interior concept":"Концепция за цялостен ремонт на апартамент"} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"/>
             <div className="absolute inset-0 bg-gradient-to-t from-[#17241B]/75 via-transparent to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-4 p-5 text-white md:p-7">
-              <div><p className="mb-2 text-[10px] font-semibold tracking-[.17em] text-white/80">{en?"PROJECT 01 / CONCEPT":"ПРОЕКТ 01 / КОНЦЕПЦИЯ"}</p>
+              <div><p className="mb-2 text-[10px] font-semibold tracking-[.17em] text-white/80">{en?"APARTMENT CONCEPT":"ПРИМЕРЕН АПАРТАМЕНТ"}</p>
                 <h3 className="rv-heading-serif text-[clamp(1.35rem,2.5vw,2.5rem)] leading-[1.16]">{en?"Light-filled city apartment":"Светъл градски апартамент"}</h3>
-                <p className="mt-2 text-[11px] text-white/80">{en?"Room gallery · Floor plan · Walkthrough":"Галерия · Архитектурен план · Виртуална разходка"}</p></div>
+                <p className="mt-2 text-[11px] text-white/80">{en?"Renovation stages · Rooms · Details":"Етапи на ремонта · Помещения · Детайли"}</p></div>
               <ArrowUpRight className="h-6 w-6 shrink-0" />
             </div>
           </Link>
