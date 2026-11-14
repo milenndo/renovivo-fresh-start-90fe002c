@@ -12,10 +12,7 @@ const apartmentImage = "/images/home/service-apartment.jpg";
 const finishingImage = "/images/home/service-finish.jpg";
 const houseImage = "/images/home/service-house.jpg";
 const bathroomImage = "/images/home/service-bath.jpg";
-const projectLiving = "/images/home/project-living.jpg";
 const projectKitchen = "/images/home/project-kitchen.jpg";
-const projectBathroom = "/images/home/project-bath.jpg";
-const projectBedroom = "/images/home/project-bedroom.jpg";
 const craftDetail = "/images/home/craft.webp";
 const workPhoto = "/images/home/team.jpg";
 const budgetPhoto = "/images/home/budget.jpg";
@@ -25,12 +22,6 @@ const services = [
   { bg: "Довършителни работи", en: "Interior finishing works", image: finishingImage, path: "/services/finishing-works", number: "02", icon: HardHat },
   { bg: "Ремонт на къща", en: "House renovation", image: houseImage, path: "/services/house-renovation", number: "03", icon: Home },
   { bg: "Бани и специализирани решения", en: "Bathrooms and specialist finishes", image: bathroomImage, path: "/services/bathroom", number: "04", icon: ShieldCheck },
-] as const;
-const projects = [
-  { image: projectLiving, bg: "Апартамент · интериорен детайл", en: "Apartment · interior detail" },
-  { image: projectBathroom, bg: "Баня · текстури и материали", en: "Bathroom · finishes and materials" },
-  { image: projectBedroom, bg: "Спалня · мек минимализъм", en: "Bedroom · quiet minimalism" },
-  { image: projectKitchen, bg: "Кухня · съвременен дизайн", en: "Kitchen · contemporary design" },
 ] as const;
 
 /**
@@ -44,7 +35,6 @@ export default function EditorialHome() {
   const { openModal } = useInspectionRequest();
   const en = language === "en";
   const serviceRail = useRef<HTMLDivElement>(null);
-  const [projectIndex, setProjectIndex] = useState(0);
   const [heroIndex, setHeroIndex] = useState(0);
   const heroPhotos = [heroImage, projectKitchen, houseImage];
 
@@ -149,43 +139,30 @@ export default function EditorialHome() {
         </div>
       </section>
 
-      <section id="projects" className="border-y border-[#E7E4DC] bg-[#F6F4F0] py-10 md:py-12">
-        <div className="container-custom lg:grid lg:grid-cols-[minmax(225px,0.83fr)_minmax(0,2.2fr)] lg:gap-10">
-          <div className="mb-5">
-            <p className="rv-kicker mb-3">{en ? "SELECTED INTERIORS" : "ПРОЕКТИ И ИНТЕРИОРИ"}</p>
-            <h2 className="rv-heading-serif text-[clamp(1.75rem,3.3vw,3.05rem)] leading-[1.12] text-[#232A24]">
-              {en ? <>Quality shows <em>in the details.</em></> : <>Качеството се вижда <em>в изпълнението.</em></>}
+      <section id="projects" className="border-y border-[#E7E4DC] bg-[#F6F4F0] py-10 md:py-14">
+        <div className="container-custom grid gap-7 lg:grid-cols-[minmax(240px,0.83fr)_minmax(0,2.2fr)] lg:items-center lg:gap-10">
+          <div>
+            <p className="rv-kicker mb-3">{en ? "OUR APARTMENT PROJECTS" : "ЦЯЛОСТНИ РЕМОНТИ / ПРОЕКТИ"}</p>
+            <h2 className="rv-heading-serif text-[clamp(1.75rem,3.3vw,3.2rem)] leading-[1.12] text-[#232A24]">
+              {en ? <>One home. <em>The complete story.</em></> : <>Един апартамент. <em>Цялата история.</em></>}
             </h2>
-            <p className="mt-4 max-w-[280px] text-[12px] leading-[1.65] text-[#4A5149] md:text-[14px]">
-              {en ? "Explore spaces, materials and finishing solutions in our selection." : "Вижте пространства, материали и решения, подбрани като визуални примери."}
+            <p className="mt-4 max-w-[320px] text-[12px] leading-[1.7] text-[#4A5149] md:text-[14px]">
+              {en
+                ? "Discover one complete apartment — from the first renovation steps to the finished rooms. A practical story, not a collection of unrelated spaces."
+                : "Един цялостен ремонт, разказан последователно — подготовка, етапи на работа и всяко помещение в завършения дом."}
             </p>
-            <Link to="/portfolio" className="rv-text-link mt-5">{en ? "View all projects" : "Всички проекти"} <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/portfolio/apartment-01" className="rv-text-link mt-5">{en?"View the apartment":"Разгледай апартамента"} <ArrowRight className="h-4 w-4"/></Link>
           </div>
-          <div className="min-w-0">
-            <div className="grid h-[216px] grid-cols-[2fr_1fr_1fr] gap-2 sm:h-[275px] md:h-[330px] lg:h-[315px]">
-              {[0, 1, 2].map((offset) => {
-                const project = projects[(projectIndex + offset) % projects.length];
-                return (
-                  <Link to="/portfolio" key={project.image} className="group relative overflow-hidden rounded-[5px]">
-                    <img src={project.image} alt="" width="800" height="580" loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 to-transparent px-3 pb-3 pt-12 text-white">
-                      <p className="text-[10px] font-medium leading-snug md:text-[12px]">{en ? project.en : project.bg}</p>
-                    </div>
-                    {offset === 0 && <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-[#F8F7F2]/85 text-[#344034]"><ArrowUpRight className="h-4 w-4" /></span>}
-                  </Link>
-                );
-              })}
+          <Link to="/portfolio/apartment-01" className="group relative block min-h-[270px] overflow-hidden rounded-[7px] bg-[#D5D6CB] md:min-h-[350px]">
+            <img src="/images/project-01/overview.jpg" alt={en?"Apartment renovation interior concept":"Концепция за цялостен ремонт на апартамент"} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"/>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#17241B]/75 via-transparent to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-4 p-5 text-white md:p-7">
+              <div><p className="mb-2 text-[10px] font-semibold tracking-[.17em] text-white/80">{en?"APARTMENT CONCEPT":"ПРИМЕРЕН АПАРТАМЕНТ"}</p>
+                <h3 className="rv-heading-serif text-[clamp(1.35rem,2.5vw,2.5rem)] leading-[1.16]">{en?"Light-filled city apartment":"Светъл градски апартамент"}</h3>
+                <p className="mt-2 text-[11px] text-white/80">{en?"Renovation stages · Rooms · Details":"Етапи на ремонта · Помещения · Детайли"}</p></div>
+              <ArrowUpRight className="h-6 w-6 shrink-0" />
             </div>
-            <div className="mt-3 flex items-center justify-between">
-              <div className="flex items-center gap-1.5" aria-label={en ? "Project selection" : "Избор на проект"}>
-                {projects.map((item, index) => <button key={item.image} type="button" onClick={() => setProjectIndex(index)} className={"h-[6px] rounded-full transition-all " + (projectIndex === index ? "w-5 bg-[#596956]" : "w-[6px] bg-[#CACDC5]")} aria-label={en ? "Project " + (index + 1) : "Проект " + (index + 1)} aria-pressed={projectIndex === index} />)}
-              </div>
-              <div className="flex gap-2">
-                <button type="button" className="rv-round-button" onClick={() => setProjectIndex((projectIndex + projects.length - 1) % projects.length)} aria-label={en ? "Previous project" : "Предишен проект"}><ChevronLeft className="h-4 w-4" /></button>
-                <button type="button" className="rv-round-button" onClick={() => setProjectIndex((projectIndex + 1) % projects.length)} aria-label={en ? "Next project" : "Следващ проект"}><ChevronRight className="h-4 w-4" /></button>
-              </div>
-            </div>
-          </div>
+          </Link>
         </div>
       </section>
 

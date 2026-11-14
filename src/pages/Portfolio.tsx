@@ -1,151 +1,58 @@
-import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { Eye } from "lucide-react";
+import { ArrowRight, Home } from "lucide-react";
 import Layout from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { getProjects, getCategories } from "@/data/projects";
-import VisualBreadcrumb from "@/components/VisualBreadcrumb";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { renovationProject01 as project, localText as tr } from "@/data/portfolioProject01";
 
-const PortfolioPage = () => {
-  const { t, language } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState("all");
-
-  const projects = getProjects(language);
-  const categories = getCategories(language);
-
-  const filteredProjects = activeCategory === "all"
-    ? projects
-    : projects.filter(p => p.categoryId === activeCategory);
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": t('breadcrumb.home'), "item": "https://renovivo.bg" },
-      { "@type": "ListItem", "position": 2, "name": t('portfolio.page.title'), "item": "https://renovivo.bg/portfolio" }
-    ]
-  };
-
-  const gallerySchema = {
-    "@context": "https://schema.org",
-    "@type": "ImageGallery",
-    "name": language === 'bg' ? "Renovivo Портфолио - Завършени ремонти в София" : "Renovivo Portfolio - Completed Renovations in Sofia",
-    "description": language === 'bg' ? "Галерия със завършени ремонтни проекти - бани, кухни, апартаменти" : "Gallery of completed renovation projects - bathrooms, kitchens, apartments",
-    "numberOfItems": projects.length
-  };
-
+export default function PortfolioPage() {
+  const { language } = useLanguage();
+  const en = language === "en";
   return (
     <>
       <Helmet>
-        <title>{language === 'bg' ? 'Портфолио | Renovivo - Завършени ремонти София' : 'Portfolio | Renovivo - Completed Renovations Sofia'}</title>
-        <meta
-          name="description"
-          content={language === 'bg'
-            ? "Разгледайте 127 завършени ремонти в София - бани, кухни, апартаменти. Снимки преди и след ремонт."
-            : "Browse 127 completed renovations in Sofia - bathrooms, kitchens, apartments. Before and after photos."
-          }
-        />
-        <link rel="canonical" href="https://renovivo.bg/portfolio" />
-        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(gallerySchema)}</script>
+        <title>{en ? "Complete apartment renovations | RENOVIVO" : "Цялостни ремонти на апартаменти | RENOVIVO"}</title>
+        <meta name="description" content={en
+          ? "Explore a complete apartment renovation story — from preparation to the finished interior, room by room."
+          : "Портфолио на RENOVIVO — цялостни ремонти на апартаменти, процеси, довършителни дейности и помещения."} />
+        <link rel="canonical" href="https://renovivo.bg/portfolio"/>
       </Helmet>
       <Layout>
-        {/* Hero */}
-        <section className="relative py-20 bg-foreground">
-          <div className="container-custom relative z-10">
-            <VisualBreadcrumb
-              items={[{ label: t('portfolio.page.title') }]}
-              className="mb-6 [&_a]:text-background/70 [&_a:hover]:text-primary [&_span[role=link]]:text-background [&_svg]:text-background/50"
-            />
-            <div className="max-w-2xl">
-              <span className="text-primary font-medium text-sm uppercase tracking-wider">{t('portfolio.page.title')}</span>
-              <h1 className="text-4xl md:text-5xl font-bold text-background mt-3 mb-6">
-                {t('portfolio.page.subtitle')}
-              </h1>
-              <p className="text-background/80 text-lg">
-                {t('portfolio.page.description')}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Filters */}
-        <section className="py-8 border-b sticky top-[72px] bg-background z-40">
-          <div className="container-custom">
-            <div className="flex flex-wrap gap-2">
-              <Button
-                variant={activeCategory === "all" ? "default" : "outline"}
-                className={activeCategory === "all" ? "bg-primary text-primary-foreground" : ""}
-                onClick={() => setActiveCategory("all")}
-              >
-                {t('portfolio.filter.all')}
-              </Button>
-              {categories.filter(c => c.id !== "all").map((category) => (
-                <Button
-                  key={category.id}
-                  variant={activeCategory === category.id ? "default" : "outline"}
-                  className={activeCategory === category.id ? "bg-primary text-primary-foreground" : ""}
-                  onClick={() => setActiveCategory(category.id)}
-                >
-                  {category.name}
-                </Button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Gallery */}
-        <section className="section-padding">
-          <div className="container-custom">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project) => (
-                <Link
-                  key={project.id}
-                  to={`/portfolio/${project.id}`}
-                  className="group relative overflow-hidden rounded-xl aspect-[4/3]"
-                >
-                  <img
-                    src={project.mainImage}
-                    alt={project.title}
-                    width={600}
-                    height={450}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
-
-                  <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                    <span className="text-primary text-sm font-medium mb-2">
-                      {project.category}
-                    </span>
-                    <h3 className="text-background text-xl font-semibold group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-background/70 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {project.location} • {project.area}
-                    </p>
-                  </div>
-
-                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-primary/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-                    <Eye className="h-5 w-5 text-primary-foreground" />
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {filteredProjects.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground">{t('portfolio.page.noResults')}</p>
+        <main className="bg-[#FAF9F6] text-[#273229]">
+          <section className="border-b border-[#E7E6DE] py-12 md:py-20">
+            <div className="container-custom">
+              <Link to="/" className="mb-9 inline-flex items-center gap-2 text-xs font-medium text-[#566951] hover:underline"><Home size={15}/>{en ? "Home" : "Начало"} <span className="opacity-50">/</span> {en ? "Portfolio" : "Портфолио"}</Link>
+              <div className="max-w-[790px]">
+                <p className="rv-kicker mb-4">{en ? "COMPLETE APARTMENT RENOVATIONS" : "ЦЯЛОСТНИ РЕМОНТИ НА АПАРТАМЕНТИ"}</p>
+                <h1 className="rv-heading-serif text-[clamp(2.35rem,5vw,4.9rem)] leading-[1.1]">{en?<>Our <em>portfolio.</em></>:<>Нашето <em>портфолио.</em></>}</h1>
+                <p className="mt-5 max-w-[640px] text-[14px] leading-[1.85] text-[#586459] md:text-[15px]">{en
+                  ? "Each apartment has its own story. We present the renovation as a whole: preparation, construction stages, finishing work and the rooms in their natural order."
+                  : "Всеки апартамент има собствена история. Представяме целия ремонт — от подготовката и строителните етапи до довършителните работи и всяко отделно помещение."}</p>
               </div>
-            )}
-          </div>
-        </section>
+            </div>
+          </section>
+
+          <section className="py-10 md:py-16">
+            <div className="container-custom">
+              <Link to={"/portfolio/"+project.id} className="group grid overflow-hidden rounded-[8px] border border-[#DEDFD7] bg-[#F2F1EB] md:grid-cols-[1.25fr_1fr]">
+                <div className="aspect-[4/3] overflow-hidden bg-[#DCDCD5] md:aspect-auto md:min-h-[390px]">
+                  <img src={project.rooms[0].image} alt={tr(project.rooms[0].alt,language)}
+                    width={1200} height={800} decoding="async" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"/>
+                </div>
+                <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
+                  <p className="rv-kicker mb-4">{en ? "APARTMENT RENOVATION" : "ЦЯЛОСТЕН РЕМОНТ НА АПАРТАМЕНТ"}</p>
+                  <h2 className="rv-heading-serif text-[clamp(1.9rem,3.2vw,3.25rem)] leading-[1.13]">{tr(project.shortTitle,language)}</h2>
+                  <p className="mt-5 text-[13px] leading-[1.8] text-[#5D685D]">{tr(project.intro,language)}</p>
+                  <p className="mt-5 text-[11px] leading-[1.7] text-[#7B857A]">{en
+                    ? "Illustrative apartment concept, not a documented completed client project."
+                    : "Илюстративна концепция за апартамент, не документално представяне на завършен клиентски обект."}</p>
+                  <span className="mt-8 inline-flex items-center gap-3 self-start border-b border-[#5B6C58] pb-2 text-[13px] font-semibold text-[#415342]">{en ? "View the full story" : "Разгледай целия проект"} <ArrowRight size={17}/></span>
+                </div>
+              </Link>
+            </div>
+          </section>
+        </main>
       </Layout>
     </>
   );
-};
-
-export default PortfolioPage;
+}

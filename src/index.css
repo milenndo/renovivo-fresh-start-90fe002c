@@ -281,3 +281,40 @@
 @media (prefers-reduced-motion: reduce) {
   .rv-service-card img { transition: none !important; }
 }
+
+
+/* Renovivo Project 01 — controls for the room gallery and walkthrough */
+.rv-project-circle {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid #C6CEC2;
+  border-radius: 50%;
+  background: #FAF9F6;
+  color: #3B543E;
+  transition: background .2s ease, transform .2s ease;
+}
+.rv-project-circle:hover { background: #E6ECE3; transform: translateY(-1px); }
+.rv-walk-control {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.62);
+  background: rgba(31,42,34,.72);
+  color: #fff;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background .15s ease;
+}
+.rv-walk-control:active { background: #678263; }
+.rv-project-room-section { scroll-margin-top: 65px; }
+.rv-project svg [role="button"]:focus-visible rect { stroke: #466547; stroke-width: 3; }
+@media (max-width: 639px) {
+  .rv-walk-control { width: 36px; height: 36px; }
+  .rv-project-circle { width: 40px; height: 40px; }
+}
