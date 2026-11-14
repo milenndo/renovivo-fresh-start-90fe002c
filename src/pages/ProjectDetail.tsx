@@ -1,285 +1,226 @@
-import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, Navigate, useParams } from "react-router-dom";
-import {
-  ArrowLeft, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight,
-  Expand, Home, Layers3, MapPin, Maximize2, ShieldCheck, X
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Home } from "lucide-react";
 import Layout from "@/components/layout/Layout";
-import ApartmentPlan from "@/components/portfolio/ApartmentPlan";
-import ApartmentWalkthrough from "@/components/portfolio/ApartmentWalkthrough";
-import { rooms as geometryRooms, type WalkZoneId } from "@/data/portfolioArchitecture";
-import { renovationProject01 as project, localText as l } from "@/data/portfolioProject01";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
+import { renovationProject01 as project, localText as tr } from "@/data/portfolioProject01";
+import demolitionPhoto from "@/assets/images/services/kartene.jpg";
+import plumbingPhoto from "@/assets/images/services/plumbing.jpg";
+import drywallPhoto from "@/assets/images/services/drywall.jpg";
+import paintingPhoto from "@/assets/images/services/painting.jpg";
 
-type ViewTab = "photos" | "plan" | "walk";
-type CopyRoom = typeof project.rooms[number];
-const roomToZone:Record<string,WalkZoneId> = {
-  overview:"hall",living:"living",kitchen:"kitchen",bedroom:"bedroom",bathroom:"bathroom",hall:"hall",
-};
-const zoneToRoom=(zone:WalkZoneId)=>zone==="utility"?"hall":zone;
-const wrap=(index:number)=> (index+project.rooms.length)%project.rooms.length;
-export default function ProjectDetail(){
-  const {id}=useParams<{id:string}>();
-  const {language}=useLanguage();
-  const en=language==="en";
-  const {openModal}=useInspectionRequest();
-  const [roomIndex,setRoomIndex]=useState(0);
-  const [tab,setTab]=useState<ViewTab>("photos");
-  const [expanded,setExpanded]=useState(false);
-  const [walkZone,setWalkZone]=useState<WalkZoneId>("hall");
-  const [imageLoaded,setImageLoaded]=useState(false);
-  const touchStart=useRef<number|null>(null);
-  const viewer=useRef<HTMLElement>(null);
-  const current=project.rooms[roomIndex];
+const stages = [
+  {
+    no: "01",
+    image: demolitionPhoto,
+    title: { bg:"Демонтаж и подготовка", en:"Strip-out & preparation" },
+    body: {
+      bg:"Преди новите покрития се проверява състоянието на основите, отстраняват се компрометираните слоеве и се планира редът на строително-монтажните работи.",
+      en:"Before new finishes, existing substrates are checked, unstable layers are removed and the sequence of site works is established."
+    }
+  },
+  {
+    no: "02",
+    image: plumbingPhoto,
+    title: { bg:"Инсталации и мокри зони", en:"Services & wet areas" },
+    body: {
+      bg:"Разположението на кухнята и банята определя ВиК, електро и необходимите сервизни отвори. Скритите инсталации се проверяват преди затваряне.",
+      en:"Kitchen and bathroom layouts determine plumbing, electrical points and access panels. Concealed services are inspected before closing."
+    }
+  },
+  {
+    no: "03",
+    image: drywallPhoto,
+    title: { bg:"Основи, равнини и конструкции", en:"Substrates, leveling & drywall" },
+    body: {
+      bg:"Подготовката на стени и тавани, коригирането на равнините и детайлите около отвори са основата на добрия краен резултат.",
+      en:"Preparing walls and ceilings, correcting planes and resolving details at openings is the foundation for a durable result."
+    }
+  },
+  {
+    no: "04",
+    image: paintingPhoto,
+    title: { bg:"Финишни работи и монтаж", en:"Finishes & installation" },
+    body: {
+      bg:"Последователно се изпълняват настилки, облицовки, шпакловки, боя, врати, осветление и санитария. Накрая се проверяват фуги, преходи и функционалност.",
+      en:"Flooring, tiling, plasterwork, painting, doors, lighting and fittings follow a controlled sequence, with final checks of joints, transitions and usability."
+    }
+  }
+];
 
-  useEffect(()=>{
-    if(id!==project.id)return;
-    const value=decodeURIComponent(window.location.hash.replace("#",""));
-    const directIndex=project.rooms.findIndex(item=>item.id===value);
-    if(directIndex>=0){setRoomIndex(directIndex);setWalkZone(roomToZone[project.rooms[directIndex].id]);}
-  },[id]);
-  if(id!==project.id)return <Navigate to="/portfolio" replace/>;
+export default function ProjectDetail() {
+  const { id } = useParams<{ id: string }>();
+  const { language } = useLanguage();
+  const { openModal } = useInspectionRequest();
+  const en = language === "en";
 
-  const selectRoom=(index:number,scroll=false)=>{
-    const target=wrap(index),r=project.rooms[target];
-    setRoomIndex(target);setImageLoaded(false);setWalkZone(roomToZone[r.id]);
-    if(scroll)viewer.current?.scrollIntoView({behavior:"smooth",block:"start"});
+  if (id !== project.id) return <Navigate to="/portfolio" replace />;
+
+  const rooms = project.rooms.filter(item => item.id !== "overview");
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: tr(project.shortTitle, language),
+    description: tr(project.story, language),
+    image: "https://renovivo.bg" + project.rooms[0].image,
+    creator: { "@type": "Organization", name: "RENOVIVO" },
+    url: "https://renovivo.bg/portfolio/" + project.id
   };
-  const selectZone=(zone:WalkZoneId,openWalk=false)=>{
-    const key=zoneToRoom(zone);
-    const target=project.rooms.findIndex(item=>item.id===key);
-    setRoomIndex(Math.max(0,target));setWalkZone(zone);
-    if(openWalk)setTab("walk");
-    viewer.current?.scrollIntoView({behavior:"smooth",block:"start"});
-  };
-  const moveTouch=(end:number)=>{
-    if(touchStart.current===null)return;
-    const dx=touchStart.current-end;
-    if(Math.abs(dx)>55)selectRoom(roomIndex+(dx>0?1:-1));
-    touchStart.current=null;
-  };
-  const seo={
-    "@context":"https://schema.org",
-    "@type":"CreativeWork",
-    "name":l(project.shortTitle,language),
-    "description":l(project.intro,language),
-    "about":"Illustrative apartment renovation concept",
-    "url":"https://renovivo.bg/portfolio/"+project.id,
-    "image":"https://renovivo.bg"+project.rooms[0].image,
-    "creator":{"@type":"Organization","name":"Renovivo"}
-  };
-  return(
+
+  return (
     <>
       <Helmet>
-        <title>{l(project.shortTitle,language)} | {en?"Concept walkthrough":"Концепция и разходка"} · Renovivo</title>
-        <meta name="description" content={l(project.intro,language)+" "+l(project.status,language)}/>
-        <meta property="og:image" content={"https://renovivo.bg"+project.rooms[0].image}/>
-        <link rel="canonical" href={"https://renovivo.bg/portfolio/"+project.id}/>
-        <script type="application/ld+json">{JSON.stringify(seo)}</script>
+        <title>{en ? "Light-filled city apartment — interior concept" : "Светъл градски апартамент — цялостна концепция"} | RENOVIVO</title>
+        <meta name="description" content={tr(project.intro, language)} />
+        <link rel="canonical" href={"https://renovivo.bg/portfolio/" + project.id} />
+        <meta property="og:image" content={"https://renovivo.bg" + project.rooms[0].image} />
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       <Layout>
-        <div className="bg-[#FAF9F6] text-[#263229]">
-          <section className="relative isolate flex min-h-[570px] flex-col justify-center overflow-hidden bg-[#868C83] md:min-h-[650px]">
-            <img src={project.rooms[0].image} width="1600" height="1030" alt={l(project.rooms[0].alt,language)}
-              className="absolute inset-0 -z-10 h-full w-full object-cover object-center"/>
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(22,31,25,0.9),rgba(26,36,28,.67)_44%,rgba(27,37,29,.08)_100%)]"/>
-            <div className="container-custom relative flex w-full flex-col py-16 text-white">
-              <Link to="/portfolio" className="mb-14 inline-flex items-center gap-2 self-start text-xs text-white/85 hover:text-white"><ArrowLeft className="h-4 w-4"/>{en?"All projects":"Всички проекти"}</Link>
-              <div className="max-w-[710px]">
-                <p className="mb-4 text-[10px] font-semibold uppercase tracking-[.2em] text-white/85">{en?"COMPLETE RENOVATION · CONCEPT 01":"ЦЯЛОСТЕН РЕМОНТ · ПРОЕКТ 01"}</p>
-                <h1 className="rv-heading-serif text-[clamp(2.25rem,5vw,5rem)] leading-[1.07]">{l(project.shortTitle,language)}</h1>
-                <p className="mt-5 max-w-[535px] text-sm leading-[1.8] text-white/90 md:text-base">{l(project.intro,language)}</p>
-                <div className="mt-7 flex flex-wrap items-center gap-4 text-xs text-white/90">
-                  <span className="inline-flex items-center gap-2"><Home className="h-4 w-4"/>{l(project.typology,language)}</span>
-                  <span className="inline-flex items-center gap-2"><Maximize2 className="h-4 w-4"/>{l(project.area,language)}</span>
-                  <span className="inline-flex items-center gap-2"><MapPin className="h-4 w-4"/>{l(project.location,language)}</span>
-                </div>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <a href="#project-explorer" className="inline-flex min-h-11 items-center gap-3 rounded-[5px] bg-[#61755E] px-5 text-xs font-semibold text-white transition-colors hover:bg-[#435944]">{en?"Explore the apartment":"Разгледай апартамента"} <ArrowRight className="h-4 w-4"/></a>
-                  <button type="button" onClick={()=>{setTab("walk");viewer.current?.scrollIntoView({behavior:"smooth",block:"start"});}}
-                    className="inline-flex min-h-11 items-center gap-3 rounded-[5px] border border-white/70 bg-white/10 px-5 text-xs font-semibold text-white backdrop-blur-sm hover:bg-white/20">{en?"Interactive walkthrough":"Виртуална разходка"} <ArrowUpRight className="h-4 w-4"/></button>
-                </div>
+        <main className="bg-[#FAF9F6] text-[#28352B]">
+          <section className="relative isolate flex min-h-[520px] items-center overflow-hidden bg-[#999B92] py-14 text-white md:min-h-[620px]">
+            <img src={project.rooms[0].image} alt={tr(project.rooms[0].alt,language)}
+              width={1600} height={1066} fetchPriority="high"
+              className="absolute inset-0 -z-10 h-full w-full object-cover" />
+            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#14231A]/85 via-[#14231A]/52 to-[#14231A]/10 max-md:bg-[#14231A]/55"/>
+            <div className="container-custom relative">
+              <Link to="/portfolio" className="mb-11 inline-flex items-center gap-2 text-xs text-white/85 transition hover:text-white"><ArrowLeft size={16}/>{en?"Back to portfolio":"Назад към портфолиото"}</Link>
+              <div className="max-w-[650px]">
+                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[.19em] text-white/80">{en?"COMPLETE APARTMENT RENOVATION · DESIGN CONCEPT":"ЦЯЛОСТЕН РЕМОНТ НА АПАРТАМЕНТ · КОНЦЕПЦИЯ"}</p>
+                <h1 className="rv-heading-serif text-[clamp(2.4rem,5.5vw,5rem)] leading-[1.1]">{tr(project.shortTitle,language)}</h1>
+                <p className="mt-6 max-w-[500px] text-sm leading-[1.85] text-white/90 md:text-[15px]">{tr(project.intro,language)}</p>
+                <a href="#project-story" className="mt-8 inline-flex min-h-11 items-center gap-3 rounded-[5px] bg-white px-5 py-2 text-xs font-semibold text-[#344636] transition hover:bg-[#E6EADD]">{en?"Discover the project":"Разгледай проекта"} <ArrowRight size={16}/></a>
               </div>
-            </div>
-            <p className="absolute bottom-4 right-4 rounded-full bg-black/40 px-3 py-1.5 text-[10px] text-white backdrop-blur-sm">{en?"ILLUSTRATIVE · NOT A FINISHED PROJECT":"КОНЦЕПЦИЯ · НЕ Е РЕАЛИЗИРАН ОБЕКТ"}</p>
-          </section>
-
-          <section className="border-b border-[#E2E2D8] bg-[#F5F3EE] py-5">
-            <div className="container-custom grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
-              {[
-                {Icon:Layers3,title:en?"One coherent home":"Един цялостен дом",caption:en?"No disconnected rooms":"Без несвързани помещения"},
-                {Icon:Home,title:en?"Six views":"Шест зони",caption:en?"Every room has a story":"История за всяка стая"},
-                {Icon:Maximize2,title:en?"Floor plan":"Архитектурен план",caption:en?"Single source of geometry":"Единна геометрия"},
-                {Icon:ArrowRight,title:en?"Door-to-door":"През вратите",caption:en?"Navigable 3D layout":"Интерактивен 3D модел"},
-              ].map(({Icon,title,caption})=><div key={title} className="flex items-start gap-3"><Icon className="h-5 w-5 shrink-0 text-[#5B735A]" strokeWidth={1.5}/><div><p className="text-xs font-semibold md:text-sm">{title}</p><p className="mt-1 text-[11px] leading-[1.5] text-[#727D70]">{caption}</p></div></div>)}
+              <p className="mt-8 max-w-[630px] text-[11px] leading-[1.6] text-white/80">{en
+                ? "Illustrative design visualization — not a photograph of a completed RENOVIVO commission."
+                : "Концептуална визуализация. Не е снимка на изпълнен от RENOVIVO клиентски обект."}</p>
             </div>
           </section>
 
-          <section className="py-12 md:py-16">
-            <div className="container-custom grid gap-7 lg:grid-cols-[.86fr_1.14fr] lg:gap-16">
+          <section id="project-story" className="scroll-mt-[85px] py-14 md:py-20">
+            <div className="container-custom grid gap-8 lg:grid-cols-[.85fr_1.15fr] lg:gap-16">
               <div>
-                <p className="rv-kicker mb-3">{en?"THE PROJECT STORY":"ИСТОРИЯТА НА АПАРТАМЕНТА"}</p>
-                <h2 className="rv-heading-serif text-[clamp(2rem,3.2vw,3.3rem)] leading-[1.12]">{en?<>A practical layout. <em>One interior language.</em></>:<>Практично разпределение. <em>Единен интериор.</em></>}</h2>
+                <p className="rv-kicker mb-4">{en?"THE IDEA":"ИДЕЯТА"}</p>
+                <h2 className="rv-heading-serif max-w-[550px] text-[clamp(2rem,3.7vw,3.5rem)] leading-[1.14]">{en?<>A home designed <em>for everyday life.</em></>:<>Дом, създаден <em>за ежедневието.</em></>}</h2>
               </div>
-              <div className="space-y-4 text-sm leading-[1.85] text-[#4D5B50] md:text-[15px]">
-                <p>{l(project.story,language)}</p>
-                <p>{en?"The architectural scheme and material choices below demonstrate how a full apartment renovation can be planned from one consistent brief. This is not a report of completed work.":"Архитектурната схема и материалите по-долу показват как може да се планира цялостен ремонт по едно последователно задание. Това не е отчет за действително изпълнен клиентски обект."}</p>
-              </div>
-            </div>
-          </section>
-
-          <section id="project-explorer" ref={viewer} className="scroll-mt-[65px] border-y border-[#E1DED5] bg-[#F1EFE9] pb-14">
-            <div className="sticky top-[65px] z-30 border-b border-[#E1DFD7] bg-[#FAF9F6]/95 shadow-sm backdrop-blur-xl">
-              <div className="container-custom flex items-center gap-2 overflow-x-auto [scrollbar-width:none]">
-                {([
-                  {id:"photos" as ViewTab,bg:"По помещения",en:"Room gallery"},
-                  {id:"plan" as ViewTab,bg:"Архитектурен план",en:"Floor plan"},
-                  {id:"walk" as ViewTab,bg:"Виртуална разходка",en:"3D walkthrough"}
-                ]).map(item=><button key={item.id} type="button" onClick={()=>setTab(item.id)}
-                  aria-pressed={tab===item.id}
-                  className={"relative min-h-[54px] shrink-0 px-4 text-[12px] font-semibold md:px-6 md:text-[13px] "+(tab===item.id?"text-[#38543D]":"text-[#6D786D] hover:text-[#3F5140]")}>
-                  {en?item.en:item.bg}{tab===item.id&&<span className="absolute inset-x-2 bottom-0 h-[2px] bg-[#557052]"/>}
-                </button>)}
-              </div>
-            </div>
-            <div className="container-custom pt-9 md:pt-12">
-              {tab==="photos"&&<>
-                <div className="mb-7 flex flex-wrap items-end justify-between gap-5">
-                  <div>
-                    <p className="rv-kicker mb-2">{en?"THE HOME, ROOM BY ROOM":"АПАРТАМЕНТЪТ СТАЯ ПО СТАЯ"} · {roomIndex+1} / {project.rooms.length}</p>
-                    <h2 className="rv-heading-serif text-[clamp(1.9rem,3.2vw,3.3rem)]">{l(current.label,language)}</h2>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button type="button" className="rv-project-circle" aria-label={en?"Previous room":"Предишна стая"} onClick={()=>selectRoom(roomIndex-1)}><ChevronLeft className="h-5 w-5"/></button>
-                    <button type="button" className="rv-project-circle" aria-label={en?"Next room":"Следваща стая"} onClick={()=>selectRoom(roomIndex+1)}><ChevronRight className="h-5 w-5"/></button>
-                  </div>
-                </div>
-                <div className="grid gap-8 lg:grid-cols-[1.4fr_.75fr] lg:gap-11">
-                  <div className="min-w-0">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-[8px] bg-[#DFDDD5] md:aspect-[16/10]"
-                      onTouchStart={e=>{touchStart.current=e.touches[0]?.clientX??null;}}
-                      onTouchEnd={e=>moveTouch(e.changedTouches[0]?.clientX??0)}>
-                      <img key={current.id} src={current.image} width="1200" height="800" loading="eager" decoding="async" alt={l(current.alt,language)}
-                        onLoad={()=>setImageLoaded(true)}
-                        className={"h-full w-full object-cover object-center transition-opacity duration-400 "+(imageLoaded?"opacity-100":"opacity-70")}/>
-                      <div className="absolute inset-x-0 bottom-0 flex justify-between gap-4 bg-gradient-to-t from-black/60 to-transparent px-4 pb-4 pt-14 text-white">
-                        <span className="text-xs font-medium">{l(current.label,language)} <span className="ml-2 opacity-75">{current.number} / 0{project.rooms.length}</span></span>
-                        <button type="button" onClick={()=>setExpanded(true)} className="grid h-10 w-10 place-items-center rounded-full border border-white/70 bg-black/30" aria-label={en?"Enlarge image":"Увеличи снимката"}><Expand className="h-4 w-4"/></button>
-                      </div>
-                    </div>
-                    <div className="mt-4 grid grid-cols-3 gap-2 md:grid-cols-6">
-                      {project.rooms.map((room,index)=><button type="button" key={room.id} onClick={()=>selectRoom(index)}
-                        aria-pressed={index===roomIndex} aria-label={(en?"Show ":"Покажи ")+l(room.label,language)}
-                        className={"group relative aspect-[5/4] overflow-hidden rounded-[5px] border-2 "+(roomIndex===index?"border-[#5B7556]":"border-transparent hover:border-[#97AC95]")}>
-                        <img src={room.image} loading="lazy" alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/>
-                        <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-1 pb-1.5 pt-5 text-[10px] font-medium leading-[1.2] text-white">{l(room.label,language)}</span>
-                      </button>)}
-                    </div>
-                  </div>
-                  <div className="self-start">
-                    <p className="rv-kicker mb-3">{en?"FUNCTION & DETAIL":"ФУНКЦИЯ И ДЕТАЙЛ"}</p>
-                    <h3 className="rv-heading-serif text-[clamp(1.6rem,2.3vw,2.4rem)] leading-[1.15]">{l(current.heading,language)}</h3>
-                    <p className="mt-4 text-[13px] leading-[1.8] text-[#5A655B]">{l(current.intro,language)}</p>
-                    <div className="mt-6 border-t border-[#D6D8CE] pt-4">
-                      <p className="mb-2 text-[10px] font-bold uppercase tracking-[.16em] text-[#6E7B6D]">{en?"THE CHALLENGE":"ПРЕДИЗВИКАТЕЛСТВО"}</p>
-                      <p className="text-[13px] leading-[1.75] text-[#475348]">{l(current.challenge,language)}</p>
-                    </div>
-                    <div className="mt-5 border-t border-[#D6D8CE] pt-4">
-                      <p className="mb-2 text-[10px] font-bold uppercase tracking-[.16em] text-[#4A624E]">{en?"PLANNED SOLUTION":"ПЛАНИРАНО РЕШЕНИЕ"}</p>
-                      <p className="text-[13px] leading-[1.75] text-[#475348]">{l(current.approach,language)}</p>
-                    </div>
-                    <ul className="mt-5 space-y-2.5">
-                      {current.details.map((detail,index)=><li key={index} className="flex gap-2 text-xs leading-[1.5] text-[#506052]"><ShieldCheck className="h-4 w-4 shrink-0 text-[#637D61]"/>{l(detail,language)}</li>)}
-                    </ul>
-                    <div className="mt-7 flex flex-wrap gap-4">
-                      <button type="button" onClick={()=>{setWalkZone(roomToZone[current.id]);setTab("walk");}} className="inline-flex min-h-10 items-center gap-2 rounded-[5px] bg-[#526852] px-4 text-xs font-semibold text-white">{en?"Go to this room in 3D":"Отиди в тази стая в 3D"} <ArrowRight className="h-4 w-4"/></button>
-                      <button type="button" onClick={()=>selectRoom(roomIndex+1)} className="inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-[#465E46]">{en?"Next room":"Следваща стая"} <ArrowRight className="h-4 w-4"/></button>
-                    </div>
-                  </div>
-                </div>
-              </>}
-
-              {tab==="plan"&&<>
-                <div className="mb-6">
-                  <p className="rv-kicker mb-2">{en?"ARCHITECTURAL CONCEPT":"АРХИТЕКТУРЕН ПЛАН"}</p>
-                  <h2 className="rv-heading-serif max-w-[900px] text-[clamp(1.8rem,3vw,3.2rem)]">{en?<>All rooms. <em>One shared footprint.</em></>:<>Всички помещения. <em>Една обща геометрия.</em></>}</h2>
-                  <p className="mt-3 max-w-[720px] text-sm leading-[1.8] text-[#5A665B]">{en?"Select any room on the plan to explore it or enter the walkthrough. Dimensions are indicative.":"Избери стая от плана, за да я разгледаш или да започнеш разходката от нея. Размерите са примерни."}</p>
-                </div>
-                <ApartmentPlan language={language} activeRoom={walkZone} onRoomSelect={selectZone}/>
-                <div className="mt-5 flex flex-wrap items-center gap-3">
-                  <button type="button" onClick={()=>setTab("walk")} className="inline-flex min-h-11 items-center gap-2 rounded-[5px] bg-[#51664E] px-5 text-xs font-semibold text-white">{en?"Enter the 3D walkthrough":"Влез в 3D разходката"} <ArrowUpRight className="h-4 w-4"/></button>
-                  <span className="text-xs text-[#768173]">{en?"Approximate gross footprint: 9.80 × 7.40 m":"Примерен външен габарит: 9.80 × 7.40 м"}</span>
-                </div>
-              </>}
-
-              {tab==="walk"&&<>
-                <div className="mb-7">
-                  <p className="rv-kicker mb-3">{en?"EXPLORE THE SPACE":"ВЛЕЗ В АПАРТАМЕНТА"}</p>
-                  <h2 className="rv-heading-serif max-w-[910px] text-[clamp(1.85rem,3.1vw,3.3rem)]">{en?<>Walk from room to room <em>through the doors.</em></>:<>Премини от стая в стая <em>през вратите.</em></>}</h2>
-                  <p className="mt-4 max-w-[740px] text-sm leading-[1.8] text-[#5D685D]">{en?"Walk a simplified first-person model built from exactly the same walls and openings as the floor plan. Room image galleries remain available separately.":"Придвижвай се в опростен 3D модел, използващ същите стени и врати като плана. Снимките на помещенията се разглеждат отделно в галерията."}</p>
-                </div>
-                <ApartmentWalkthrough language={language} initialZone={walkZone} onZoneChange={setWalkZone}/>
-              </>}
-            </div>
-          </section>
-
-          <section className="py-14 md:py-20">
-            <div className="container-custom grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
-              <div>
-                <p className="rv-kicker mb-3">{en?"COMPLETE RENOVATION SCOPE":"ОБХВАТ НА ЦЯЛОСТНИЯ РЕМОНТ"}</p>
-                <h2 className="rv-heading-serif text-[clamp(2rem,3.2vw,3.4rem)] leading-[1.15]">{en?<>Quality starts <em>beneath the finish.</em></>:<>Качеството започва <em>под финиша.</em></>}</h2>
-                <p className="mt-5 max-w-[460px] text-sm leading-[1.8] text-[#5A665B]">{en?"Every element is part of a coherent technical sequence — rather than disconnected cosmetic work.":"Всеки детайл е част от обща техническа последователност, а не отделна декоративна задача."}</p>
-              </div>
-              <div className="grid gap-x-8 md:grid-cols-2">
-                {project.scope.map((item,index)=><div key={index} className="flex items-start gap-3 border-b border-[#E1E5DA] py-4"><span className="rv-heading-serif w-6 shrink-0 text-sm text-[#70846D]">0{index+1}</span><span className="text-[13px] leading-[1.6]">{l(item,language)}</span></div>)}
+              <div className="space-y-5 text-[14px] leading-[1.9] text-[#526054] md:text-[15px]">
+                <p>{tr(project.story,language)}</p>
+                <p>{en
+                  ? "Warm surfaces, practical storage and lighting are more important here than decorative extravagance. The rooms are presented as parts of one proposed apartment renovation, not as separate reference jobs."
+                  : "Целта не е интериор, който изглежда впечатляващо само на снимка. Търсим работещо разпределение, спокойна материална палитра, удобно съхранение и детайли, които могат да бъдат изпълнени качествено."}</p>
               </div>
             </div>
           </section>
 
-          <section className="bg-[#F3F1EB] py-14 md:py-18">
+          <section className="border-y border-[#E6E4DB] bg-[#F3F1EA] py-14 md:py-20">
             <div className="container-custom">
-              <p className="rv-kicker mb-3">{en?"HOW THE WORK WOULD PROCEED":"РЕД НА ИЗПЪЛНЕНИЕ"}</p>
-              <h2 className="rv-heading-serif max-w-[720px] text-[clamp(2rem,3vw,3.25rem)] leading-[1.15]">{en?<>From the first measurement <em>to the last detail.</em></>:<>От първото измерване <em>до последния детайл.</em></>}</h2>
-              <div className="mt-9 grid gap-3 md:grid-cols-5">
-                {project.steps.map((stage,index)=><div key={index} className="rounded-[6px] border border-[#E0DED5] bg-[#FAF9F6] p-5">
-                  <span className="rv-heading-serif text-[25px] text-[#687D65]">0{index+1}</span>
-                  <h3 className="mt-4 text-[13px] font-semibold">{l(stage.title,language)}</h3>
-                  <p className="mt-3 text-[12px] leading-[1.7] text-[#667066]">{l(stage.body,language)}</p>
-                </div>)}
+              <div className="mb-9 max-w-[770px]">
+                <p className="rv-kicker mb-4">{en?"RENOVATION PROCESS":"ЕТАПИ НА РЕМОНТА"}</p>
+                <h2 className="rv-heading-serif text-[clamp(2rem,3.7vw,3.6rem)] leading-[1.13]">{en?<>From preparation <em>to the finishing touch.</em></>:<>От подготовката <em>до последния детайл.</em></>}</h2>
+                <p className="mt-4 text-sm leading-[1.8] text-[#5C675B]">{en
+                  ? "The stages shown here illustrate how a complete renovation is organized in practice. Process photographs are illustrative and are not documentary evidence from this specific concept apartment."
+                  : "Така се организират дейностите при цялостен ремонт. Снимките на строителните етапи са илюстративни, а не документален фотоотчет от този примерен апартамент."}</p>
               </div>
-              <p className="mt-6 text-xs leading-[1.8] text-[#747E73]">{en?"Illustrative workflow, not a record of works already performed.":"Примерен работен процес, а не отчет за вече извършени ремонтни дейности."}</p>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {stages.map(stage=>(
+                  <article key={stage.no} className="overflow-hidden rounded-[7px] border border-[#DEDFD5] bg-[#FAF9F6]">
+                    <div className="aspect-[4/3] overflow-hidden bg-[#DBDBD4]">
+                      <img src={stage.image} alt={tr(stage.title,language)}
+                        loading="lazy" decoding="async" width={650} height={500} className="h-full w-full object-cover" />
+                    </div>
+                    <div className="p-5">
+                      <span className="rv-heading-serif text-[25px] text-[#657B62]">{stage.no}</span>
+                      <h3 className="mt-2 text-[15px] font-semibold leading-snug">{tr(stage.title,language)}</h3>
+                      <p className="mt-3 text-xs leading-[1.75] text-[#627064]">{tr(stage.body,language)}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </section>
 
-          <section className="py-12">
-            <div className="container-custom rounded-[8px] bg-[#4E644E] px-6 py-11 text-white md:px-12">
-              <div className="grid gap-6 md:grid-cols-[1.4fr_.8fr] md:items-end">
-                <div>
-                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[.2em] text-[#DBE7D8]">{en?"YOUR APARTMENT":"ВАШИЯТ АПАРТАМЕНТ"}</p>
-                  <h2 className="rv-heading-serif max-w-[740px] text-[clamp(2rem,3.5vw,3.8rem)]">{en?<>Let's plan <em className="!text-white/80">your home.</em></>:<>Нека планираме <em className="!text-white/80">вашия дом.</em></>}</h2>
-                  <p className="mt-4 max-w-[610px] text-sm leading-[1.7] text-white/85">{en?"A walkthrough can show an idea. Actual renovation starts with your floor plan, measurements, needs and a site visit.":"Визуализацията показва идея. Истинският ремонт започва от вашия план, размерите, нуждите ви и оглед на място."}</p>
-                </div>
-                <button type="button" onClick={openModal} className="inline-flex min-h-12 items-center justify-center gap-3 justify-self-start rounded-[5px] bg-[#FAF9F6] px-6 text-sm font-semibold text-[#2E4232] md:justify-self-end">{en?"Request a visit":"Заяви оглед"} <ArrowUpRight className="h-4 w-4"/></button>
+          <section id="project-rooms" className="scroll-mt-[80px] py-14 md:py-20">
+            <div className="container-custom">
+              <div className="mb-10 max-w-[740px]">
+                <p className="rv-kicker mb-4">{en?"THE HOME · ROOM BY ROOM":"АПАРТАМЕНТЪТ · ПО ПОМЕЩЕНИЯ"}</p>
+                <h2 className="rv-heading-serif text-[clamp(2rem,3.8vw,3.7rem)] leading-[1.15]">{en?<>Every room has <em>its own purpose.</em></>:<>Всяко помещение <em>има своята роля.</em></>}</h2>
+                <p className="mt-4 text-sm leading-[1.8] text-[#5C6A5D]">{en
+                  ? "Browse the rooms in order — living room, kitchen, bedroom, bathroom and entrance. Each has its own visual, purpose and construction considerations."
+                  : "Разгледай стаите последователно — дневна, кухня, спалня, баня и антре. Всяка има своя визуализация, функция и конкретни решения при изпълнението."}</p>
+              </div>
+
+              <nav aria-label={en?"Jump to a room":"Премини към помещение"} className="mb-11 flex flex-wrap gap-2">
+                {rooms.map((room)=>(
+                  <a key={room.id} href={"#room-"+room.id} className="inline-flex min-h-10 items-center rounded-[5px] border border-[#CBD4C9] bg-white px-4 text-xs font-semibold text-[#526752] transition hover:bg-[#E9EEE6]">
+                    {tr(room.label,language)}
+                  </a>
+                ))}
+              </nav>
+
+              <div className="space-y-14 md:space-y-20">
+                {rooms.map((room,index)=>(
+                  <article key={room.id} id={"room-"+room.id} className="grid scroll-mt-[80px] items-center gap-7 border-b border-[#E4E5DD] pb-14 md:gap-12 md:pb-20 lg:grid-cols-2">
+                    <div className={"min-w-0 overflow-hidden rounded-[7px] bg-[#E4E2D9] "+(index%2===1?"lg:order-2":"")}>
+                      <img src={room.image} alt={tr(room.alt,language)}
+                        loading="lazy" decoding="async" width={1200} height={850}
+                        className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-[1.015]" />
+                    </div>
+                    <div className={"max-w-[600px] "+(index%2===1?"lg:order-1":"")}>
+                      <p className="rv-kicker mb-3">{en?"INTERIOR":"ПОМЕЩЕНИЕ"} / {String(index+1).padStart(2,"0")}</p>
+                      <h3 className="rv-heading-serif text-[clamp(1.85rem,3vw,3rem)] leading-[1.16]">{tr(room.label,language)}</h3>
+                      <p className="mt-4 text-[14px] leading-[1.85] text-[#4D5B51]">{tr(room.intro,language)}</p>
+                      <div className="mt-7 border-t border-[#DFE1D8] pt-5">
+                        <p className="mb-2 text-[10px] font-bold uppercase tracking-[.16em] text-[#748574]">{en?"The challenge":"Предизвикателството"}</p>
+                        <p className="text-[13px] leading-[1.8] text-[#47554B]">{tr(room.challenge,language)}</p>
+                      </div>
+                      <div className="mt-5 border-t border-[#DFE1D8] pt-5">
+                        <p className="mb-2 text-[10px] font-bold uppercase tracking-[.16em] text-[#667D65]">{en?"The solution":"Подходът"}</p>
+                        <p className="text-[13px] leading-[1.8] text-[#47554B]">{tr(room.approach,language)}</p>
+                      </div>
+                      <ul className="mt-6 space-y-2.5">
+                        {room.details.slice(0,3).map((detail,i)=>(
+                          <li key={i} className="flex items-start gap-2.5 text-[12px] leading-[1.6] text-[#536252]"><Check size={15} strokeWidth={2} className="mt-0.5 shrink-0 text-[#70836E]"/>{tr(detail,language)}</li>
+                        ))}
+                      </ul>
+                      <p className="mt-6 text-[11px] leading-[1.6] text-[#879185]">{en?"Illustrative interior visualization":"Илюстративна интериорна визуализация"}</p>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
           </section>
 
-          <section className="border-t border-[#E7E5DB] py-6">
-            <div className="container-custom flex flex-wrap items-center justify-between gap-4">
-              <Link to="/portfolio" className="inline-flex items-center gap-2 text-sm font-medium text-[#455D47]"><ArrowLeft className="h-4 w-4"/>{en?"Back to projects":"Обратно към проектите"}</Link>
-              <span className="text-[11px] text-[#778174]">{en?"Project 01 · Conceptual visualization":"Проект 01 · Концептуална визуализация"}</span>
+          <section className="bg-[#F3F1EA] py-12 md:py-16">
+            <div className="container-custom grid gap-6 lg:grid-cols-[.85fr_1.15fr] lg:gap-14">
+              <div>
+                <p className="rv-kicker mb-3">{en?"WHAT A COMPLETE RENOVATION INCLUDES":"КАКВО ВКЛЮЧВА ЦЯЛОСТНИЯТ РЕМОНТ"}</p>
+                <h2 className="rv-heading-serif text-[clamp(1.7rem,3vw,3rem)] leading-[1.14]">{en?<>The work <em>behind the finish.</em></>:<>Работата <em>под красивата повърхност.</em></>}</h2>
+              </div>
+              <div className="grid gap-x-7 sm:grid-cols-2">
+                {project.scope.map((item,i)=>(
+                  <div key={i} className="flex items-start gap-2.5 border-b border-[#DADDD3] py-3.5">
+                    <Check size={15} className="mt-0.5 shrink-0 text-[#61795F]"/>
+                    <p className="text-[12px] leading-[1.65] text-[#4B5C50]">{tr(item,language)}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
-        </div>
-        {expanded&&<div role="dialog" aria-modal="true" aria-label={en?"Enlarged room illustration":"Увеличена визуализация"} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-3 md:p-10" onClick={()=>setExpanded(false)}>
-          <button type="button" aria-label={en?"Close":"Затвори"} className="absolute right-5 top-5 z-10 grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white" onClick={()=>setExpanded(false)}><X className="h-5 w-5"/></button>
-          <button type="button" aria-label={en?"Previous room":"Предишно помещение"} className="absolute left-3 z-10 grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white" onClick={e=>{e.stopPropagation();selectRoom(roomIndex-1);}}><ChevronLeft className="h-6 w-6"/></button>
-          <img src={current.image} alt={l(current.alt,language)} className="max-h-[90vh] max-w-[90vw] object-contain" onClick={e=>e.stopPropagation()}/>
-          <button type="button" aria-label={en?"Next room":"Следващо помещение"} className="absolute right-3 z-10 grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white" onClick={e=>{e.stopPropagation();selectRoom(roomIndex+1);}}><ChevronRight className="h-6 w-6"/></button>
-          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-white/70">{l(current.label,language)}</span>
-        </div>}
+
+          <section className="bg-[#516650] py-14 text-white md:py-20">
+            <div className="container-custom grid items-center gap-7 md:grid-cols-[1.35fr_.65fr]">
+              <div>
+                <p className="mb-4 text-[10px] font-semibold uppercase tracking-[.2em] text-white/80">{en?"YOUR NEXT PROJECT":"ВАШИЯТ ДОМ"}</p>
+                <h2 className="rv-heading-serif max-w-[700px] text-[clamp(2rem,4vw,3.8rem)] leading-[1.12]">{en?"Let's plan your entire renovation." : "Нека планираме вашия цялостен ремонт."}</h2>
+                <p className="mt-4 max-w-[570px] text-sm leading-[1.8] text-white/85">{en?"A real project begins with site measurements, a clear brief and a detailed quotation.":"Реалният проект започва с оглед, точни размери, ясно задание и подробна оферта."}</p>
+              </div>
+              <button type="button" onClick={openModal}
+                className="inline-flex min-h-12 items-center justify-center gap-3 justify-self-start rounded-[5px] bg-white px-6 text-[13px] font-semibold text-[#3A503C] transition hover:bg-[#E8EEE4]">{en?"Request a site visit":"Заяви безплатен оглед"} <ArrowRight size={17}/></button>
+            </div>
+          </section>
+        </main>
       </Layout>
     </>
   );
