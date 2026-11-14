@@ -15,7 +15,7 @@ export default function PortfolioPage() {
         <meta name="description" content={en
           ? "Explore a complete apartment renovation story — from preparation to the finished interior, room by room."
           : "Портфолио на RENOVIVO — цялостни ремонти на апартаменти, процеси, довършителни дейности и помещения."} />
-        <link rel="canonical" href="https://renovivo.bg/portfolio"/>
+        <link rel="canonical" href="https://www.renovivo.bg/portfolio"/>
       </Helmet>
       <Layout>
         <main className="bg-[#FAF9F6] text-[#273229]">
