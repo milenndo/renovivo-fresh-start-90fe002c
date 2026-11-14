@@ -166,7 +166,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Portfolio Page
     'portfolio.page.title': 'Портфолио',
     'portfolio.page.subtitle': 'Нашите проекти',
-    'portfolio.page.description': 'Разгледайте някои от нашите завършени проекти и се убедете в качеството на нашата работа.',
+    'portfolio.page.description': 'Разгледайте концепциите за цялостни ремонти на апартаменти, представени с процеси и помещения.',
     'portfolio.page.noResults': 'Няма намерени проекти в тази категория.',
     'portfolio.filter.all': 'Всички',
 
@@ -299,7 +299,7 @@ const translations: Record<Language, Record<string, string>> = {
     // About Page
     'aboutPage.breadcrumb': 'За нас',
     'aboutPage.title': 'За нас | Renovivo - Ремонт без хаос, само спокойствие',
-    'aboutPage.metaDesc': 'Renovivo е ремонтна фирма в София, създадена с една цел - да ви спестим притесненията. 127 завършени проекта, 94% препоръки, 2 години гаранция.',
+    'aboutPage.metaDesc': 'Renovivo е ремонтна фирма в София с фокус върху цялостни ремонти, ясни оферти, контрол на качеството и коректна комуникация.',
     'aboutPage.hero.label': 'За нас',
     'aboutPage.hero.title': 'Ремонтът не трябва да бъде стресиращ',
     'aboutPage.hero.p1': 'Знаем колко притеснително може да бъде да поверите дома си на непознати. Точно затова създадохме Renovivo - за да имате партньор, на когото можете да разчитате.',
@@ -554,7 +554,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Portfolio Page
     'portfolio.page.title': 'Portfolio',
     'portfolio.page.subtitle': 'Our Projects',
-    'portfolio.page.description': 'Browse some of our completed projects and see the quality of our work.',
+    'portfolio.page.description': 'Explore complete apartment renovation concepts, presented with process stages and room-by-room details.',
     'portfolio.page.noResults': 'No projects found in this category.',
     'portfolio.filter.all': 'All',
 
@@ -687,7 +687,7 @@ const translations: Record<Language, Record<string, string>> = {
     // About Page
     'aboutPage.breadcrumb': 'About Us',
     'aboutPage.title': 'About Us | Renovivo - Renovation without chaos, just peace of mind',
-    'aboutPage.metaDesc': 'Renovivo is a renovation company in Sofia, created with one goal - to save you from worries. 127 completed projects, 94% recommendations, 2-year warranty.',
+    'aboutPage.metaDesc': 'Renovivo is a renovation company in Sofia focused on complete apartment renovations, detailed quotations, quality control and clear communication.',
     'aboutPage.hero.label': 'About Us',
     'aboutPage.hero.title': 'Renovation shouldn\'t be stressful',
     'aboutPage.hero.p1': 'We know how worrying it can be to entrust your home to strangers. That\'s why we created Renovivo - so you have a partner you can rely on.',

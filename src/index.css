@@ -153,3 +153,168 @@
 @media (max-width: 767px) {
   #services,#projects,#process,#estimator,#approach { scroll-margin-top: 74px; }
 }
+
+
+/* 2026-11-13 approved mockups: faithfully reconstructed editorial layout.
+ * Visual tokens and section proportions are scoped to the homepage only.
+ */
+.rv-approved-home {
+  background: #faf9f6;
+  color: #283329;
+  overflow: clip;
+  font-family: 'Onest', system-ui, sans-serif;
+}
+.rv-heading-serif {
+  font-family: 'Literata', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.046em;
+}
+.rv-heading-serif em { color: #53654f; font-weight: 400; font-style: italic; }
+.rv-kicker {
+  color: #414b40;
+  font-family: 'Onest', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: .22em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.rv-button-primary, .rv-button-outline {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border-radius: 5px;
+  padding: 10px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: background-color .22s ease, transform .22s ease;
+}
+.rv-button-primary {
+  background: #303f33;
+  color: #fff;
+  border: 1px solid #303f33;
+}
+.rv-button-primary:hover { background: #50634c; transform: translateY(-2px); }
+.rv-button-outline {
+  background: rgba(250,249,246,.75);
+  color: #27332b;
+  border: 1px solid #647064;
+}
+.rv-button-outline:hover { background: #fff; transform: translateY(-2px); }
+.rv-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #63715e;
+  padding-bottom: 6px;
+  color: #303f33;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: gap .2s ease;
+}
+.rv-text-link:hover { gap: 15px; }
+.rv-round-button {
+  display: grid;
+  width: 33px;
+  height: 33px;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid #d6d8cf;
+  background: #faf9f6;
+  color: #354235;
+  transition: background-color .2s ease;
+}
+.rv-round-button:hover { background: #e6e9e1; }
+.rv-services-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 24px) / 4);
+  gap: 8px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.rv-services-track::-webkit-scrollbar { display: none; }
+.rv-service-card {
+  min-width: 0;
+  height: 325px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #b2afa7;
+  scroll-snap-align: start;
+}
+.rv-approved-hero { background: #eae7e0; }
+.rv-approved-home #services, .rv-approved-home #projects,
+.rv-approved-home #process, .rv-approved-home #approach { scroll-margin-top: 82px; }
+
+@media (max-width: 1023px) {
+  .rv-services-track {
+    grid-auto-columns: calc((100% - 16px) / 3);
+  }
+}
+@media (max-width: 767px) {
+  .rv-approved-hero { min-height: 490px; }
+  .rv-approved-hero img { object-position: 65% center; }
+  .rv-kicker { font-size: 9px; letter-spacing: .18em; }
+  .rv-service-card { height: clamp(144px, 44vw, 190px); }
+  .rv-approved-home #services, .rv-approved-home #projects,
+  .rv-approved-home #process, .rv-approved-home #approach { scroll-margin-top: 69px; }
+  .rv-approved-home .container-custom { padding-left: 18px; padding-right: 18px; }
+}
+@media (max-width: 380px) {
+  .rv-approved-hero .rv-button-primary, .rv-approved-hero .rv-button-outline {
+    font-size: 11px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .rv-approved-hero { min-height: 505px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rv-service-card img { transition: none !important; }
+}
+
+
+/* Renovivo Project 01 — controls for the room gallery and walkthrough */
+.rv-project-circle {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid #C6CEC2;
+  border-radius: 50%;
+  background: #FAF9F6;
+  color: #3B543E;
+  transition: background .2s ease, transform .2s ease;
+}
+.rv-project-circle:hover { background: #E6ECE3; transform: translateY(-1px); }
+.rv-walk-control {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.62);
+  background: rgba(31,42,34,.72);
+  color: #fff;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background .15s ease;
+}
+.rv-walk-control:active { background: #678263; }
+.rv-project-room-section { scroll-margin-top: 65px; }
+.rv-project svg [role="button"]:focus-visible rect { stroke: #466547; stroke-width: 3; }
+@media (max-width: 639px) {
+  .rv-walk-control { width: 36px; height: 36px; }
+  .rv-project-circle { width: 40px; height: 40px; }
+}

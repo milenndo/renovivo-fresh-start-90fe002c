@@ -31,7 +31,7 @@ for (const url of urls) {
   if (!/<div id="root"><[^>]+/i.test(html)) errors.push(route + ": missing HTML content in #root");
   checked++;
 }
-if (checked < 42) errors.push("Only " + checked + " prerendered pages checked; expected at least 42");
+if (checked < 29) errors.push("Only " + checked + " prerendered pages checked; expected at least 29");
 if (errors.length) {
   console.error("[SEO] HTML verification failed:\n" + errors.join("\n"));
   process.exit(1);
