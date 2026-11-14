@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Home } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
@@ -8,9 +8,7 @@ import { getPortfolioProject, portfolioProjects, localText as tr } from "@/data/
 import NotFound from "./NotFound";
 import ProjectRoomPhoto from "@/components/ProjectRoomPhoto";
 import demolitionPhoto from "@/assets/images/services/kartene.jpg";
-import plumbingPhoto from "@/assets/images/services/plumbing.jpg";
-import drywallPhoto from "@/assets/images/services/drywall.jpg";
-import paintingPhoto from "@/assets/images/services/painting.jpg";
+import ApartmentLayout from "@/components/ApartmentLayout";
 
 const stages = [
   {
@@ -24,7 +22,7 @@ const stages = [
   },
   {
     no: "02",
-    image: plumbingPhoto,
+    image: "/images/blog/2026/banya.webp",
     title: { bg:"Инсталации и мокри зони", en:"Services & wet areas" },
     body: {
       bg:"Разположението на кухнята и банята определя ВиК, електро и необходимите сервизни отвори. Скритите инсталации се проверяват преди затваряне.",
@@ -33,7 +31,7 @@ const stages = [
   },
   {
     no: "03",
-    image: drywallPhoto,
+    image: "/images/blog/2026/shpaklovka.webp",
     title: { bg:"Основи, равнини и конструкции", en:"Substrates, leveling & drywall" },
     body: {
       bg:"Подготовката на стени и тавани, коригирането на равнините и детайлите около отвори са основата на добрия краен резултат.",
@@ -42,7 +40,7 @@ const stages = [
   },
   {
     no: "04",
-    image: paintingPhoto,
+    image: "/images/blog/2026/remont-ceni.webp",
     title: { bg:"Финишни работи и монтаж", en:"Finishes & installation" },
     body: {
       bg:"Последователно се изпълняват настилки, облицовки, шпакловки, боя, врати, осветление и санитария. Накрая се проверяват фуги, преходи и функционалност.",
@@ -121,6 +119,8 @@ export default function ProjectDetail() {
               </div>
             </div>
           </section>
+
+          <ApartmentLayout index={portfolioProjects.findIndex(item => item.id === project.id)} language={language} />
 
           <section className="border-y border-[#E6E4DB] bg-[#F3F1EA] py-14 md:py-20">
             <div className="container-custom">

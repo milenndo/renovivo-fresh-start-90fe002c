@@ -52,6 +52,11 @@ try {
         headings.add(heading);
         assert.equal(await page.$eval("link[rel=canonical]", node => node.href), "https://www.renovivo.bg" + route);
         assert.equal(await page.$$eval("main", nodes => nodes.length), 1);
+        assert.equal(await page.$$eval("#project-layout svg[role=img]", plans => plans.length), 1, "Each apartment has an accessible layout");
+        const layoutCopy = await page.$eval("#project-layout", node => node.textContent);
+        assert(layoutCopy.includes(language === "bg" ? "Технически подход" : "Technical approach"), "Technical description is localized");
+        assert(layoutCopy.includes(language === "bg" ? "без мащаб" : "not to scale"), "Diagram explains its scope");
+        await page.$$eval("main img", images => Promise.all(images.map(image => { image.loading = "eager"; return image.decode(); })));
         const expectedRoomCount = /02|05/.test(route) ? 6 : 5;
         assert.equal(await page.$$eval("article[id^='room-']", rooms => rooms.length), expectedRoomCount, "Every specified room is present");
         await page.$$eval("#project-rooms img", images => Promise.all(images.map(image => {
