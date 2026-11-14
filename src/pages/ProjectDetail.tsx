@@ -64,9 +64,9 @@ export default function ProjectDetail() {
     "@type": "CreativeWork",
     name: tr(project.shortTitle, language),
     description: tr(project.story, language),
-    image: "https://renovivo.bg" + project.rooms[0].image,
+    image: "https://www.renovivo.bg" + project.rooms[0].image,
     creator: { "@type": "Organization", name: "RENOVIVO" },
-    url: "https://renovivo.bg/portfolio/" + project.id
+    url: "https://www.renovivo.bg/portfolio/" + project.id
   };
 
   return (
@@ -74,8 +74,8 @@ export default function ProjectDetail() {
       <Helmet>
         <title>{en ? "Light-filled city apartment — interior concept" : "Светъл градски апартамент — цялостна концепция"} | RENOVIVO</title>
         <meta name="description" content={tr(project.intro, language)} />
-        <link rel="canonical" href={"https://renovivo.bg/portfolio/" + project.id} />
-        <meta property="og:image" content={"https://renovivo.bg" + project.rooms[0].image} />
+        <link rel="canonical" href={"https://www.renovivo.bg/portfolio/" + project.id} />
+        <meta property="og:image" content={"https://www.renovivo.bg" + project.rooms[0].image} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       <Layout>
