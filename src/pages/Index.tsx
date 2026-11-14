@@ -23,10 +23,10 @@ export default function Index() {
         <html lang={language} />
         <title>{seoContent.title}</title>
         <meta name="description" content={seoContent.description} />
-        <link rel="canonical" href="https://renovivo.bg" />
+        <link rel="canonical" href="https://www.renovivo.bg" />
         <meta property="og:title" content={seoContent.title} />
         <meta property="og:description" content={seoContent.description} />
-        <meta property="og:url" content="https://renovivo.bg" />
+        <meta property="og:url" content="https://www.renovivo.bg" />
         <meta property="og:locale" content={language === "en" ? "en_US" : "bg_BG"} />
       </Helmet>
       <Layout>
