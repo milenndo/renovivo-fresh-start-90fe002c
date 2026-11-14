@@ -1,10 +1,12 @@
 import { Helmet } from "react-helmet-async";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Home } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
-import { renovationProject01 as project, localText as tr } from "@/data/portfolioProject01";
+import { getPortfolioProject, portfolioProjects, localText as tr } from "@/data/portfolioProjects";
+import NotFound from "./NotFound";
+import ProjectRoomPhoto from "@/components/ProjectRoomPhoto";
 import demolitionPhoto from "@/assets/images/services/kartene.jpg";
 import plumbingPhoto from "@/assets/images/services/plumbing.jpg";
 import drywallPhoto from "@/assets/images/services/drywall.jpg";
@@ -55,7 +57,8 @@ export default function ProjectDetail() {
   const { openModal } = useInspectionRequest();
   const en = language === "en";
 
-  if (id !== project.id) return <Navigate to="/portfolio" replace />;
+  const project = getPortfolioProject(id);
+  if (!project) return <NotFound />;
 
   const rooms = project.rooms.filter(item => item.id !== "overview");
 
@@ -72,30 +75,28 @@ export default function ProjectDetail() {
   return (
     <>
       <Helmet>
-        <title>{en ? "Light-filled city apartment — interior concept" : "Светъл градски апартамент — цялостна концепция"} | RENOVIVO</title>
+        <title>{tr(project.shortTitle, language)} — {en ? "apartment interior" : "апартаментен интериор"} | RENOVIVO</title>
         <meta name="description" content={tr(project.intro, language)} />
         <link rel="canonical" href={"https://www.renovivo.bg/portfolio/" + project.id} />
         <meta property="og:image" content={"https://www.renovivo.bg" + project.rooms[0].image} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       <Layout>
-        <main className="bg-[#FAF9F6] text-[#28352B]">
+        <div className="bg-[#FAF9F6] text-[#28352B]">
           <section className="relative isolate flex min-h-[520px] items-center overflow-hidden bg-[#999B92] py-14 text-white md:min-h-[620px]">
             <img src={project.rooms[0].image} alt={tr(project.rooms[0].alt,language)}
-              width={1600} height={1066} fetchPriority="high"
+              width={900} height={600}
               className="absolute inset-0 -z-10 h-full w-full object-cover" />
             <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#14231A]/85 via-[#14231A]/52 to-[#14231A]/10 max-md:bg-[#14231A]/55"/>
             <div className="container-custom relative">
               <Link to="/portfolio" className="mb-11 inline-flex items-center gap-2 text-xs text-white/85 transition hover:text-white"><ArrowLeft size={16}/>{en?"Back to portfolio":"Назад към портфолиото"}</Link>
               <div className="max-w-[650px]">
-                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[.19em] text-white/80">{en?"COMPLETE APARTMENT RENOVATION · DESIGN CONCEPT":"ЦЯЛОСТЕН РЕМОНТ НА АПАРТАМЕНТ · КОНЦЕПЦИЯ"}</p>
+                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[.19em] text-white/80">{en?"APARTMENT INTERIOR":"АПАРТАМЕНТЕН ИНТЕРИОР"}</p>
                 <h1 className="rv-heading-serif text-[clamp(2.4rem,5.5vw,5rem)] leading-[1.1]">{tr(project.shortTitle,language)}</h1>
                 <p className="mt-6 max-w-[500px] text-sm leading-[1.85] text-white/90 md:text-[15px]">{tr(project.intro,language)}</p>
                 <a href="#project-story" className="mt-8 inline-flex min-h-11 items-center gap-3 rounded-[5px] bg-white px-5 py-2 text-xs font-semibold text-[#344636] transition hover:bg-[#E6EADD]">{en?"Discover the project":"Разгледай проекта"} <ArrowRight size={16}/></a>
               </div>
-              <p className="mt-8 max-w-[630px] text-[11px] leading-[1.6] text-white/80">{en
-                ? "Illustrative design visualization — not a photograph of a completed RENOVIVO commission."
-                : "Концептуална визуализация. Не е снимка на изпълнен от RENOVIVO клиентски обект."}</p>
+
             </div>
           </section>
 
@@ -107,8 +108,15 @@ export default function ProjectDetail() {
               </div>
               <div className="space-y-5 text-[14px] leading-[1.9] text-[#526054] md:text-[15px]">
                 <p>{tr(project.story,language)}</p>
+                <dl className="grid gap-4 border-y border-[#DADDD3] py-5 sm:grid-cols-2">
+                  <div><dt className="text-xs uppercase tracking-wider">{en ? "Property type" : "Тип жилище"}</dt><dd className="mt-1 font-medium text-[#28352B]">{tr(project.typology,language)}</dd></div>
+
+                </dl>
+                <ul className="flex flex-wrap gap-2" aria-label={en ? "Material palette" : "Материална палитра"}>
+                  {project.materials.map(material => <li key={material.bg} className="rounded-full border border-[#DADDD3] px-3 py-1 text-xs">{tr(material, language)}</li>)}
+                </ul>
                 <p>{en
-                  ? "Warm surfaces, practical storage and lighting are more important here than decorative extravagance. The rooms are presented as parts of one proposed apartment renovation, not as separate reference jobs."
+                  ? "Warm surfaces, practical storage and lighting are more important here than decorative extravagance. The rooms share a consistent palette and a considered approach to storage, lighting and circulation."
                   : "Целта не е интериор, който изглежда впечатляващо само на снимка. Търсим работещо разпределение, спокойна материална палитра, удобно съхранение и детайли, които могат да бъдат изпълнени качествено."}</p>
               </div>
             </div>
@@ -117,11 +125,11 @@ export default function ProjectDetail() {
           <section className="border-y border-[#E6E4DB] bg-[#F3F1EA] py-14 md:py-20">
             <div className="container-custom">
               <div className="mb-9 max-w-[770px]">
-                <p className="rv-kicker mb-4">{en?"RENOVATION PROCESS":"ЕТАПИ НА РЕМОНТА"}</p>
+                <p className="rv-kicker mb-4">{en?"OUR RENOVATION APPROACH":"ПОДХОД КЪМ РЕМОНТА"}</p>
                 <h2 className="rv-heading-serif text-[clamp(2rem,3.7vw,3.6rem)] leading-[1.13]">{en?<>From preparation <em>to the finishing touch.</em></>:<>От подготовката <em>до последния детайл.</em></>}</h2>
                 <p className="mt-4 text-sm leading-[1.8] text-[#5C675B]">{en
-                  ? "The stages shown here illustrate how a complete renovation is organized in practice. Process photographs are illustrative and are not documentary evidence from this specific concept apartment."
-                  : "Така се организират дейностите при цялостен ремонт. Снимките на строителните етапи са илюстративни, а не документален фотоотчет от този примерен апартамент."}</p>
+                  ? "A complete renovation starts with the substrate and services. This is how we approach the sequence, coordination and finishing details."
+                  : "Цялостният ремонт започва от основите и инсталациите. Така подхождаме към последователността, координацията и финишните детайли."}</p>
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {stages.map(stage=>(
@@ -147,8 +155,8 @@ export default function ProjectDetail() {
                 <p className="rv-kicker mb-4">{en?"THE HOME · ROOM BY ROOM":"АПАРТАМЕНТЪТ · ПО ПОМЕЩЕНИЯ"}</p>
                 <h2 className="rv-heading-serif text-[clamp(2rem,3.8vw,3.7rem)] leading-[1.15]">{en?<>Every room has <em>its own purpose.</em></>:<>Всяко помещение <em>има своята роля.</em></>}</h2>
                 <p className="mt-4 text-sm leading-[1.8] text-[#5C6A5D]">{en
-                  ? "Browse the rooms in order — living room, kitchen, bedroom, bathroom and entrance. Each has its own visual, purpose and construction considerations."
-                  : "Разгледай стаите последователно — дневна, кухня, спалня, баня и антре. Всяка има своя визуализация, функция и конкретни решения при изпълнението."}</p>
+                  ? "Explore the apartment room by room. Each space has its own visualization, purpose and practical renovation considerations."
+                  : "Разгледай апартамента по помещения. Всяко пространство има своя визуализация, функция и конкретни решения при изпълнението."}</p>
               </div>
 
               <nav aria-label={en?"Jump to a room":"Премини към помещение"} className="mb-11 flex flex-wrap gap-2">
@@ -163,9 +171,7 @@ export default function ProjectDetail() {
                 {rooms.map((room,index)=>(
                   <article key={room.id} id={"room-"+room.id} className="grid scroll-mt-[80px] items-center gap-7 border-b border-[#E4E5DD] pb-14 md:gap-12 md:pb-20 lg:grid-cols-2">
                     <div className={"min-w-0 overflow-hidden rounded-[7px] bg-[#E4E2D9] "+(index%2===1?"lg:order-2":"")}>
-                      <img src={room.image} alt={tr(room.alt,language)}
-                        loading="lazy" decoding="async" width={1200} height={850}
-                        className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-[1.015]" />
+                      <ProjectRoomPhoto src={room.image} alt={tr(room.alt,language)} label={tr(room.label,language)} />
                     </div>
                     <div className={"max-w-[600px] "+(index%2===1?"lg:order-1":"")}>
                       <p className="rv-kicker mb-3">{en?"INTERIOR":"ПОМЕЩЕНИЕ"} / {String(index+1).padStart(2,"0")}</p>
@@ -184,7 +190,7 @@ export default function ProjectDetail() {
                           <li key={i} className="flex items-start gap-2.5 text-[12px] leading-[1.6] text-[#536252]"><Check size={15} strokeWidth={2} className="mt-0.5 shrink-0 text-[#70836E]"/>{tr(detail,language)}</li>
                         ))}
                       </ul>
-                      <p className="mt-6 text-[11px] leading-[1.6] text-[#879185]">{en?"Illustrative interior visualization":"Илюстративна интериорна визуализация"}</p>
+
                     </div>
                   </article>
                 ))}
@@ -220,7 +226,20 @@ export default function ProjectDetail() {
                 className="inline-flex min-h-12 items-center justify-center gap-3 justify-self-start rounded-[5px] bg-white px-6 text-[13px] font-semibold text-[#3A503C] transition hover:bg-[#E8EEE4]">{en?"Request a site visit":"Заяви безплатен оглед"} <ArrowRight size={17}/></button>
             </div>
           </section>
-        </main>
+          <nav className="bg-[#FAF9F6] py-12 md:py-16" aria-label={en ? "More apartment interiors" : "Още апартаментни проекти"}>
+            <div className="container-custom">
+              <p className="rv-kicker mb-5">{en ? "MORE INTERIORS" : "ОЩЕ ИНТЕРИОРИ"}</p>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {portfolioProjects.filter(item => item.id !== project.id).map(item => (
+                  <Link key={item.id} to={`/portfolio/${item.id}`} className="group">
+                    <img src={item.rooms[0].image} alt={tr(item.rooms[0].alt,language)} loading="lazy" width={600} height={400} className="aspect-[3/2] w-full rounded-[5px] object-cover" />
+                    <span className="mt-3 flex items-center justify-between gap-2 text-sm font-medium group-hover:underline">{tr(item.shortTitle,language)}<ArrowRight size={16} className="shrink-0" /></span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </nav>
+        </div>
       </Layout>
     </>
   );

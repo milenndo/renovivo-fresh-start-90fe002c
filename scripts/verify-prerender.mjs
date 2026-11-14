@@ -15,6 +15,12 @@ const localBlog = new Set([
 ]);
 let checked = 0;
 const errors = [];
+const expectedPortfolio = Array.from({ length: 5 }, (_, index) => `/portfolio/apartment-${String(index + 1).padStart(2, "0")}`);
+const portfolioUrls = urls.filter(url => url.pathname.startsWith("/portfolio/"));
+if (portfolioUrls.length !== 5 || expectedPortfolio.some(route => !portfolioUrls.some(url => url.pathname === route))) {
+  errors.push("Sitemap must include exactly the five apartment concepts");
+}
+const portfolioHeadings = new Set();
 for (const url of urls) {
   if (url.hostname !== "www.renovivo.bg") { errors.push("Unexpected sitemap host: " + url.href); continue; }
   const route = url.pathname === "/" ? "/" : url.pathname.replace(/\/$/, "");
@@ -29,9 +35,15 @@ for (const url of urls) {
   if (titles.length !== 1) errors.push(route + ": " + titles.length + " titles");
   if (!/<h1(?:\s|>)/i.test(html)) errors.push(route + ": missing h1");
   if (!/<div id="root"><[^>]+/i.test(html)) errors.push(route + ": missing HTML content in #root");
+  if (expectedPortfolio.includes(route)) {
+    const heading = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1];
+    if (!heading || portfolioHeadings.has(heading)) errors.push(route + ": missing or duplicated project heading");
+    portfolioHeadings.add(heading);
+    if (!html.includes(`/images/portfolio/${route.split("/").at(-1)}/hall.webp`)) errors.push(route + ": missing project-specific hallway image");
+  }
   checked++;
 }
-if (checked < 29) errors.push("Only " + checked + " prerendered pages checked; expected at least 29");
+if (checked < 33) errors.push("Only " + checked + " prerendered pages checked; expected at least 33");
 if (errors.length) {
   console.error("[SEO] HTML verification failed:\n" + errors.join("\n"));
   process.exit(1);

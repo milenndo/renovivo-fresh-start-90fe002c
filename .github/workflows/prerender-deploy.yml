@@ -20,7 +20,7 @@ jobs:
           cache: "npm"
 
       - name: 3. Инсталиране на пакетите
-        run: npm install
+        run: npm ci
 
       - name: 4. Build + prerender static HTML
         env:
@@ -34,7 +34,7 @@ jobs:
           head -n 25 dist/llms.txt
           head -n 25 dist/sitemap.xml
           test -s dist/services/apartment-renovation/index.html
-          test -s dist/portfolio/modern-apartment-sofia/index.html
+          for id in 01 02 03 04 05; do test -s "dist/portfolio/apartment-$id/index.html"; done
           test -s dist/blog/osnoven-remont-apartament-sofia-ceni-2026/index.html
           node scripts/verify-prerender.mjs
 

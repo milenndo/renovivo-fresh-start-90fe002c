@@ -32,7 +32,7 @@ const staticRoutes = [
 ];
 
 // --- 1. Портфолио --------------------------------------------------------
-const portfolioRoutes = ["/portfolio/apartment-01"];
+const portfolioRoutes = Array.from({ length: 5 }, (_, index) => `/portfolio/apartment-${String(index + 1).padStart(2, "0")}`);
 
 // --- 2. Локални статии ---------------------------------------------------
 const localBlogRoutes = [

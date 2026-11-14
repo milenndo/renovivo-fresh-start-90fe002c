@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
+import PortfolioRail from "./PortfolioRail";
 const heroImage = "/images/home/project-living.jpg";
 const apartmentImage = "/images/home/service-apartment.jpg";
 const finishingImage = "/images/home/service-finish.jpg";
@@ -139,32 +140,7 @@ export default function EditorialHome() {
         </div>
       </section>
 
-      <section id="projects" className="border-y border-[#E7E4DC] bg-[#F6F4F0] py-10 md:py-14">
-        <div className="container-custom grid gap-7 lg:grid-cols-[minmax(240px,0.83fr)_minmax(0,2.2fr)] lg:items-center lg:gap-10">
-          <div>
-            <p className="rv-kicker mb-3">{en ? "OUR APARTMENT PROJECTS" : "ЦЯЛОСТНИ РЕМОНТИ / ПРОЕКТИ"}</p>
-            <h2 className="rv-heading-serif text-[clamp(1.75rem,3.3vw,3.2rem)] leading-[1.12] text-[#232A24]">
-              {en ? <>One home. <em>The complete story.</em></> : <>Един апартамент. <em>Цялата история.</em></>}
-            </h2>
-            <p className="mt-4 max-w-[320px] text-[12px] leading-[1.7] text-[#4A5149] md:text-[14px]">
-              {en
-                ? "Discover one complete apartment — from the first renovation steps to the finished rooms. A practical story, not a collection of unrelated spaces."
-                : "Един цялостен ремонт, разказан последователно — подготовка, етапи на работа и всяко помещение в завършения дом."}
-            </p>
-            <Link to="/portfolio/apartment-01" className="rv-text-link mt-5">{en?"View the apartment":"Разгледай апартамента"} <ArrowRight className="h-4 w-4"/></Link>
-          </div>
-          <Link to="/portfolio/apartment-01" className="group relative block min-h-[270px] overflow-hidden rounded-[7px] bg-[#D5D6CB] md:min-h-[350px]">
-            <img src="/images/project-01/overview.jpg" alt={en?"Apartment renovation interior concept":"Концепция за цялостен ремонт на апартамент"} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"/>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#17241B]/75 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-4 p-5 text-white md:p-7">
-              <div><p className="mb-2 text-[10px] font-semibold tracking-[.17em] text-white/80">{en?"APARTMENT CONCEPT":"ПРИМЕРЕН АПАРТАМЕНТ"}</p>
-                <h3 className="rv-heading-serif text-[clamp(1.35rem,2.5vw,2.5rem)] leading-[1.16]">{en?"Light-filled city apartment":"Светъл градски апартамент"}</h3>
-                <p className="mt-2 text-[11px] text-white/80">{en?"Renovation stages · Rooms · Details":"Етапи на ремонта · Помещения · Детайли"}</p></div>
-              <ArrowUpRight className="h-6 w-6 shrink-0" />
-            </div>
-          </Link>
-        </div>
-      </section>
+      <PortfolioRail />
 
       <section id="process" className="bg-[#FAF9F6] py-11 md:py-14">
         <div className="container-custom grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-12">
