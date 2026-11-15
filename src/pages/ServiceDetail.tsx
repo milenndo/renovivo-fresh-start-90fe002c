@@ -438,7 +438,7 @@ const ServiceDetail = () => {
                           key={index}
                           src={image}
                           alt={`${service.title} — ${
-                            isEn ? "project photo" : "реализиран обект в София"
+                            isEn ? "illustration of the technique and finish" : "пример за технологията и финиша"
                           } ${index + 1}`}
                           loading="lazy"
                           className="w-full h-48 object-cover rounded-lg hover:opacity-90 transition-opacity"

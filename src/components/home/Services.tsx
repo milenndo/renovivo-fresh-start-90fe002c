@@ -2,10 +2,10 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import apartmentImg from "@/assets/images/services/full-renovation.jpg";
-import finishingImg from "@/assets/images/services/microcement-modern.jpg";
-import houseImg from "@/assets/images/projects/living-room.jpg";
-import bathroomImg from "@/assets/images/services/bathroom.jpg";
+const apartmentImg = "/images/services/apartment-renovation.webp";
+const finishingImg = "/images/services/finishing-works.webp";
+const houseImg = "/images/services/house-renovation.webp";
+const bathroomImg = "/images/services/bathroom-waterproofing.webp";
 
 const Services = () => {
   const { language } = useLanguage();
