@@ -9,10 +9,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useInspectionRequest } from "@/contexts/InspectionRequestContext";
 import PortfolioRail from "./PortfolioRail";
 const heroImage = "/images/home/project-living.jpg";
-const apartmentImage = "/images/home/service-apartment.jpg";
-const finishingImage = "/images/home/service-finish.jpg";
-const houseImage = "/images/home/service-house.jpg";
-const bathroomImage = "/images/home/service-bath.jpg";
+const apartmentImage = "/images/services/apartment-renovation.webp";
+const finishingImage = "/images/services/finishing-works.webp";
+const houseImage = "/images/services/house-renovation.webp";
+const bathroomImage = "/images/services/bathroom-waterproofing.webp";
+const heroHouseImage = "/images/home/service-house.jpg";
 const projectKitchen = "/images/home/project-kitchen.jpg";
 const craftDetail = "/images/home/craft.webp";
 const workPhoto = "/images/home/team.jpg";
@@ -37,7 +38,7 @@ export default function EditorialHome() {
   const en = language === "en";
   const serviceRail = useRef<HTMLDivElement>(null);
   const [heroIndex, setHeroIndex] = useState(0);
-  const heroPhotos = [heroImage, projectKitchen, houseImage];
+  const heroPhotos = [heroImage, projectKitchen, heroHouseImage];
 
   const assurances = [
     { Icon: UserRound, bg: "Един отговорен ръководител", en: "One accountable lead" },
