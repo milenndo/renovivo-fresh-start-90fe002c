@@ -30,7 +30,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-6">
             <Link to="/" className="inline-block text-background" aria-label="Renovivo — Every Detail Matters">
-              <Wordmark className="text-3xl" showTagline />
+              <Wordmark className="text-3xl" showTagline tone="light" />
             </Link>
             <p className="text-background/70 text-sm leading-relaxed">
               {t('footer.description')}
