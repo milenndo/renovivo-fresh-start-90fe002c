@@ -1,3 +1,4 @@
+import Metra from "@/components/home/Metra";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Phone, ArrowLeft, ArrowRight, Check, Calendar, Sparkles, Calculator } from "lucide-react";
@@ -324,6 +325,8 @@ const ServiceDetail = () => {
                     ))}
                   </div>
                 </div>
+
+                {id === "apartment-renovation" && <Metra />}
 
                 {/* VS Tiles Comparison */}
                 {service.vsTiles && (

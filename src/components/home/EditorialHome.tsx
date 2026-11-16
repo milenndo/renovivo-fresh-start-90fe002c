@@ -1,3 +1,4 @@
+import Metra from "@/components/home/Metra";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -142,6 +143,8 @@ export default function EditorialHome() {
       </section>
 
       <PortfolioRail />
+
+      <Metra />
 
       <section id="process" className="bg-[#FAF9F6] py-11 md:py-14">
         <div className="container-custom grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-12">
